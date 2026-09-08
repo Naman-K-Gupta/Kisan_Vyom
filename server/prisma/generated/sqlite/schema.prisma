@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/sqlite"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("SQLITE_DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  mobile            String   @unique
+  passwordHash      String
+  fullName          String
+  role              String   @default("FARMER") // FARMER, PROCUREMENT_CENTRE_MANAGER, ADMIN
+  state             String
+  district          String
+  village           String
+  address           String
+  preferredLanguage String   @default("en")
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  farmerProfile          FarmerProfile?
+  managedCentres         CentreManager[]
+  queueTokens            QueueToken[]
+  procurementRequests    ProcurementRequest[]
+  notifications          Notification[]
+  notificationPreference NotificationPreference?
+  pushSubscriptions      PushSubscription[]
+  auditLogs              AuditLog[]
+  createdPrices          GovernmentCropPrice[]
+  createdAlerts          Alert[]
+}
+
+model FarmerProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profilePictureUrl String?
+  bio               String?
+  landAreaTotal     Float    @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  crops FarmerCrop[]
+}
+
+model Crop {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  scientificName String?
+  category       String   @default("Cereal")
+  defaultUnit    String   @default("Quintal")
+  imageUrl       String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  farmerCrops         FarmerCrop[]
+  centreCrops         CentreCrop[]
+  procurementRequests ProcurementRequest[]
+  queueTokens         QueueToken[]
+  governmentPrices    GovernmentCropPrice[]
+  alerts              Alert[]
+}
+
+model FarmerCrop {
+  id                  String        @id @default(uuid())
+  farmerProfileId     String
+  farmerProfile       FarmerProfile @relation(fields: [farmerProfileId], references: [id], onDelete: Cascade)
+  cropId              String
+  crop                Crop          @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety             String
+  landArea            Float
+  sowingDate          DateTime
+  expectedHarvestDate DateTime
+  expectedProduction  Float
+  unit                String        @default("Quintal")
+  status              String        @default("GROWING")
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+}
+
+model ProcurementCentre {
+  id             String   @id @default(uuid())
+  name           String
+  address        String
+  state          String
+  district       String
+  village        String
+  latitude       Float
+  longitude      Float
+  contactNumber  String
+  openingHours   String   @default("08:00 AM - 05:00 PM")
+  totalCapacity  Float
+  currentUsage   Float    @default(0)
+  processingRate Float    @default(10)
+  status         String   @default("OPEN")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  supportedCrops      CentreCrop[]
+  managers            CentreManager[]
+  procurementRequests ProcurementRequest[]
+  queueTokens         QueueToken[]
+}
+
+model CentreCrop {
+  id               String            @id @default(uuid())
+  centreId         String
+  centre           ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId           String
+  crop             Crop              @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  maxDailyCapacity Float             @default(500)
+  isAccepting      Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@unique([centreId, cropId])
+}
+
+model CentreManager {
+  id         String            @id @default(uuid())
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  centreId   String
+  centre     ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  assignedAt DateTime          @default(now())
+
+  @@unique([userId, centreId])
+}
+
+model ProcurementRequest {
+  id            String            @id @default(uuid())
+  farmerId      String
+  farmer        User              @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  centreId      String
+  centre        ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId        String
+  crop          Crop              @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  quantity      Float
+  unit          String            @default("Quintal")
+  preferredDate DateTime
+  status        String            @default("PENDING")
+  notes         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model QueueToken {
+  id                   String            @id @default(uuid())
+  tokenNumber          String
+  farmerId             String
+  farmer               User              @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  centreId             String
+  centre               ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId               String
+  crop                 Crop              @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  quantity             Float
+  unit                 String            @default("Quintal")
+  status               String            @default("WAITING")
+  position             Int               @default(1)
+  estimatedWaitMinutes Int               @default(0)
+  calledAt             DateTime?
+  startedAt            DateTime?
+  completedAt          DateTime?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("SYSTEM_NOTIFICATION")
+  isRead    Boolean  @default(false)
+  metadata  String?
+  createdAt DateTime @default(now())
+}
+
+model NotificationPreference {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inApp     Boolean  @default(true)
+  sms       Boolean  @default(true)
+  whatsapp  Boolean  @default(false)
+  push      Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+model GovernmentCropPrice {
+  id            String    @id @default(uuid())
+  cropId        String?
+  crop          Crop?     @relation(fields: [cropId], references: [id], onDelete: SetNull)
+  cropName      String
+  season        String
+  marketingYear String
+  price         Float
+  unit          String    @default("Quintal")
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  source        String    @default("Ministry of Agriculture & Farmers Welfare, GoI")
+  status        String    @default("ACTIVE")
+  createdById   String?
+  createdBy     User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([cropName, season, marketingYear])
+}
+
+model MarketPrice {
+  id          String   @id @default(uuid())
+  cropName    String
+  market      String
+  state       String
+  district    String
+  price       Float
+  unit        String   @default("Quintal")
+  arrivalDate DateTime
+  source      String   @default("data.gov.in / Agmarknet")
+  createdAt   DateTime @default(now())
+}
+
+model WeatherRecord {
+  id              String   @id @default(uuid())
+  latitude        Float
+  longitude       Float
+  temperature     Float
+  condition       String
+  humidity        Float
+  windSpeed       Float
+  rainProbability Float
+  recordedAt      DateTime @default(now())
+}
+
+model Alert {
+  id          String   @id @default(uuid())
+  title       String
+  message     String
+  priority    String   @default("MEDIUM")
+  cropId      String?
+  crop        Crop?    @relation(fields: [cropId], references: [id], onDelete: SetNull)
+  location    String?
+  isPublished Boolean  @default(true)
+  startTime   DateTime @default(now())
+  expiryTime  DateTime
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          String
+  action        String
+  entity        String
+  entityId      String
+  previousValue String?
+  newValue      String?
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+}

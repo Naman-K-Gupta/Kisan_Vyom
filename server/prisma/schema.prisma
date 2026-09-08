@@ -1,0 +1,384 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  FARMER
+  PROCUREMENT_CENTRE_MANAGER
+  ADMIN
+}
+
+enum QueueStatus {
+  WAITING
+  CALLED
+  PROCESSING
+  COMPLETED
+  SKIPPED
+  CANCELLED
+}
+
+enum CentreStatus {
+  OPEN
+  BUSY
+  FULL
+  CLOSED
+  TEMPORARILY_UNAVAILABLE
+}
+
+enum ProcurementRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+enum CropStatus {
+  PLANNED
+  SOWN
+  GROWING
+  HARVEST_READY
+  HARVESTED
+}
+
+enum AlertPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum NotificationType {
+  TOKEN_GENERATED
+  QUEUE_POSITION_CHANGED
+  TURN_APPROACHING
+  TOKEN_CALLED
+  PROCESSING_STARTED
+  PROCUREMENT_COMPLETED
+  TOKEN_SKIPPED
+  TOKEN_CANCELLED
+  CENTRE_UNAVAILABLE
+  CENTRE_REOPENED
+  AGRICULTURAL_ALERT
+  SYSTEM_NOTIFICATION
+}
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  mobile            String    @unique
+  passwordHash      String
+  fullName          String
+  role              Role      @default(FARMER)
+  state             String
+  district          String
+  village           String
+  address           String
+  preferredLanguage String    @default("en")
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  farmerProfile          FarmerProfile?
+  managedCentres         CentreManager[]
+  queueTokens            QueueToken[]
+  procurementRequests    ProcurementRequest[]
+  notifications          Notification[]
+  notificationPreference NotificationPreference?
+  pushSubscriptions      PushSubscription[]
+  auditLogs              AuditLog[]
+  createdPrices          GovernmentCropPrice[]
+  createdAlerts          Alert[]
+
+  @@index([role])
+  @@index([state, district])
+}
+
+model FarmerProfile {
+  id               String       @id @default(uuid())
+  userId           String       @unique
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profilePictureUrl String?
+  bio              String?
+  landAreaTotal    Float        @default(0) // In Acres
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  crops            FarmerCrop[]
+}
+
+model Crop {
+  id             String       @id @default(uuid())
+  name           String       @unique
+  scientificName String?
+  category       String       @default("Cereal") // Cereal, Pulse, Oilseed, Cash Crop, etc.
+  defaultUnit    String       @default("Quintal") // Quintal, Kg, Ton
+  imageUrl       String?
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  farmerCrops          FarmerCrop[]
+  centreCrops          CentreCrop[]
+  procurementRequests  ProcurementRequest[]
+  queueTokens          QueueToken[]
+  governmentPrices     GovernmentCropPrice[]
+  alerts               Alert[]
+
+  @@index([category])
+}
+
+model FarmerCrop {
+  id                 String     @id @default(uuid())
+  farmerProfileId    String
+  farmerProfile      FarmerProfile @relation(fields: [farmerProfileId], references: [id], onDelete: Cascade)
+  cropId             String
+  crop               Crop       @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  variety            String     // e.g., Sharbati, Basmati
+  landArea           Float      // Area under cultivation in Acres
+  sowingDate         DateTime
+  expectedHarvestDate DateTime
+  expectedProduction Float      // Expected yield
+  unit               String     @default("Quintal")
+  status             CropStatus @default(GROWING)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  @@index([farmerProfileId])
+  @@index([cropId])
+}
+
+model ProcurementCentre {
+  id             String       @id @default(uuid())
+  name           String
+  address        String
+  state          String
+  district       String
+  village        String
+  latitude       Float
+  longitude      Float
+  contactNumber  String
+  openingHours   String       @default("08:00 AM - 05:00 PM")
+  totalCapacity  Float        // in Quintals
+  currentUsage   Float        @default(0)
+  processingRate Float        @default(10) // e.g. Quintals / hour
+  status         CentreStatus @default(OPEN)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  supportedCrops      CentreCrop[]
+  managers            CentreManager[]
+  procurementRequests ProcurementRequest[]
+  queueTokens         QueueToken[]
+
+  @@index([state, district])
+  @@index([latitude, longitude])
+  @@index([status])
+}
+
+model CentreCrop {
+  id               String            @id @default(uuid())
+  centreId         String
+  centre           ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId           String
+  crop             Crop              @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  maxDailyCapacity Float             @default(500)
+  isAccepting      Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@unique([centreId, cropId])
+}
+
+model CentreManager {
+  id         String            @id @default(uuid())
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  centreId   String
+  centre     ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  assignedAt DateTime          @default(now())
+
+  @@unique([userId, centreId])
+}
+
+model ProcurementRequest {
+  id            String                   @id @default(uuid())
+  farmerId      String
+  farmer        User                     @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  centreId      String
+  centre        ProcurementCentre        @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId        String
+  crop          Crop                     @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  quantity      Float                    // In crop units (e.g. Quintals)
+  unit          String                   @default("Quintal")
+  preferredDate DateTime
+  status        ProcurementRequestStatus @default(PENDING)
+  notes         String?
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+
+  @@index([farmerId])
+  @@index([centreId])
+  @@index([status])
+}
+
+model QueueToken {
+  id                  String      @id @default(uuid())
+  tokenNumber         String      // e.g. T-20260908-001
+  farmerId            String
+  farmer              User        @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  centreId            String
+  centre              ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId              String
+  crop                Crop        @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  quantity            Float
+  unit                String      @default("Quintal")
+  status              QueueStatus @default(WAITING)
+  position            Int         @default(1)
+  estimatedWaitMinutes Int        @default(0)
+  calledAt            DateTime?
+  startedAt           DateTime?
+  completedAt         DateTime?
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  @@index([centreId, status])
+  @@index([farmerId, status])
+  @@index([tokenNumber])
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      NotificationType @default(SYSTEM_NOTIFICATION)
+  isRead    Boolean          @default(false)
+  metadata  String?          // JSON encoded extra details
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+model NotificationPreference {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inApp     Boolean  @default(true)
+  sms       Boolean  @default(true)
+  whatsapp  Boolean  @default(false)
+  push      Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+model GovernmentCropPrice {
+  id            String    @id @default(uuid())
+  cropId        String?
+  crop          Crop?     @relation(fields: [cropId], references: [id], onDelete: SetNull)
+  cropName      String
+  season        String    // Kharif, Rabi, Zaid
+  marketingYear String    // e.g. 2025-26, 2026-27
+  price         Float     // In INR per Quintal
+  unit          String    @default("Quintal")
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+  source        String    @default("Ministry of Agriculture & Farmers Welfare, GoI")
+  status        String    @default("ACTIVE") // ACTIVE, INACTIVE
+  createdById   String?
+  createdBy     User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([cropName, season, marketingYear])
+  @@index([cropName])
+  @@index([season, marketingYear])
+}
+
+model MarketPrice {
+  id          String   @id @default(uuid())
+  cropName    String
+  market      String   // APMC Mandi Name
+  state       String
+  district    String
+  price       Float    // In INR per Quintal
+  unit        String   @default("Quintal")
+  arrivalDate DateTime
+  source      String   @default("data.gov.in / Agmarknet")
+  createdAt   DateTime @default(now())
+
+  @@index([cropName, state, district])
+  @@index([arrivalDate])
+}
+
+model WeatherRecord {
+  id              String   @id @default(uuid())
+  latitude        Float
+  longitude       Float
+  temperature     Float
+  condition       String
+  humidity        Float
+  windSpeed       Float
+  rainProbability Float
+  recordedAt      DateTime @default(now())
+
+  @@index([latitude, longitude])
+  @@index([recordedAt])
+}
+
+model Alert {
+  id          String        @id @default(uuid())
+  title       String
+  message     String
+  priority    AlertPriority @default(MEDIUM)
+  cropId      String?
+  crop        Crop?         @relation(fields: [cropId], references: [id], onDelete: SetNull)
+  location    String?       // Specific district or state, or null for ALL
+  isPublished Boolean       @default(true)
+  startTime   DateTime      @default(now())
+  expiryTime  DateTime
+  createdById String?
+  createdBy   User?         @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isPublished, expiryTime])
+  @@index([cropId])
+}
+
+model AuditLog {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          String
+  action        String   // PRICE_UPDATE, CAPACITY_UPDATE, QUEUE_CALLED, etc.
+  entity        String   // ProcurementCentre, GovernmentCropPrice, QueueToken, etc.
+  entityId      String
+  previousValue String?  // JSON string
+  newValue      String?  // JSON string
+  ipAddress     String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
