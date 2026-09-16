@@ -17,8 +17,14 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // In dev Vite proxies /socket.io to backend on port 5000
-    const socketInstance = io(window.location.origin, {
+    // In dev Vite proxies /socket.io to backend on port 5000; in production use VITE_SOCKET_URL or VITE_API_URL base
+    const socketBase =
+      import.meta.env.VITE_SOCKET_URL ||
+      (import.meta.env.VITE_API_URL
+        ? (import.meta.env.VITE_API_URL as string).replace(/\/api\/?$/, '')
+        : window.location.origin);
+
+    const socketInstance = io(socketBase, {
       transports: ['websocket', 'polling'],
       autoConnect: true,
     });

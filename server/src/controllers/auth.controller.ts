@@ -5,14 +5,26 @@ import { prisma } from '../utils/prisma';
 import { ENV } from '../utils/env';
 import { registerSchema, loginSchema, changePasswordSchema } from '../validators';
 import { logAudit } from '../services/audit.service';
+import { sendNotification } from '../services/notification.service';
+import { PaymentController } from './payment.controller';
 
 export class AuthController {
   static async register(req: Request, res: Response) {
     const validated = registerSchema.parse(req.body);
 
+    const userEmail =
+      validated.email && validated.email.trim().length > 0
+        ? validated.email.trim().toLowerCase()
+        : `${validated.mobile}@smartfarmer.local`;
+
+    const fullAddress =
+      validated.address && validated.address.trim().length >= 3
+        ? validated.address.trim()
+        : [validated.village, validated.district, validated.state].filter(Boolean).join(', ') || 'Rural Area';
+
     // Check duplicate email
     const existingEmail = await prisma.user.findUnique({
-      where: { email: validated.email },
+      where: { email: userEmail },
     });
     if (existingEmail) {
       return res.status(409).json({
@@ -40,20 +52,20 @@ export class AuthController {
       const newUser = await tx.user.create({
         data: {
           fullName: validated.fullName,
-          email: validated.email,
+          email: userEmail,
           mobile: validated.mobile,
           passwordHash,
           role: validated.role as any,
           state: validated.state,
           district: validated.district,
           village: validated.village,
-          address: validated.address,
+          address: fullAddress,
           preferredLanguage: validated.preferredLanguage,
           notificationPreference: {
             create: {
               inApp: true,
               sms: true,
-              whatsapp: false,
+              whatsapp: true,
               push: true,
             },
           },
@@ -89,6 +101,21 @@ export class AuthController {
       ipAddress: req.ip,
     });
 
+    // Auto-create demo payment transactions for new farmer
+    if (user.role === 'FARMER') {
+      await PaymentController.ensureSamplePaymentsForFarmer(user).catch((err) => {
+        console.error('Failed to seed initial demo payments:', err);
+      });
+    }
+
+    // Send Welcome Notification & SMS
+    await sendNotification({
+      userId: user.id,
+      title: 'Registration Successful',
+      message: `Welcome ${user.fullName}! Your Smart Farmer account is active. You can now book Mandi queue tokens, view DBT payments, and track crops.`,
+      type: 'SYSTEM_NOTIFICATION',
+    });
+
     res.status(201).json({
       success: true,
       message: 'Account registered successfully.',
@@ -121,6 +148,7 @@ export class AuthController {
       },
       include: {
         managedCentres: { select: { centreId: true } },
+        farmerProfile: true,
       },
     });
 
@@ -169,6 +197,7 @@ export class AuthController {
         address: user.address,
         preferredLanguage: user.preferredLanguage,
         managedCentreIds: user.managedCentres.map((mc) => mc.centreId),
+        farmerProfile: user.farmerProfile,
       },
     });
   }

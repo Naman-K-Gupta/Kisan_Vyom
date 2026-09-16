@@ -19,7 +19,11 @@ export const ENV = {
   
   // AI
   AI_PROVIDER: (process.env.AI_PROVIDER || 'gemini').toLowerCase(),
-  AI_API_KEY: process.env.AI_API_KEY || '',
+  AI_API_KEY: process.env.AI_API_KEY || process.env.GEMINI_API_KEY || '',
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY || process.env.AI_API_KEY || '',
+  GROQ_API_KEY: process.env.GROQ_API_KEY || '',
+  OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
+  OPENAI_BASE_URL: process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1',
   
   // Cloudinary
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',
@@ -30,6 +34,7 @@ export const ENV = {
   TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID || '',
   TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN || '',
   TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER || '',
+  TWILIO_WHATSAPP_NUMBER: process.env.TWILIO_WHATSAPP_NUMBER || '',
   
   // WhatsApp
   WHATSAPP_PROVIDER: process.env.WHATSAPP_PROVIDER || '',
@@ -41,4 +46,14 @@ export const ENV = {
   FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID || '',
   FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL || '',
   FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY || '',
+
+  // Free SMS & Mobile Notification Channels
+  ANDROID_SMS_GATEWAY_URL: process.env.ANDROID_SMS_GATEWAY_URL || '',
+  ANDROID_SMS_GATEWAY_KEY: process.env.ANDROID_SMS_GATEWAY_KEY || '',
+  FAST2SMS_API_KEY: process.env.FAST2SMS_API_KEY || '',
+  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '8927569233:AAEhn5gU6Gwnx5GsvPpoPdv_Qmclp-QV4C8',
+  TELEGRAM_BOT_USERNAME: process.env.TELEGRAM_BOT_USERNAME || 'Kisan_kendra_bot',
+  TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || '',
+  TELEGRAM_GATEWAY_TOKEN: process.env.TELEGRAM_GATEWAY_TOKEN || '',
 };
+

@@ -36,6 +36,13 @@ router.post(
 );
 
 router.post(
+  '/:id/reject',
+  authenticate,
+  requireRole(['PROCUREMENT_CENTRE_MANAGER', 'ADMIN']),
+  QueueController.rejectConsignment
+);
+
+router.post(
   '/:id/skip',
   authenticate,
   requireRole(['PROCUREMENT_CENTRE_MANAGER', 'ADMIN']),

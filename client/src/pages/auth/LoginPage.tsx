@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSwitcher } from '../../components/common/LanguageSwitcher';
 import { Sprout, LogIn, AlertCircle, Shield, Briefcase, UserCheck } from 'lucide-react';
+import { Logo } from '../../components/common/Logo';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -44,18 +48,21 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-10 sm:px-6 lg:px-8 relative">
+      {/* Top Bar with Language Switcher */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <LanguageSwitcher />
+      </div>
+
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Link to="/" className="inline-flex items-center gap-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-600/20">
-            <Sprout className="w-7 h-7" />
-          </div>
+        <Link to="/" className="inline-flex items-center justify-center group">
+          <Logo size="lg" showText={false} />
         </Link>
         <h2 className="mt-4 text-2xl font-extrabold text-slate-900 tracking-tight">
-          Sign In to Smart Farmer
+          {t('auth.signInTitle')}
         </h2>
         <p className="mt-1 text-xs text-slate-500">
-          Enter your registered email address or 10-digit mobile number
+          {t('auth.signInSubtitle')}
         </p>
       </div>
 
@@ -64,7 +71,7 @@ export const LoginPage: React.FC = () => {
           {isExpired && (
             <div className="mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
-              Your session has expired. Please sign in again.
+              Session expired. Please sign in again.
             </div>
           )}
 
@@ -78,21 +85,21 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Email or Mobile
+                {t('auth.mobileOrEmail')}
               </label>
               <input
                 type="text"
                 required
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="e.g. farmer.ramesh@smartfarmer.gov.in or 9876543212"
+                placeholder="e.g. your_email@example.com / 9876543210"
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Password
+                {t('auth.password')}
               </label>
               <input
                 type="password"
@@ -110,32 +117,25 @@ export const LoginPage: React.FC = () => {
               className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-98 transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <LogIn className="w-4 h-4" />
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? t('common.loading') : t('auth.signInBtn')}
             </button>
           </form>
 
           {/* Demo Login Shortcuts */}
           <div className="mt-8 pt-6 border-t border-slate-100">
             <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center mb-3">
-              Quick Test Credentials
+              {t('auth.quickDemo')}
             </p>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => fillQuickCredentials('farmer.ramesh@smartfarmer.gov.in', 'Farmer@12345')}
-                className="p-2 rounded-xl border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-center transition-all group"
-              >
-                <UserCheck className="w-4 h-4 mx-auto text-emerald-600 group-hover:scale-110 transition-transform" />
-                <span className="block text-[11px] font-bold text-slate-700 mt-1">Farmer</span>
-              </button>
-
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => fillQuickCredentials('manager.karnal@smartfarmer.gov.in', 'Manager@12345')}
                 className="p-2 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 text-center transition-all group"
               >
                 <Briefcase className="w-4 h-4 mx-auto text-blue-600 group-hover:scale-110 transition-transform" />
-                <span className="block text-[11px] font-bold text-slate-700 mt-1">Manager</span>
+                <span className="block text-[11px] font-bold text-slate-700 mt-1">
+                  {t('roles.manager')}
+                </span>
               </button>
 
               <button
@@ -144,18 +144,18 @@ export const LoginPage: React.FC = () => {
                 className="p-2 rounded-xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 text-center transition-all group"
               >
                 <Shield className="w-4 h-4 mx-auto text-purple-600 group-hover:scale-110 transition-transform" />
-                <span className="block text-[11px] font-bold text-slate-700 mt-1">Admin</span>
+                <span className="block text-[11px] font-bold text-slate-700 mt-1">
+                  {t('roles.admin')}
+                </span>
               </button>
             </div>
           </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-xs text-slate-500">
-              New farmer?{' '}
-              <Link to="/register" className="font-bold text-emerald-600 hover:text-emerald-700">
-                Register an account
-              </Link>
-            </p>
+          <div className="mt-6 text-center text-xs text-slate-500">
+            {t('auth.noAccount')}{' '}
+            <Link to="/register" className="font-bold text-emerald-600 hover:underline">
+              {t('auth.registerNow')}
+            </Link>
           </div>
         </div>
       </div>

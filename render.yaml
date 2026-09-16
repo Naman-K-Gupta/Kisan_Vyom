@@ -1,0 +1,35 @@
+services:
+  # Fullstack Web Service (Serves Node.js Backend API + React Frontend + WebSockets)
+  - type: web
+    name: kisan-kendra-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kisan-kendra-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: AI_PROVIDER
+        value: gemini
+      - key: AI_API_KEY
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_BOT_USERNAME
+        value: Kisan_kendra_bot
+
+databases:
+  - name: kisan-kendra-db
+    plan: free
+    databaseName: smartfarmer
+    user: smartfarmer_user

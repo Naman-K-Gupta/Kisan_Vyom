@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import {
   Sprout,
   Bell,
@@ -12,8 +14,11 @@ import {
   CloudSun,
   Shield,
   Briefcase,
+  MessageSquare,
+  FileDown,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Logo } from './Logo';
 
 interface NavbarProps {
   onToggleSidebar?: () => void;
@@ -23,6 +28,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }) => {
   const { user, logout } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { t } = useLanguage();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -31,19 +37,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
       case 'ADMIN':
         return (
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
-            <Shield className="w-3 h-3" /> Admin
+            <Shield className="w-3 h-3" /> {t('roles.admin')}
           </span>
         );
       case 'PROCUREMENT_CENTRE_MANAGER':
         return (
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-            <Briefcase className="w-3 h-3" /> Centre Manager
+            <Briefcase className="w-3 h-3" /> {t('roles.manager')}
           </span>
         );
       default:
         return (
           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <Sprout className="w-3 h-3" /> Farmer
+            <Sprout className="w-3 h-3" /> {t('roles.farmer')}
           </span>
         );
     }
@@ -63,28 +69,41 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
             </button>
           )}
 
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-all">
-              <Sprout className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-slate-900 text-lg tracking-tight">
-                  Smart Farmer
-                </span>
-                <span className="text-emerald-600 text-xs font-bold px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200">
-                  APMC Hub
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium hidden sm:block">
-                Digital Mandi & Agricultural Support
-              </p>
-            </div>
+          <Link to="/" className="flex items-center group">
+            <Logo size="md" />
           </Link>
+
+          {user && (
+            <Link
+              to={user.role === 'ADMIN' ? '/admin/schemes' : '/farmer/schemes'}
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 transition active:scale-95 shadow-2xs ml-3"
+            >
+              <span>🏛️ {t('nav.govtPolicies', 'Govt Policies')}</span>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+              </span>
+            </Link>
+          )}
+
+          <a
+            href="/Smart_Farmer_Documentation.pdf"
+            download="Smart_Farmer_Assistance_Architecture_and_Logic_Guide.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200/80 border border-slate-200 transition active:scale-95 shadow-2xs ml-2"
+            title="Download Architecture, Logic & Technology Guide (PDF)"
+          >
+            <FileDown className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Architecture PDF</span>
+          </a>
         </div>
 
         {/* Right: Actions, Weather, Notifications, Profile */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
+
           {/* Location / Weather Pill */}
           {user && (
             <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/60 text-xs text-slate-600">
@@ -102,7 +121,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
               <button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="relative p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
-                title="Notifications"
+                title={t('nav.notifications')}
               >
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
@@ -117,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                 <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 z-50 animate-fade-in">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-bold text-sm text-slate-800">Notifications</h4>
+                      <h4 className="font-bold text-sm text-slate-800">{t('nav.notifications')}</h4>
                       {unreadCount > 0 && (
                         <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
                           {unreadCount} new
@@ -129,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                         onClick={markAllAsRead}
                         className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
                       >
-                        <CheckCheck className="w-3.5 h-3.5" /> Mark all read
+                        <CheckCheck className="w-3.5 h-3.5" /> {t('nav.markAllRead')}
                       </button>
                     )}
                   </div>
@@ -137,7 +156,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                   <div className="max-h-72 overflow-y-auto divide-y divide-slate-50 my-2">
                     {notifications.length === 0 ? (
                       <div className="text-center py-6 text-xs text-slate-400">
-                        No notifications currently.
+                        {t('nav.noNotifications')}
                       </div>
                     ) : (
                       notifications.slice(0, 10).map((n) => (
@@ -155,12 +174,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                             )}
                           </div>
                           <p className="text-xs text-slate-600 mt-1 leading-relaxed">{n.message}</p>
-                          <span className="text-[10px] text-slate-400 mt-1.5 block">
-                            {new Date(n.createdAt).toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </span>
+                          <div className="flex items-center justify-between mt-2 pt-1 border-t border-slate-100/80">
+                            <span className="text-[10px] text-slate-400">
+                              {new Date(n.createdAt).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                            </span>
+                            {(() => {
+                              try {
+                                const meta = n.metadata ? (typeof n.metadata === 'string' ? JSON.parse(n.metadata) : n.metadata) : null;
+                                const waUrl = meta?.whatsappUrl || (user?.mobile ? `https://wa.me/91${user.mobile.replace(/\D/g, '')}?text=${encodeURIComponent(`🌾 *Smart Farmer Alert*\n*${n.title}*\n${n.message}`)}` : null);
+                                if (waUrl) {
+                                  return (
+                                    <a
+                                      href={waUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200"
+                                    >
+                                      <MessageSquare className="w-3 h-3" /> WhatsApp
+                                    </a>
+                                  );
+                                }
+                              } catch (e) {
+                                return null;
+                              }
+                              return null;
+                            })()}
+                          </div>
                         </div>
                       ))
                     )}
@@ -205,7 +248,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                     onClick={() => setShowUserMenu(false)}
                     className="flex items-center gap-2 px-4 py-2 text-xs text-slate-700 hover:bg-slate-50"
                   >
-                    <User className="w-4 h-4" /> Profile & Settings
+                    <User className="w-4 h-4" /> {t('nav.profileSettings')}
                   </Link>
                   <button
                     onClick={() => {
@@ -214,7 +257,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                     }}
                     className="w-full flex items-center gap-2 px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 transition-colors"
                   >
-                    <LogOut className="w-4 h-4" /> Sign Out
+                    <LogOut className="w-4 h-4" /> {t('nav.signOut')}
                   </button>
                 </div>
               )}
@@ -225,13 +268,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
                 to="/login"
                 className="px-3.5 py-2 text-xs font-semibold text-slate-700 hover:text-emerald-700 rounded-xl transition-colors"
               >
-                Log In
+                {t('nav.signIn')}
               </Link>
               <Link
                 to="/register"
                 className="px-4 py-2 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all shadow-sm shadow-emerald-600/20 active:scale-95"
               >
-                Register
+                {t('nav.register')}
               </Link>
             </div>
           )}

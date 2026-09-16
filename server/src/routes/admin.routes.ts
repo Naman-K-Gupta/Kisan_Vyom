@@ -11,6 +11,7 @@ router.get('/farmers', AdminController.getAllFarmers);
 router.patch('/users/:userId/status', AdminController.toggleUserStatus);
 router.get('/managers', AdminController.getAllManagers);
 router.post('/managers/assign', AdminController.assignManager);
+router.get('/procurement-records', AdminController.getDailyProcurementRecords);
 router.get('/audit-logs', AdminController.getAuditLogs);
 
 export default router;

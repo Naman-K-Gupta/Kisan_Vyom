@@ -2,13 +2,32 @@ import { prisma } from '../utils/prisma';
 import { getIO } from '../sockets/socketHandler';
 import { logger } from '../utils/logger';
 import { ENV } from '../utils/env';
-import twilio from 'twilio';
+import axios from 'axios';
 
-// Initialize Twilio client if credentials are provided
-const twilioClient =
-  ENV.TWILIO_ACCOUNT_SID && ENV.TWILIO_AUTH_TOKEN
-    ? twilio(ENV.TWILIO_ACCOUNT_SID, ENV.TWILIO_AUTH_TOKEN)
-    : null;
+/**
+ * Format any phone number into standard E.164 format (+[country code][number])
+ */
+export function formatE164(phone: string): string {
+  if (!phone) return '';
+  const trimmed = phone.trim();
+  const digits = trimmed.replace(/\D/g, '');
+  if (trimmed.startsWith('+')) {
+    return `+${digits}`;
+  }
+  // Standard Indian 10-digit mobile number
+  if (digits.length === 10) {
+    return `+91${digits}`;
+  }
+  // 12-digit Indian number starting with 91
+  if (digits.length === 12 && digits.startsWith('91')) {
+    return `+${digits}`;
+  }
+  // 11-digit number starting with 0 (e.g. 09876543210)
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return `+91${digits.slice(1)}`;
+  }
+  return `+${digits}`;
+}
 
 export interface SendNotificationOptions {
   userId: string;
@@ -22,17 +41,17 @@ export async function sendNotification(options: SendNotificationOptions) {
   const { userId, title, message, type, metadata } = options;
 
   try {
-    // 1. Fetch user notification preferences
+    // User preferences & contact info
     const preferences = await prisma.notificationPreference.findUnique({
       where: { userId },
     });
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { mobile: true, email: true },
+      select: { mobile: true, email: true, fullName: true },
     });
 
-    // 2. In-App Notification (Always enabled by default unless explicitly disabled)
+    // In-app notification record and socket dispatch
     let savedNotification = null;
     if (!preferences || preferences.inApp) {
       savedNotification = await prisma.notification.create({
@@ -45,31 +64,25 @@ export async function sendNotification(options: SendNotificationOptions) {
         },
       });
 
-      // Emit real-time Socket.IO event to the user's room
       const io = getIO();
       if (io) {
         io.to(`user:${userId}`).emit('notification:new', savedNotification);
       }
     }
 
-    // 3. SMS Notification via Twilio
-    if (preferences?.sms && user?.mobile && twilioClient && ENV.TWILIO_PHONE_NUMBER) {
-      try {
-        const formattedPhone = user.mobile.startsWith('+') ? user.mobile : `+91${user.mobile}`;
-        await twilioClient.messages.create({
-          body: `[Smart Farmer Assistance] ${title}: ${message}`,
-          from: ENV.TWILIO_PHONE_NUMBER,
-          to: formattedPhone,
-        });
-        logger.info(`SMS successfully sent to ${user.mobile}`);
-      } catch (smsError: any) {
-        logger.warn(`External SMS dispatch failed for ${user.mobile}:`, smsError.message || smsError);
-      }
-    }
-
-    // 4. WhatsApp Cloud API / Twilio WhatsApp (Stub/Integration)
-    if (preferences?.whatsapp && user?.mobile) {
-      logger.info(`WhatsApp delivery scheduled for ${user.mobile}`);
+    // Telegram notification dispatch
+    try {
+      const { sendTelegramNotificationToFarmer } = require('./telegram.service');
+      await sendTelegramNotificationToFarmer({
+        mobile: user?.mobile,
+        userId,
+        title,
+        message,
+        type,
+        metadata,
+      });
+    } catch (tgErr: any) {
+      logger.warn(`Telegram dispatch failed:`, tgErr.message);
     }
 
     return savedNotification;
@@ -78,3 +91,4 @@ export async function sendNotification(options: SendNotificationOptions) {
     return null;
   }
 }
+

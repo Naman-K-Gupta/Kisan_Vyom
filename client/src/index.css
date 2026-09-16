@@ -47,3 +47,33 @@
 .live-pulse {
   animation: pulse-ring 2s infinite cubic-bezier(0.45, 0, 0.55, 1);
 }
+
+/* Google Translate UI styling integration */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-text-highlight {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+font[style*="vertical-align: inherit"] {
+  vertical-align: inherit !important;
+}

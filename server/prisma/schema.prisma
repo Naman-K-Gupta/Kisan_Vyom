@@ -94,6 +94,7 @@ model User {
   auditLogs              AuditLog[]
   createdPrices          GovernmentCropPrice[]
   createdAlerts          Alert[]
+  payments               Payment[]
 
   @@index([role])
   @@index([state, district])
@@ -129,6 +130,7 @@ model Crop {
   queueTokens          QueueToken[]
   governmentPrices     GovernmentCropPrice[]
   alerts               Alert[]
+  payments             Payment[]
 
   @@index([category])
 }
@@ -175,6 +177,7 @@ model ProcurementCentre {
   managers            CentreManager[]
   procurementRequests ProcurementRequest[]
   queueTokens         QueueToken[]
+  payments            Payment[]
 
   @@index([state, district])
   @@index([latitude, longitude])
@@ -244,8 +247,11 @@ model QueueToken {
   calledAt            DateTime?
   startedAt           DateTime?
   completedAt         DateTime?
+  vehicleNumber       String?
+  vehicleType         String?     @default("Tractor Trolley")
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
+  payments            Payment[]
 
   @@index([centreId, status])
   @@index([farmerId, status])
@@ -382,3 +388,64 @@ model PushSubscription {
 
   @@index([userId])
 }
+
+model Payment {
+  id                  String            @id @default(uuid())
+  paymentNumber       String            @unique
+  farmerId            String
+  farmer              User              @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  centreId            String
+  centre              ProcurementCentre @relation(fields: [centreId], references: [id], onDelete: Cascade)
+  cropId              String
+  crop                Crop              @relation(fields: [cropId], references: [id], onDelete: Restrict)
+  queueTokenId        String?
+  queueToken          QueueToken?       @relation(fields: [queueTokenId], references: [id], onDelete: SetNull)
+  procurementRequestId String?
+  quantity            Float
+  unit                String            @default("Quintal")
+  ratePerUnit         Float             // MSP rate applied (₹/Quintal)
+  grossAmount         Float             // quantity * ratePerUnit
+  deductions          Float             @default(0) // Quality deductions (if any)
+  netAmount           Float             // grossAmount - deductions
+  status              String            @default("PROCESSING") // PENDING, PROCESSING, PAID, FAILED
+  paymentMethod       String            @default("DBT_PFMS")   // DBT_PFMS, NEFT_RTGS, DIRECT_BANK_TRANSFER
+  utrNumber           String?           // Banking transaction UTR
+  bankName            String?           @default("State Bank of India")
+  accountNumberMasked String?           // e.g. "XXXXXX4021"
+  ifscCode            String?           @default("SBIN0001234")
+  qualityGrade        String?           @default("Grade A (FAQ)")
+  vehicleNumber       String?
+  paidAt              DateTime?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([farmerId])
+  @@index([centreId])
+  @@index([status])
+  @@index([paymentNumber])
+}
+
+model GovernmentScheme {
+  id                  String    @id @default(uuid())
+  title               String
+  category            String    @default("SUBSIDY")
+  ministry            String    @default("Ministry of Agriculture & Farmers Welfare")
+  benefitAmount       String
+  summary             String
+  details             String?
+  eligibilityCriteria String
+  maxLandAcreage      Float?
+  applicableStates    String    @default("ALL")
+  applicationUrl      String
+  officialCircularUrl String?
+  deadlineDate        DateTime?
+  status              String    @default("ACTIVE")
+  isFeatured          Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([status])
+  @@index([category])
+}
+
+

@@ -16,6 +16,8 @@ import { ProcurementCentresPage } from './pages/farmer/ProcurementCentresPage';
 import { LiveQueueTrackerPage } from './pages/farmer/LiveQueueTrackerPage';
 import { PricesPage } from './pages/farmer/PricesPage';
 import { AIAssistantPage } from './pages/farmer/AIAssistantPage';
+import { FarmerPaymentsPage } from './pages/farmer/FarmerPaymentsPage';
+import { FarmerSchemesPage } from './pages/farmer/FarmerSchemesPage';
 
 // Manager Pages
 import { ManagerDashboard } from './pages/manager/ManagerDashboard';
@@ -27,6 +29,8 @@ import { AdminCentresPage } from './pages/admin/AdminCentresPage';
 import { AdminMSPPage } from './pages/admin/AdminMSPPage';
 import { AdminAlertsPage } from './pages/admin/AdminAlertsPage';
 import { AdminAuditLogsPage } from './pages/admin/AdminAuditLogsPage';
+import { AdminProcurementRecordsPage } from './pages/admin/AdminProcurementRecordsPage';
+import { AdminSchemesPage } from './pages/admin/AdminSchemesPage';
 
 interface ProtectedRouteProps {
   children: React.ReactElement;
@@ -81,6 +85,9 @@ export const App: React.FC = () => {
         <Route path="centres" element={<ProcurementCentresPage />} />
         <Route path="queue" element={<LiveQueueTrackerPage />} />
         <Route path="prices" element={<PricesPage />} />
+        <Route path="payments" element={<FarmerPaymentsPage />} />
+        <Route path="schemes" element={<FarmerSchemesPage />} />
+        <Route path="policies" element={<FarmerSchemesPage />} />
         <Route path="ai" element={<AIAssistantPage />} />
         <Route index element={<Navigate to="/farmer/dashboard" replace />} />
       </Route>
@@ -109,9 +116,12 @@ export const App: React.FC = () => {
         }
       >
         <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="procurement-records" element={<AdminProcurementRecordsPage />} />
         <Route path="farmers" element={<AdminFarmersPage />} />
         <Route path="centres" element={<AdminCentresPage />} />
         <Route path="msp" element={<AdminMSPPage />} />
+        <Route path="schemes" element={<AdminSchemesPage />} />
+        <Route path="policies" element={<AdminSchemesPage />} />
         <Route path="alerts" element={<AdminAlertsPage />} />
         <Route path="audit-logs" element={<AdminAuditLogsPage />} />
         <Route index element={<Navigate to="/admin/dashboard" replace />} />

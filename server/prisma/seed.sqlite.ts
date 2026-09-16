@@ -175,7 +175,60 @@ async function main() {
       },
     },
   });
-  console.log(`✅ Seeded 3 centres`);
+
+  // Seed Punjab Regional Centres
+  await prisma.procurementCentre.create({
+    data: {
+      name: 'Phagwara APMC Grain Procurement Hub',
+      address: 'Near GT Road Bypass, Dana Mandi, Phagwara',
+      state: 'Punjab',
+      district: 'Kapurthala',
+      village: 'Phagwara',
+      latitude: 31.224,
+      longitude: 75.7708,
+      contactNumber: '01824-261234',
+      openingHours: '08:00 AM - 06:00 PM',
+      totalCapacity: 6500,
+      currentUsage: 1400,
+      processingRate: 45,
+      status: 'OPEN',
+      supportedCrops: {
+        create: [
+          { cropId: createdCrops['Wheat'].id, maxDailyCapacity: 3000, isAccepting: true },
+          { cropId: createdCrops['Paddy (Common)'].id, maxDailyCapacity: 2500, isAccepting: true },
+          { cropId: createdCrops['Paddy (Grade A)'].id, maxDailyCapacity: 2500, isAccepting: true },
+          { cropId: createdCrops['Maize (Makka)'].id, maxDailyCapacity: 1500, isAccepting: true },
+        ],
+      },
+    },
+  });
+
+  await prisma.procurementCentre.create({
+    data: {
+      name: 'Ludhiana Central Dana Mandi Complex',
+      address: 'Gill Road Grain Market Complex, Ludhiana',
+      state: 'Punjab',
+      district: 'Ludhiana',
+      village: 'Gill',
+      latitude: 30.901,
+      longitude: 75.8573,
+      contactNumber: '0161-2401234',
+      openingHours: '07:30 AM - 06:00 PM',
+      totalCapacity: 9500,
+      currentUsage: 2800,
+      processingRate: 60,
+      status: 'OPEN',
+      supportedCrops: {
+        create: [
+          { cropId: createdCrops['Wheat'].id, maxDailyCapacity: 4000, isAccepting: true },
+          { cropId: createdCrops['Paddy (Common)'].id, maxDailyCapacity: 3500, isAccepting: true },
+          { cropId: createdCrops['Mustard / Rapeseed'].id, maxDailyCapacity: 2000, isAccepting: true },
+        ],
+      },
+    },
+  });
+
+  console.log(`✅ Seeded centres including Punjab hubs`);
 
   // 5. Manager
   const managerPassword = await bcrypt.hash('Manager@12345', 10);
@@ -204,49 +257,7 @@ async function main() {
   });
   console.log(`✅ Manager seeded`);
 
-  // 6. Farmer
-  const farmerPassword = await bcrypt.hash('Farmer@12345', 10);
-  await prisma.user.upsert({
-    where: { email: 'farmer.ramesh@smartfarmer.gov.in' },
-    update: {},
-    create: {
-      email: 'farmer.ramesh@smartfarmer.gov.in',
-      mobile: '9876543212',
-      passwordHash: farmerPassword,
-      fullName: 'Ramesh Singh Yadav',
-      role: 'FARMER',
-      state: 'Haryana',
-      district: 'Karnal',
-      village: 'Taraori',
-      address: 'Plot 42, North Farms, Taraori, Karnal',
-      preferredLanguage: 'hi',
-      isActive: true,
-      farmerProfile: {
-        create: {
-          landAreaTotal: 8.5,
-          bio: 'Progressive farmer cultivating Sharbati Wheat and Basmati Paddy with drip irrigation.',
-          crops: {
-            create: [
-              {
-                cropId: createdCrops['Wheat'].id,
-                variety: 'Sharbati HD-2967',
-                landArea: 5.0,
-                sowingDate: new Date('2025-11-15'),
-                expectedHarvestDate: new Date('2026-04-10'),
-                expectedProduction: 110,
-                unit: 'Quintal',
-                status: 'GROWING',
-              },
-            ],
-          },
-        },
-      },
-      notificationPreference: {
-        create: { inApp: true, sms: true, whatsapp: false, push: true },
-      },
-    },
-  });
-  console.log(`✅ Farmer seeded`);
+  // 6. Farmer accounts will be created by users via registration form
 
   // 7. Alert
   await prisma.alert.create({

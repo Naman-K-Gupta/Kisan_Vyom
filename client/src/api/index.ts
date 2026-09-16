@@ -20,6 +20,11 @@ import {
   AIIrrigationResponse,
   AICentreRecommendationRequest,
   AICentreRecommendationResponse,
+  PaymentDTO,
+  PaymentSummaryDTO,
+  GovernmentSchemeDTO,
+  CreateGovernmentSchemeDTO,
+  UpdateGovernmentSchemeDTO,
 } from '@smart-farmer/shared';
 
 export const api = {
@@ -42,6 +47,45 @@ export const api = {
       }),
     deleteProfilePicture: () => apiClient.delete('/farmers/profile-picture'),
     updateNotificationPreferences: (data: any) => apiClient.put('/farmers/notification-preferences', data),
+    getBankDetails: () =>
+      apiClient.get<{
+        success: boolean;
+        bankDetails: {
+          accountHolderName: string;
+          bankName: string;
+          accountNumber: string;
+          accountNumberMasked: string;
+          ifscCode: string;
+          branchName: string;
+          aadhaarLinked: boolean;
+          pfmsStatus: string;
+          upiId?: string;
+        };
+      }>('/farmers/bank-details'),
+    updateBankDetails: (data: {
+      accountHolderName: string;
+      bankName: string;
+      accountNumber: string;
+      ifscCode: string;
+      branchName?: string;
+      aadhaarLinked?: boolean;
+      upiId?: string;
+    }) =>
+      apiClient.put<{
+        success: boolean;
+        message: string;
+        bankDetails: {
+          accountHolderName: string;
+          bankName: string;
+          accountNumber: string;
+          accountNumberMasked: string;
+          ifscCode: string;
+          branchName: string;
+          aadhaarLinked: boolean;
+          pfmsStatus: string;
+          upiId?: string;
+        };
+      }>('/farmers/bank-details', data),
   },
 
   // Crops
@@ -70,7 +114,15 @@ export const api = {
 
   // Digital Queue
   queue: {
-    join: (data: { centreId: string; cropId: string; quantity: number; unit?: string }) =>
+    join: (data: {
+      centreId: string;
+      cropId: string;
+      quantity: number;
+      unit?: string;
+      preferredDate?: string;
+      vehicleNumber?: string;
+      vehicleType?: string;
+    }) =>
       apiClient.post<{ success: boolean; message: string; token: QueueTokenDTO }>('/queue/join', data),
     getMyToken: () => apiClient.get<{ success: boolean; token: QueueTokenDTO | null }>('/queue/my-token'),
     getCentreQueue: (centreId: string) =>
@@ -79,7 +131,10 @@ export const api = {
       ),
     callToken: (id: string) => apiClient.post(`/queue/${id}/call`),
     startProcessing: (id: string) => apiClient.post(`/queue/${id}/start`),
-    completeProcurement: (id: string) => apiClient.post(`/queue/${id}/complete`),
+    completeProcurement: (id: string, data?: any) =>
+      apiClient.post<{ success: boolean; message: string; token: QueueTokenDTO; payment: any; centre?: any }>(`/queue/${id}/complete`, data),
+    rejectConsignment: (id: string, data: { reason: string; moisturePercentage?: number | null; foreignMatterPercentage?: number | null; advisoryNote?: string | null }) =>
+      apiClient.post<{ success: boolean; message: string; token: QueueTokenDTO }>(`/queue/${id}/reject`, data),
     skipToken: (id: string) => apiClient.post(`/queue/${id}/skip`),
     cancelToken: (id: string, reason?: string) => apiClient.post(`/queue/${id}/cancel`, { reason }),
     togglePause: (centreId: string, pause: boolean) =>
@@ -124,6 +179,21 @@ export const api = {
       apiClient.get<{ success: boolean; count: number; unreadCount: number; notifications: NotificationDTO[] }>('/notifications', { params }),
     markAsRead: (id: string) => apiClient.patch(`/notifications/${id}/read`),
     markAllAsRead: () => apiClient.post('/notifications/read-all'),
+    sendTestTelegram: () =>
+      apiClient.post<{ success: boolean; message: string; messageId?: number }>('/notifications/test-telegram'),
+    getTelegramStatus: () =>
+      apiClient.get<{
+        success: boolean;
+        botUsername: string;
+        deepLink: string;
+        isLinked: boolean;
+        chatId: string | null;
+        username: string | null;
+        firstName: string | null;
+        mobile: string;
+      }>('/notifications/telegram-status'),
+    linkTelegram: (chatId: string) =>
+      apiClient.post<{ success: boolean; message: string; link: any }>('/notifications/link-telegram', { chatId }),
   },
 
   // Alerts
@@ -146,5 +216,65 @@ export const api = {
       apiClient.post('/admin/managers/assign', { userId, centreId }),
     getAuditLogs: (params?: { entity?: string; action?: string; take?: number }) =>
       apiClient.get<{ success: boolean; count: number; logs: AuditLogDTO[] }>('/admin/audit-logs', { params }),
+    getDailyProcurementRecords: (params?: { centreId?: string; date?: string; cropId?: string; status?: string }) =>
+      apiClient.get<{
+        success: boolean;
+        date: string;
+        centre: any;
+        summary: {
+          totalQuantity: number;
+          totalGrossAmount: number;
+          totalDeductions: number;
+          totalNetAmount: number;
+          totalVehicles: number;
+          cropBreakdown: Array<{ cropId: string; cropName: string; quantity: number; amount: number; count: number }>;
+          statusBreakdown: { paid: number; processing: number; pending: number; failed: number };
+        };
+        records: any[];
+      }>('/admin/procurement-records', { params }),
+  },
+
+  // Payments (DBT & Mandi Settlements)
+  payments: {
+    getMyPayments: () =>
+      apiClient.get<{ success: boolean; count: number; summary: PaymentSummaryDTO; payments: PaymentDTO[] }>('/payments/my-payments'),
+    getById: (id: string) =>
+      apiClient.get<{ success: boolean; payment: PaymentDTO }>(`/payments/${id}`),
+    getAll: (params?: { status?: string; centreId?: string; search?: string }) =>
+      apiClient.get<{ success: boolean; count: number; metrics: any; payments: PaymentDTO[] }>('/payments/admin/all', { params }),
+    updateStatus: (id: string, data: { status: string; utrNumber?: string }) =>
+      apiClient.patch<{ success: boolean; payment: PaymentDTO }>(`/payments/${id}/status`, data),
+  },
+
+  // Dynamic Translation API
+  translate: {
+    translateText: (text: string, targetLang: string, sourceLang?: string) =>
+      apiClient.post<{
+        success: boolean;
+        originalText: string;
+        translatedText: string;
+        targetLang: string;
+      }>('/translate', { text, targetLang, sourceLang }),
+    translateBatch: (texts: string[], targetLang: string, sourceLang?: string) =>
+      apiClient.post<{
+        success: boolean;
+        translations: Record<string, string>;
+        targetLang: string;
+      }>('/translate', { texts, targetLang, sourceLang }),
+  },
+
+  // Government Policies & Schemes
+  schemes: {
+    getAll: (params?: { category?: string; status?: string; state?: string; search?: string; featured?: boolean }) =>
+      apiClient.get<{ success: boolean; count: number; schemes: GovernmentSchemeDTO[] }>('/schemes', { params }),
+    getById: (id: string) =>
+      apiClient.get<{ success: boolean; scheme: GovernmentSchemeDTO }>(`/schemes/${id}`),
+    create: (data: CreateGovernmentSchemeDTO) =>
+      apiClient.post<{ success: boolean; message: string; scheme: GovernmentSchemeDTO }>('/schemes', data),
+    update: (id: string, data: UpdateGovernmentSchemeDTO) =>
+      apiClient.put<{ success: boolean; message: string; scheme: GovernmentSchemeDTO }>(`/schemes/${id}`, data),
+    delete: (id: string) =>
+      apiClient.delete<{ success: boolean; message: string }>(`/schemes/${id}`),
   },
 };
+

@@ -183,4 +183,130 @@ export class AdminController {
 
     res.json({ success: true, count: logs.length, logs });
   }
+
+  /**
+   * Daily Procurement Records by Centre
+   */
+  static async getDailyProcurementRecords(req: Request, res: Response) {
+    const { centreId, date, cropId, status } = req.query;
+
+    // Default to today if no date provided
+    const targetDateStr = date ? String(date) : new Date().toISOString().split('T')[0];
+    const startDate = new Date(`${targetDateStr}T00:00:00.000Z`);
+    const endDate = new Date(`${targetDateStr}T23:59:59.999Z`);
+
+    // Fetch centre details if centreId provided
+    let centre = null;
+    if (centreId && centreId !== 'ALL') {
+      centre = await prisma.procurementCentre.findUnique({
+        where: { id: String(centreId) },
+        include: {
+          managers: {
+            include: {
+              user: { select: { id: true, fullName: true, mobile: true, email: true } },
+            },
+          },
+        },
+      });
+    }
+
+    // Build filter for Payments
+    const wherePayment: any = {
+      createdAt: {
+        gte: startDate,
+        lte: endDate,
+      },
+      ...(centreId && centreId !== 'ALL' ? { centreId: String(centreId) } : {}),
+      ...(cropId ? { cropId: String(cropId) } : {}),
+      ...(status ? { status: String(status) } : {}),
+    };
+
+    const payments = await prisma.payment.findMany({
+      where: wherePayment,
+      include: {
+        farmer: {
+          select: {
+            id: true,
+            fullName: true,
+            mobile: true,
+            village: true,
+            district: true,
+            state: true,
+          },
+        },
+        crop: {
+          select: {
+            id: true,
+            name: true,
+            category: true,
+            defaultUnit: true,
+          },
+        },
+        centre: {
+          select: {
+            id: true,
+            name: true,
+            district: true,
+            state: true,
+            totalCapacity: true,
+            currentUsage: true,
+          },
+        },
+        queueToken: {
+          select: {
+            id: true,
+            tokenNumber: true,
+            calledAt: true,
+            completedAt: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Compute aggregated summary
+    let totalQuantity = 0;
+    let totalGrossAmount = 0;
+    let totalDeductions = 0;
+    let totalNetAmount = 0;
+    const cropMap: Record<string, { cropId: string; cropName: string; quantity: number; amount: number; count: number }> = {};
+    const statusCounts = { paid: 0, processing: 0, pending: 0, failed: 0 };
+
+    payments.forEach((p) => {
+      totalQuantity += p.quantity;
+      totalGrossAmount += p.grossAmount;
+      totalDeductions += p.deductions;
+      totalNetAmount += p.netAmount;
+
+      const cId = p.cropId;
+      const cName = p.crop?.name || 'Unknown Crop';
+      if (!cropMap[cId]) {
+        cropMap[cId] = { cropId: cId, cropName: cName, quantity: 0, amount: 0, count: 0 };
+      }
+      cropMap[cId].quantity += p.quantity;
+      cropMap[cId].amount += p.netAmount;
+      cropMap[cId].count += 1;
+
+      if (p.status === 'PAID') statusCounts.paid++;
+      else if (p.status === 'PROCESSING') statusCounts.processing++;
+      else if (p.status === 'PENDING') statusCounts.pending++;
+      else if (p.status === 'FAILED') statusCounts.failed++;
+    });
+
+    res.json({
+      success: true,
+      date: targetDateStr,
+      centre,
+      summary: {
+        totalQuantity: Math.round(totalQuantity * 100) / 100,
+        totalGrossAmount: Math.round(totalGrossAmount * 100) / 100,
+        totalDeductions: Math.round(totalDeductions * 100) / 100,
+        totalNetAmount: Math.round(totalNetAmount * 100) / 100,
+        totalVehicles: payments.length,
+        cropBreakdown: Object.values(cropMap),
+        statusBreakdown: statusCounts,
+      },
+      records: payments,
+    });
+  }
 }

@@ -98,6 +98,11 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  * 
  */
 export type PushSubscription = $Result.DefaultSelection<Prisma.$PushSubscriptionPayload>
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -391,6 +396,16 @@ export class PrismaClient<
     * ```
     */
   get pushSubscription(): Prisma.PushSubscriptionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Payments
+    * const payments = await prisma.payment.findMany()
+    * ```
+    */
+  get payment(): Prisma.PaymentDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -848,7 +863,8 @@ export namespace Prisma {
     WeatherRecord: 'WeatherRecord',
     Alert: 'Alert',
     AuditLog: 'AuditLog',
-    PushSubscription: 'PushSubscription'
+    PushSubscription: 'PushSubscription',
+    Payment: 'Payment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -864,7 +880,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "farmerProfile" | "crop" | "farmerCrop" | "procurementCentre" | "centreCrop" | "centreManager" | "procurementRequest" | "queueToken" | "notification" | "notificationPreference" | "governmentCropPrice" | "marketPrice" | "weatherRecord" | "alert" | "auditLog" | "pushSubscription"
+      modelProps: "user" | "farmerProfile" | "crop" | "farmerCrop" | "procurementCentre" | "centreCrop" | "centreManager" | "procurementRequest" | "queueToken" | "notification" | "notificationPreference" | "governmentCropPrice" | "marketPrice" | "weatherRecord" | "alert" | "auditLog" | "pushSubscription" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2058,6 +2074,76 @@ export namespace Prisma {
           }
         }
       }
+      Payment: {
+        payload: Prisma.$PaymentPayload<ExtArgs>
+        fields: Prisma.PaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          update: {
+            args: Prisma.PaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayment>
+          }
+          groupBy: {
+            args: Prisma.PaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2227,6 +2313,7 @@ export namespace Prisma {
     auditLogs: number
     createdPrices: number
     createdAlerts: number
+    payments: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2238,6 +2325,7 @@ export namespace Prisma {
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
     createdPrices?: boolean | UserCountOutputTypeCountCreatedPricesArgs
     createdAlerts?: boolean | UserCountOutputTypeCountCreatedAlertsArgs
+    payments?: boolean | UserCountOutputTypeCountPaymentsArgs
   }
 
   // Custom InputTypes
@@ -2307,6 +2395,13 @@ export namespace Prisma {
     where?: AlertWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
 
   /**
    * Count Type FarmerProfileCountOutputType
@@ -2350,6 +2445,7 @@ export namespace Prisma {
     queueTokens: number
     governmentPrices: number
     alerts: number
+    payments: number
   }
 
   export type CropCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2359,6 +2455,7 @@ export namespace Prisma {
     queueTokens?: boolean | CropCountOutputTypeCountQueueTokensArgs
     governmentPrices?: boolean | CropCountOutputTypeCountGovernmentPricesArgs
     alerts?: boolean | CropCountOutputTypeCountAlertsArgs
+    payments?: boolean | CropCountOutputTypeCountPaymentsArgs
   }
 
   // Custom InputTypes
@@ -2414,6 +2511,13 @@ export namespace Prisma {
     where?: AlertWhereInput
   }
 
+  /**
+   * CropCountOutputType without action
+   */
+  export type CropCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
 
   /**
    * Count Type ProcurementCentreCountOutputType
@@ -2424,6 +2528,7 @@ export namespace Prisma {
     managers: number
     procurementRequests: number
     queueTokens: number
+    payments: number
   }
 
   export type ProcurementCentreCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2431,6 +2536,7 @@ export namespace Prisma {
     managers?: boolean | ProcurementCentreCountOutputTypeCountManagersArgs
     procurementRequests?: boolean | ProcurementCentreCountOutputTypeCountProcurementRequestsArgs
     queueTokens?: boolean | ProcurementCentreCountOutputTypeCountQueueTokensArgs
+    payments?: boolean | ProcurementCentreCountOutputTypeCountPaymentsArgs
   }
 
   // Custom InputTypes
@@ -2470,6 +2576,44 @@ export namespace Prisma {
    */
   export type ProcurementCentreCountOutputTypeCountQueueTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QueueTokenWhereInput
+  }
+
+  /**
+   * ProcurementCentreCountOutputType without action
+   */
+  export type ProcurementCentreCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
+
+  /**
+   * Count Type QueueTokenCountOutputType
+   */
+
+  export type QueueTokenCountOutputType = {
+    payments: number
+  }
+
+  export type QueueTokenCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payments?: boolean | QueueTokenCountOutputTypeCountPaymentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QueueTokenCountOutputType without action
+   */
+  export type QueueTokenCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QueueTokenCountOutputType
+     */
+    select?: QueueTokenCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QueueTokenCountOutputType without action
+   */
+  export type QueueTokenCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
   }
 
 
@@ -2723,6 +2867,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     createdPrices?: boolean | User$createdPricesArgs<ExtArgs>
     createdAlerts?: boolean | User$createdAlertsArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2771,6 +2916,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     createdPrices?: boolean | User$createdPricesArgs<ExtArgs>
     createdAlerts?: boolean | User$createdAlertsArgs<ExtArgs>
+    payments?: boolean | User$paymentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2788,6 +2934,7 @@ export namespace Prisma {
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       createdPrices: Prisma.$GovernmentCropPricePayload<ExtArgs>[]
       createdAlerts: Prisma.$AlertPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3178,6 +3325,7 @@ export namespace Prisma {
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany"> | Null>
     createdPrices<T extends User$createdPricesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdPricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GovernmentCropPricePayload<ExtArgs>, T, "findMany"> | Null>
     createdAlerts<T extends User$createdAlertsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdAlertsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertPayload<ExtArgs>, T, "findMany"> | Null>
+    payments<T extends User$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3720,6 +3868,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AlertScalarFieldEnum | AlertScalarFieldEnum[]
+  }
+
+  /**
+   * User.payments
+   */
+  export type User$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
   }
 
   /**
@@ -4954,6 +5122,7 @@ export namespace Prisma {
     queueTokens?: boolean | Crop$queueTokensArgs<ExtArgs>
     governmentPrices?: boolean | Crop$governmentPricesArgs<ExtArgs>
     alerts?: boolean | Crop$alertsArgs<ExtArgs>
+    payments?: boolean | Crop$paymentsArgs<ExtArgs>
     _count?: boolean | CropCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["crop"]>
 
@@ -4988,6 +5157,7 @@ export namespace Prisma {
     queueTokens?: boolean | Crop$queueTokensArgs<ExtArgs>
     governmentPrices?: boolean | Crop$governmentPricesArgs<ExtArgs>
     alerts?: boolean | Crop$alertsArgs<ExtArgs>
+    payments?: boolean | Crop$paymentsArgs<ExtArgs>
     _count?: boolean | CropCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CropIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5001,6 +5171,7 @@ export namespace Prisma {
       queueTokens: Prisma.$QueueTokenPayload<ExtArgs>[]
       governmentPrices: Prisma.$GovernmentCropPricePayload<ExtArgs>[]
       alerts: Prisma.$AlertPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5382,6 +5553,7 @@ export namespace Prisma {
     queueTokens<T extends Crop$queueTokensArgs<ExtArgs> = {}>(args?: Subset<T, Crop$queueTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueueTokenPayload<ExtArgs>, T, "findMany"> | Null>
     governmentPrices<T extends Crop$governmentPricesArgs<ExtArgs> = {}>(args?: Subset<T, Crop$governmentPricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GovernmentCropPricePayload<ExtArgs>, T, "findMany"> | Null>
     alerts<T extends Crop$alertsArgs<ExtArgs> = {}>(args?: Subset<T, Crop$alertsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertPayload<ExtArgs>, T, "findMany"> | Null>
+    payments<T extends Crop$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Crop$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5849,6 +6021,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AlertScalarFieldEnum | AlertScalarFieldEnum[]
+  }
+
+  /**
+   * Crop.payments
+   */
+  export type Crop$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
   }
 
   /**
@@ -7231,6 +7423,7 @@ export namespace Prisma {
     managers?: boolean | ProcurementCentre$managersArgs<ExtArgs>
     procurementRequests?: boolean | ProcurementCentre$procurementRequestsArgs<ExtArgs>
     queueTokens?: boolean | ProcurementCentre$queueTokensArgs<ExtArgs>
+    payments?: boolean | ProcurementCentre$paymentsArgs<ExtArgs>
     _count?: boolean | ProcurementCentreCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["procurementCentre"]>
 
@@ -7277,6 +7470,7 @@ export namespace Prisma {
     managers?: boolean | ProcurementCentre$managersArgs<ExtArgs>
     procurementRequests?: boolean | ProcurementCentre$procurementRequestsArgs<ExtArgs>
     queueTokens?: boolean | ProcurementCentre$queueTokensArgs<ExtArgs>
+    payments?: boolean | ProcurementCentre$paymentsArgs<ExtArgs>
     _count?: boolean | ProcurementCentreCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProcurementCentreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -7288,6 +7482,7 @@ export namespace Prisma {
       managers: Prisma.$CentreManagerPayload<ExtArgs>[]
       procurementRequests: Prisma.$ProcurementRequestPayload<ExtArgs>[]
       queueTokens: Prisma.$QueueTokenPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7674,6 +7869,7 @@ export namespace Prisma {
     managers<T extends ProcurementCentre$managersArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentre$managersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CentreManagerPayload<ExtArgs>, T, "findMany"> | Null>
     procurementRequests<T extends ProcurementCentre$procurementRequestsArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentre$procurementRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcurementRequestPayload<ExtArgs>, T, "findMany"> | Null>
     queueTokens<T extends ProcurementCentre$queueTokensArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentre$queueTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QueueTokenPayload<ExtArgs>, T, "findMany"> | Null>
+    payments<T extends ProcurementCentre$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentre$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8108,6 +8304,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: QueueTokenScalarFieldEnum | QueueTokenScalarFieldEnum[]
+  }
+
+  /**
+   * ProcurementCentre.payments
+   */
+  export type ProcurementCentre$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
   }
 
   /**
@@ -11132,6 +11348,8 @@ export namespace Prisma {
     calledAt: Date | null
     startedAt: Date | null
     completedAt: Date | null
+    vehicleNumber: string | null
+    vehicleType: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11150,6 +11368,8 @@ export namespace Prisma {
     calledAt: Date | null
     startedAt: Date | null
     completedAt: Date | null
+    vehicleNumber: string | null
+    vehicleType: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11168,6 +11388,8 @@ export namespace Prisma {
     calledAt: number
     startedAt: number
     completedAt: number
+    vehicleNumber: number
+    vehicleType: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -11200,6 +11422,8 @@ export namespace Prisma {
     calledAt?: true
     startedAt?: true
     completedAt?: true
+    vehicleNumber?: true
+    vehicleType?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11218,6 +11442,8 @@ export namespace Prisma {
     calledAt?: true
     startedAt?: true
     completedAt?: true
+    vehicleNumber?: true
+    vehicleType?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11236,6 +11462,8 @@ export namespace Prisma {
     calledAt?: true
     startedAt?: true
     completedAt?: true
+    vehicleNumber?: true
+    vehicleType?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -11341,6 +11569,8 @@ export namespace Prisma {
     calledAt: Date | null
     startedAt: Date | null
     completedAt: Date | null
+    vehicleNumber: string | null
+    vehicleType: string | null
     createdAt: Date
     updatedAt: Date
     _count: QueueTokenCountAggregateOutputType | null
@@ -11378,11 +11608,15 @@ export namespace Prisma {
     calledAt?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    vehicleNumber?: boolean
+    vehicleType?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     farmer?: boolean | UserDefaultArgs<ExtArgs>
     centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
     crop?: boolean | CropDefaultArgs<ExtArgs>
+    payments?: boolean | QueueToken$paymentsArgs<ExtArgs>
+    _count?: boolean | QueueTokenCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["queueToken"]>
 
   export type QueueTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11399,6 +11633,8 @@ export namespace Prisma {
     calledAt?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    vehicleNumber?: boolean
+    vehicleType?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     farmer?: boolean | UserDefaultArgs<ExtArgs>
@@ -11420,6 +11656,8 @@ export namespace Prisma {
     calledAt?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    vehicleNumber?: boolean
+    vehicleType?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -11428,6 +11666,8 @@ export namespace Prisma {
     farmer?: boolean | UserDefaultArgs<ExtArgs>
     centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
     crop?: boolean | CropDefaultArgs<ExtArgs>
+    payments?: boolean | QueueToken$paymentsArgs<ExtArgs>
+    _count?: boolean | QueueTokenCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QueueTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     farmer?: boolean | UserDefaultArgs<ExtArgs>
@@ -11441,6 +11681,7 @@ export namespace Prisma {
       farmer: Prisma.$UserPayload<ExtArgs>
       centre: Prisma.$ProcurementCentrePayload<ExtArgs>
       crop: Prisma.$CropPayload<ExtArgs>
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11456,6 +11697,8 @@ export namespace Prisma {
       calledAt: Date | null
       startedAt: Date | null
       completedAt: Date | null
+      vehicleNumber: string | null
+      vehicleType: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["queueToken"]>
@@ -11825,6 +12068,7 @@ export namespace Prisma {
     farmer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     centre<T extends ProcurementCentreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentreDefaultArgs<ExtArgs>>): Prisma__ProcurementCentreClient<$Result.GetResult<Prisma.$ProcurementCentrePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     crop<T extends CropDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CropDefaultArgs<ExtArgs>>): Prisma__CropClient<$Result.GetResult<Prisma.$CropPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    payments<T extends QueueToken$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, QueueToken$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11867,6 +12111,8 @@ export namespace Prisma {
     readonly calledAt: FieldRef<"QueueToken", 'DateTime'>
     readonly startedAt: FieldRef<"QueueToken", 'DateTime'>
     readonly completedAt: FieldRef<"QueueToken", 'DateTime'>
+    readonly vehicleNumber: FieldRef<"QueueToken", 'String'>
+    readonly vehicleType: FieldRef<"QueueToken", 'String'>
     readonly createdAt: FieldRef<"QueueToken", 'DateTime'>
     readonly updatedAt: FieldRef<"QueueToken", 'DateTime'>
   }
@@ -12182,6 +12428,26 @@ export namespace Prisma {
      * Filter which QueueTokens to delete
      */
     where?: QueueTokenWhereInput
+  }
+
+  /**
+   * QueueToken.payments
+   */
+  export type QueueToken$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
   }
 
   /**
@@ -20164,6 +20430,1248 @@ export namespace Prisma {
 
 
   /**
+   * Model Payment
+   */
+
+  export type AggregatePayment = {
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  export type PaymentAvgAggregateOutputType = {
+    quantity: number | null
+    ratePerUnit: number | null
+    grossAmount: number | null
+    deductions: number | null
+    netAmount: number | null
+  }
+
+  export type PaymentSumAggregateOutputType = {
+    quantity: number | null
+    ratePerUnit: number | null
+    grossAmount: number | null
+    deductions: number | null
+    netAmount: number | null
+  }
+
+  export type PaymentMinAggregateOutputType = {
+    id: string | null
+    paymentNumber: string | null
+    farmerId: string | null
+    centreId: string | null
+    cropId: string | null
+    queueTokenId: string | null
+    procurementRequestId: string | null
+    quantity: number | null
+    unit: string | null
+    ratePerUnit: number | null
+    grossAmount: number | null
+    deductions: number | null
+    netAmount: number | null
+    status: string | null
+    paymentMethod: string | null
+    utrNumber: string | null
+    bankName: string | null
+    accountNumberMasked: string | null
+    ifscCode: string | null
+    qualityGrade: string | null
+    vehicleNumber: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMaxAggregateOutputType = {
+    id: string | null
+    paymentNumber: string | null
+    farmerId: string | null
+    centreId: string | null
+    cropId: string | null
+    queueTokenId: string | null
+    procurementRequestId: string | null
+    quantity: number | null
+    unit: string | null
+    ratePerUnit: number | null
+    grossAmount: number | null
+    deductions: number | null
+    netAmount: number | null
+    status: string | null
+    paymentMethod: string | null
+    utrNumber: string | null
+    bankName: string | null
+    accountNumberMasked: string | null
+    ifscCode: string | null
+    qualityGrade: string | null
+    vehicleNumber: string | null
+    paidAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentCountAggregateOutputType = {
+    id: number
+    paymentNumber: number
+    farmerId: number
+    centreId: number
+    cropId: number
+    queueTokenId: number
+    procurementRequestId: number
+    quantity: number
+    unit: number
+    ratePerUnit: number
+    grossAmount: number
+    deductions: number
+    netAmount: number
+    status: number
+    paymentMethod: number
+    utrNumber: number
+    bankName: number
+    accountNumberMasked: number
+    ifscCode: number
+    qualityGrade: number
+    vehicleNumber: number
+    paidAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentAvgAggregateInputType = {
+    quantity?: true
+    ratePerUnit?: true
+    grossAmount?: true
+    deductions?: true
+    netAmount?: true
+  }
+
+  export type PaymentSumAggregateInputType = {
+    quantity?: true
+    ratePerUnit?: true
+    grossAmount?: true
+    deductions?: true
+    netAmount?: true
+  }
+
+  export type PaymentMinAggregateInputType = {
+    id?: true
+    paymentNumber?: true
+    farmerId?: true
+    centreId?: true
+    cropId?: true
+    queueTokenId?: true
+    procurementRequestId?: true
+    quantity?: true
+    unit?: true
+    ratePerUnit?: true
+    grossAmount?: true
+    deductions?: true
+    netAmount?: true
+    status?: true
+    paymentMethod?: true
+    utrNumber?: true
+    bankName?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    qualityGrade?: true
+    vehicleNumber?: true
+    paidAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMaxAggregateInputType = {
+    id?: true
+    paymentNumber?: true
+    farmerId?: true
+    centreId?: true
+    cropId?: true
+    queueTokenId?: true
+    procurementRequestId?: true
+    quantity?: true
+    unit?: true
+    ratePerUnit?: true
+    grossAmount?: true
+    deductions?: true
+    netAmount?: true
+    status?: true
+    paymentMethod?: true
+    utrNumber?: true
+    bankName?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    qualityGrade?: true
+    vehicleNumber?: true
+    paidAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentCountAggregateInputType = {
+    id?: true
+    paymentNumber?: true
+    farmerId?: true
+    centreId?: true
+    cropId?: true
+    queueTokenId?: true
+    procurementRequestId?: true
+    quantity?: true
+    unit?: true
+    ratePerUnit?: true
+    grossAmount?: true
+    deductions?: true
+    netAmount?: true
+    status?: true
+    paymentMethod?: true
+    utrNumber?: true
+    bankName?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    qualityGrade?: true
+    vehicleNumber?: true
+    paidAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payment to aggregate.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Payments
+    **/
+    _count?: true | PaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayment[P]>
+      : GetScalarType<T[P], AggregatePayment[P]>
+  }
+
+
+
+
+  export type PaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithAggregationInput | PaymentOrderByWithAggregationInput[]
+    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum
+    having?: PaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCountAggregateInputType | true
+    _avg?: PaymentAvgAggregateInputType
+    _sum?: PaymentSumAggregateInputType
+    _min?: PaymentMinAggregateInputType
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type PaymentGroupByOutputType = {
+    id: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    queueTokenId: string | null
+    procurementRequestId: string | null
+    quantity: number
+    unit: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions: number
+    netAmount: number
+    status: string
+    paymentMethod: string
+    utrNumber: string | null
+    bankName: string | null
+    accountNumberMasked: string | null
+    ifscCode: string | null
+    qualityGrade: string | null
+    vehicleNumber: string | null
+    paidAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    paymentNumber?: boolean
+    farmerId?: boolean
+    centreId?: boolean
+    cropId?: boolean
+    queueTokenId?: boolean
+    procurementRequestId?: boolean
+    quantity?: boolean
+    unit?: boolean
+    ratePerUnit?: boolean
+    grossAmount?: boolean
+    deductions?: boolean
+    netAmount?: boolean
+    status?: boolean
+    paymentMethod?: boolean
+    utrNumber?: boolean
+    bankName?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    qualityGrade?: boolean
+    vehicleNumber?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    farmer?: boolean | UserDefaultArgs<ExtArgs>
+    centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
+    crop?: boolean | CropDefaultArgs<ExtArgs>
+    queueToken?: boolean | Payment$queueTokenArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    paymentNumber?: boolean
+    farmerId?: boolean
+    centreId?: boolean
+    cropId?: boolean
+    queueTokenId?: boolean
+    procurementRequestId?: boolean
+    quantity?: boolean
+    unit?: boolean
+    ratePerUnit?: boolean
+    grossAmount?: boolean
+    deductions?: boolean
+    netAmount?: boolean
+    status?: boolean
+    paymentMethod?: boolean
+    utrNumber?: boolean
+    bankName?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    qualityGrade?: boolean
+    vehicleNumber?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    farmer?: boolean | UserDefaultArgs<ExtArgs>
+    centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
+    crop?: boolean | CropDefaultArgs<ExtArgs>
+    queueToken?: boolean | Payment$queueTokenArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectScalar = {
+    id?: boolean
+    paymentNumber?: boolean
+    farmerId?: boolean
+    centreId?: boolean
+    cropId?: boolean
+    queueTokenId?: boolean
+    procurementRequestId?: boolean
+    quantity?: boolean
+    unit?: boolean
+    ratePerUnit?: boolean
+    grossAmount?: boolean
+    deductions?: boolean
+    netAmount?: boolean
+    status?: boolean
+    paymentMethod?: boolean
+    utrNumber?: boolean
+    bankName?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    qualityGrade?: boolean
+    vehicleNumber?: boolean
+    paidAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    farmer?: boolean | UserDefaultArgs<ExtArgs>
+    centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
+    crop?: boolean | CropDefaultArgs<ExtArgs>
+    queueToken?: boolean | Payment$queueTokenArgs<ExtArgs>
+  }
+  export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    farmer?: boolean | UserDefaultArgs<ExtArgs>
+    centre?: boolean | ProcurementCentreDefaultArgs<ExtArgs>
+    crop?: boolean | CropDefaultArgs<ExtArgs>
+    queueToken?: boolean | Payment$queueTokenArgs<ExtArgs>
+  }
+
+  export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Payment"
+    objects: {
+      farmer: Prisma.$UserPayload<ExtArgs>
+      centre: Prisma.$ProcurementCentrePayload<ExtArgs>
+      crop: Prisma.$CropPayload<ExtArgs>
+      queueToken: Prisma.$QueueTokenPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      paymentNumber: string
+      farmerId: string
+      centreId: string
+      cropId: string
+      queueTokenId: string | null
+      procurementRequestId: string | null
+      quantity: number
+      unit: string
+      ratePerUnit: number
+      grossAmount: number
+      deductions: number
+      netAmount: number
+      status: string
+      paymentMethod: string
+      utrNumber: string | null
+      bankName: string | null
+      accountNumberMasked: string | null
+      ifscCode: string | null
+      qualityGrade: string | null
+      vehicleNumber: string | null
+      paidAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["payment"]>
+    composites: {}
+  }
+
+  type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
+
+  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentCountAggregateInputType | true
+    }
+
+  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
+    /**
+     * Find zero or one Payment that matches the filter.
+     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Payment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Payment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Payments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payments
+     * const payments = await prisma.payment.findMany()
+     * 
+     * // Get first 10 Payments
+     * const payments = await prisma.payment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Payment.
+     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * @example
+     * // Create one Payment
+     * const Payment = await prisma.payment.create({
+     *   data: {
+     *     // ... data to create a Payment
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Payments.
+     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCreateManyArgs>(args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Payments and returns the data saved in the database.
+     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Payment.
+     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * @example
+     * // Delete one Payment
+     * const Payment = await prisma.payment.delete({
+     *   where: {
+     *     // ... filter to delete one Payment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Payment.
+     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * @example
+     * // Update one Payment
+     * const payment = await prisma.payment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Payments.
+     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * @example
+     * // Delete a few Payments
+     * const { count } = await prisma.payment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentDeleteManyArgs>(args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Payment.
+     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * @example
+     * // Update or create a Payment
+     * const payment = await prisma.payment.upsert({
+     *   create: {
+     *     // ... data to create a Payment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @example
+     * // Count the number of Payments
+     * const count = await prisma.payment.count({
+     *   where: {
+     *     // ... the filter for the Payments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCountArgs>(
+      args?: Subset<T, PaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentAggregateArgs>(args: Subset<T, PaymentAggregateArgs>): Prisma.PrismaPromise<GetPaymentAggregateType<T>>
+
+    /**
+     * Group by Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Payment model
+   */
+  readonly fields: PaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    farmer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    centre<T extends ProcurementCentreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProcurementCentreDefaultArgs<ExtArgs>>): Prisma__ProcurementCentreClient<$Result.GetResult<Prisma.$ProcurementCentrePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    crop<T extends CropDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CropDefaultArgs<ExtArgs>>): Prisma__CropClient<$Result.GetResult<Prisma.$CropPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    queueToken<T extends Payment$queueTokenArgs<ExtArgs> = {}>(args?: Subset<T, Payment$queueTokenArgs<ExtArgs>>): Prisma__QueueTokenClient<$Result.GetResult<Prisma.$QueueTokenPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Payment model
+   */ 
+  interface PaymentFieldRefs {
+    readonly id: FieldRef<"Payment", 'String'>
+    readonly paymentNumber: FieldRef<"Payment", 'String'>
+    readonly farmerId: FieldRef<"Payment", 'String'>
+    readonly centreId: FieldRef<"Payment", 'String'>
+    readonly cropId: FieldRef<"Payment", 'String'>
+    readonly queueTokenId: FieldRef<"Payment", 'String'>
+    readonly procurementRequestId: FieldRef<"Payment", 'String'>
+    readonly quantity: FieldRef<"Payment", 'Float'>
+    readonly unit: FieldRef<"Payment", 'String'>
+    readonly ratePerUnit: FieldRef<"Payment", 'Float'>
+    readonly grossAmount: FieldRef<"Payment", 'Float'>
+    readonly deductions: FieldRef<"Payment", 'Float'>
+    readonly netAmount: FieldRef<"Payment", 'Float'>
+    readonly status: FieldRef<"Payment", 'String'>
+    readonly paymentMethod: FieldRef<"Payment", 'String'>
+    readonly utrNumber: FieldRef<"Payment", 'String'>
+    readonly bankName: FieldRef<"Payment", 'String'>
+    readonly accountNumberMasked: FieldRef<"Payment", 'String'>
+    readonly ifscCode: FieldRef<"Payment", 'String'>
+    readonly qualityGrade: FieldRef<"Payment", 'String'>
+    readonly vehicleNumber: FieldRef<"Payment", 'String'>
+    readonly paidAt: FieldRef<"Payment", 'DateTime'>
+    readonly createdAt: FieldRef<"Payment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Payment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Payment findUnique
+   */
+  export type PaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findUniqueOrThrow
+   */
+  export type PaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findFirst
+   */
+  export type PaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findFirstOrThrow
+   */
+  export type PaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findMany
+   */
+  export type PaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payments to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment create
+   */
+  export type PaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Payment.
+     */
+    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+  }
+
+  /**
+   * Payment createMany
+   */
+  export type PaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+  }
+
+  /**
+   * Payment createManyAndReturn
+   */
+  export type PaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment update
+   */
+  export type PaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Payment.
+     */
+    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    /**
+     * Choose, which Payment to update.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment updateMany
+   */
+  export type PaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+  }
+
+  /**
+   * Payment upsert
+   */
+  export type PaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Payment to update in case it exists.
+     */
+    where: PaymentWhereUniqueInput
+    /**
+     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     */
+    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    /**
+     * In case the Payment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * Payment delete
+   */
+  export type PaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter which Payment to delete.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment deleteMany
+   */
+  export type PaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payments to delete
+     */
+    where?: PaymentWhereInput
+  }
+
+  /**
+   * Payment.queueToken
+   */
+  export type Payment$queueTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QueueToken
+     */
+    select?: QueueTokenSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QueueTokenInclude<ExtArgs> | null
+    where?: QueueTokenWhereInput
+  }
+
+  /**
+   * Payment without action
+   */
+  export type PaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -20316,6 +21824,8 @@ export namespace Prisma {
     calledAt: 'calledAt',
     startedAt: 'startedAt',
     completedAt: 'completedAt',
+    vehicleNumber: 'vehicleNumber',
+    vehicleType: 'vehicleType',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -20447,6 +21957,36 @@ export namespace Prisma {
   export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
 
 
+  export const PaymentScalarFieldEnum: {
+    id: 'id',
+    paymentNumber: 'paymentNumber',
+    farmerId: 'farmerId',
+    centreId: 'centreId',
+    cropId: 'cropId',
+    queueTokenId: 'queueTokenId',
+    procurementRequestId: 'procurementRequestId',
+    quantity: 'quantity',
+    unit: 'unit',
+    ratePerUnit: 'ratePerUnit',
+    grossAmount: 'grossAmount',
+    deductions: 'deductions',
+    netAmount: 'netAmount',
+    status: 'status',
+    paymentMethod: 'paymentMethod',
+    utrNumber: 'utrNumber',
+    bankName: 'bankName',
+    accountNumberMasked: 'accountNumberMasked',
+    ifscCode: 'ifscCode',
+    qualityGrade: 'qualityGrade',
+    vehicleNumber: 'vehicleNumber',
+    paidAt: 'paidAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -20534,6 +22074,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     createdPrices?: GovernmentCropPriceListRelationFilter
     createdAlerts?: AlertListRelationFilter
+    payments?: PaymentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -20561,6 +22102,7 @@ export namespace Prisma {
     auditLogs?: AuditLogOrderByRelationAggregateInput
     createdPrices?: GovernmentCropPriceOrderByRelationAggregateInput
     createdAlerts?: AlertOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -20591,6 +22133,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     createdPrices?: GovernmentCropPriceListRelationFilter
     createdAlerts?: AlertListRelationFilter
+    payments?: PaymentListRelationFilter
   }, "id" | "email" | "mobile">
 
   export type UserOrderByWithAggregationInput = {
@@ -20722,6 +22265,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenListRelationFilter
     governmentPrices?: GovernmentCropPriceListRelationFilter
     alerts?: AlertListRelationFilter
+    payments?: PaymentListRelationFilter
   }
 
   export type CropOrderByWithRelationInput = {
@@ -20740,6 +22284,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenOrderByRelationAggregateInput
     governmentPrices?: GovernmentCropPriceOrderByRelationAggregateInput
     alerts?: AlertOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type CropWhereUniqueInput = Prisma.AtLeast<{
@@ -20761,6 +22306,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenListRelationFilter
     governmentPrices?: GovernmentCropPriceListRelationFilter
     alerts?: AlertListRelationFilter
+    payments?: PaymentListRelationFilter
   }, "id" | "name">
 
   export type CropOrderByWithAggregationInput = {
@@ -20912,6 +22458,7 @@ export namespace Prisma {
     managers?: CentreManagerListRelationFilter
     procurementRequests?: ProcurementRequestListRelationFilter
     queueTokens?: QueueTokenListRelationFilter
+    payments?: PaymentListRelationFilter
   }
 
   export type ProcurementCentreOrderByWithRelationInput = {
@@ -20935,6 +22482,7 @@ export namespace Prisma {
     managers?: CentreManagerOrderByRelationAggregateInput
     procurementRequests?: ProcurementRequestOrderByRelationAggregateInput
     queueTokens?: QueueTokenOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type ProcurementCentreWhereUniqueInput = Prisma.AtLeast<{
@@ -20961,6 +22509,7 @@ export namespace Prisma {
     managers?: CentreManagerListRelationFilter
     procurementRequests?: ProcurementRequestListRelationFilter
     queueTokens?: QueueTokenListRelationFilter
+    payments?: PaymentListRelationFilter
   }, "id">
 
   export type ProcurementCentreOrderByWithAggregationInput = {
@@ -21244,11 +22793,14 @@ export namespace Prisma {
     calledAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     startedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
+    vehicleNumber?: StringNullableFilter<"QueueToken"> | string | null
+    vehicleType?: StringNullableFilter<"QueueToken"> | string | null
     createdAt?: DateTimeFilter<"QueueToken"> | Date | string
     updatedAt?: DateTimeFilter<"QueueToken"> | Date | string
     farmer?: XOR<UserRelationFilter, UserWhereInput>
     centre?: XOR<ProcurementCentreRelationFilter, ProcurementCentreWhereInput>
     crop?: XOR<CropRelationFilter, CropWhereInput>
+    payments?: PaymentListRelationFilter
   }
 
   export type QueueTokenOrderByWithRelationInput = {
@@ -21265,11 +22817,14 @@ export namespace Prisma {
     calledAt?: SortOrderInput | SortOrder
     startedAt?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
+    vehicleNumber?: SortOrderInput | SortOrder
+    vehicleType?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     farmer?: UserOrderByWithRelationInput
     centre?: ProcurementCentreOrderByWithRelationInput
     crop?: CropOrderByWithRelationInput
+    payments?: PaymentOrderByRelationAggregateInput
   }
 
   export type QueueTokenWhereUniqueInput = Prisma.AtLeast<{
@@ -21289,11 +22844,14 @@ export namespace Prisma {
     calledAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     startedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
+    vehicleNumber?: StringNullableFilter<"QueueToken"> | string | null
+    vehicleType?: StringNullableFilter<"QueueToken"> | string | null
     createdAt?: DateTimeFilter<"QueueToken"> | Date | string
     updatedAt?: DateTimeFilter<"QueueToken"> | Date | string
     farmer?: XOR<UserRelationFilter, UserWhereInput>
     centre?: XOR<ProcurementCentreRelationFilter, ProcurementCentreWhereInput>
     crop?: XOR<CropRelationFilter, CropWhereInput>
+    payments?: PaymentListRelationFilter
   }, "id">
 
   export type QueueTokenOrderByWithAggregationInput = {
@@ -21310,6 +22868,8 @@ export namespace Prisma {
     calledAt?: SortOrderInput | SortOrder
     startedAt?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
+    vehicleNumber?: SortOrderInput | SortOrder
+    vehicleType?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: QueueTokenCountOrderByAggregateInput
@@ -21336,6 +22896,8 @@ export namespace Prisma {
     calledAt?: DateTimeNullableWithAggregatesFilter<"QueueToken"> | Date | string | null
     startedAt?: DateTimeNullableWithAggregatesFilter<"QueueToken"> | Date | string | null
     completedAt?: DateTimeNullableWithAggregatesFilter<"QueueToken"> | Date | string | null
+    vehicleNumber?: StringNullableWithAggregatesFilter<"QueueToken"> | string | null
+    vehicleType?: StringNullableWithAggregatesFilter<"QueueToken"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"QueueToken"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"QueueToken"> | Date | string
   }
@@ -21967,6 +23529,167 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"PushSubscription"> | Date | string
   }
 
+  export type PaymentWhereInput = {
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    paymentNumber?: StringFilter<"Payment"> | string
+    farmerId?: StringFilter<"Payment"> | string
+    centreId?: StringFilter<"Payment"> | string
+    cropId?: StringFilter<"Payment"> | string
+    queueTokenId?: StringNullableFilter<"Payment"> | string | null
+    procurementRequestId?: StringNullableFilter<"Payment"> | string | null
+    quantity?: FloatFilter<"Payment"> | number
+    unit?: StringFilter<"Payment"> | string
+    ratePerUnit?: FloatFilter<"Payment"> | number
+    grossAmount?: FloatFilter<"Payment"> | number
+    deductions?: FloatFilter<"Payment"> | number
+    netAmount?: FloatFilter<"Payment"> | number
+    status?: StringFilter<"Payment"> | string
+    paymentMethod?: StringFilter<"Payment"> | string
+    utrNumber?: StringNullableFilter<"Payment"> | string | null
+    bankName?: StringNullableFilter<"Payment"> | string | null
+    accountNumberMasked?: StringNullableFilter<"Payment"> | string | null
+    ifscCode?: StringNullableFilter<"Payment"> | string | null
+    qualityGrade?: StringNullableFilter<"Payment"> | string | null
+    vehicleNumber?: StringNullableFilter<"Payment"> | string | null
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    farmer?: XOR<UserRelationFilter, UserWhereInput>
+    centre?: XOR<ProcurementCentreRelationFilter, ProcurementCentreWhereInput>
+    crop?: XOR<CropRelationFilter, CropWhereInput>
+    queueToken?: XOR<QueueTokenNullableRelationFilter, QueueTokenWhereInput> | null
+  }
+
+  export type PaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    paymentNumber?: SortOrder
+    farmerId?: SortOrder
+    centreId?: SortOrder
+    cropId?: SortOrder
+    queueTokenId?: SortOrderInput | SortOrder
+    procurementRequestId?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+    status?: SortOrder
+    paymentMethod?: SortOrder
+    utrNumber?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    accountNumberMasked?: SortOrderInput | SortOrder
+    ifscCode?: SortOrderInput | SortOrder
+    qualityGrade?: SortOrderInput | SortOrder
+    vehicleNumber?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    farmer?: UserOrderByWithRelationInput
+    centre?: ProcurementCentreOrderByWithRelationInput
+    crop?: CropOrderByWithRelationInput
+    queueToken?: QueueTokenOrderByWithRelationInput
+  }
+
+  export type PaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    paymentNumber?: string
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    farmerId?: StringFilter<"Payment"> | string
+    centreId?: StringFilter<"Payment"> | string
+    cropId?: StringFilter<"Payment"> | string
+    queueTokenId?: StringNullableFilter<"Payment"> | string | null
+    procurementRequestId?: StringNullableFilter<"Payment"> | string | null
+    quantity?: FloatFilter<"Payment"> | number
+    unit?: StringFilter<"Payment"> | string
+    ratePerUnit?: FloatFilter<"Payment"> | number
+    grossAmount?: FloatFilter<"Payment"> | number
+    deductions?: FloatFilter<"Payment"> | number
+    netAmount?: FloatFilter<"Payment"> | number
+    status?: StringFilter<"Payment"> | string
+    paymentMethod?: StringFilter<"Payment"> | string
+    utrNumber?: StringNullableFilter<"Payment"> | string | null
+    bankName?: StringNullableFilter<"Payment"> | string | null
+    accountNumberMasked?: StringNullableFilter<"Payment"> | string | null
+    ifscCode?: StringNullableFilter<"Payment"> | string | null
+    qualityGrade?: StringNullableFilter<"Payment"> | string | null
+    vehicleNumber?: StringNullableFilter<"Payment"> | string | null
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    farmer?: XOR<UserRelationFilter, UserWhereInput>
+    centre?: XOR<ProcurementCentreRelationFilter, ProcurementCentreWhereInput>
+    crop?: XOR<CropRelationFilter, CropWhereInput>
+    queueToken?: XOR<QueueTokenNullableRelationFilter, QueueTokenWhereInput> | null
+  }, "id" | "paymentNumber">
+
+  export type PaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    paymentNumber?: SortOrder
+    farmerId?: SortOrder
+    centreId?: SortOrder
+    cropId?: SortOrder
+    queueTokenId?: SortOrderInput | SortOrder
+    procurementRequestId?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+    status?: SortOrder
+    paymentMethod?: SortOrder
+    utrNumber?: SortOrderInput | SortOrder
+    bankName?: SortOrderInput | SortOrder
+    accountNumberMasked?: SortOrderInput | SortOrder
+    ifscCode?: SortOrderInput | SortOrder
+    qualityGrade?: SortOrderInput | SortOrder
+    vehicleNumber?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentCountOrderByAggregateInput
+    _avg?: PaymentAvgOrderByAggregateInput
+    _max?: PaymentMaxOrderByAggregateInput
+    _min?: PaymentMinOrderByAggregateInput
+    _sum?: PaymentSumOrderByAggregateInput
+  }
+
+  export type PaymentScalarWhereWithAggregatesInput = {
+    AND?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    OR?: PaymentScalarWhereWithAggregatesInput[]
+    NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Payment"> | string
+    paymentNumber?: StringWithAggregatesFilter<"Payment"> | string
+    farmerId?: StringWithAggregatesFilter<"Payment"> | string
+    centreId?: StringWithAggregatesFilter<"Payment"> | string
+    cropId?: StringWithAggregatesFilter<"Payment"> | string
+    queueTokenId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    procurementRequestId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    quantity?: FloatWithAggregatesFilter<"Payment"> | number
+    unit?: StringWithAggregatesFilter<"Payment"> | string
+    ratePerUnit?: FloatWithAggregatesFilter<"Payment"> | number
+    grossAmount?: FloatWithAggregatesFilter<"Payment"> | number
+    deductions?: FloatWithAggregatesFilter<"Payment"> | number
+    netAmount?: FloatWithAggregatesFilter<"Payment"> | number
+    status?: StringWithAggregatesFilter<"Payment"> | string
+    paymentMethod?: StringWithAggregatesFilter<"Payment"> | string
+    utrNumber?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    bankName?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    accountNumberMasked?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    ifscCode?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    qualityGrade?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    vehicleNumber?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -21992,6 +23715,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -22019,6 +23743,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUpdateInput = {
@@ -22046,6 +23771,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -22073,6 +23799,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -22215,6 +23942,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateInput = {
@@ -22233,6 +23961,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropUpdateInput = {
@@ -22251,6 +23980,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateInput = {
@@ -22269,6 +23999,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type CropCreateManyInput = {
@@ -22431,6 +24162,7 @@ export namespace Prisma {
     managers?: CentreManagerCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCentreInput
+    payments?: PaymentCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUncheckedCreateInput = {
@@ -22454,6 +24186,7 @@ export namespace Prisma {
     managers?: CentreManagerUncheckedCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCentreInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUpdateInput = {
@@ -22477,6 +24210,7 @@ export namespace Prisma {
     managers?: CentreManagerUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreUncheckedUpdateInput = {
@@ -22500,6 +24234,7 @@ export namespace Prisma {
     managers?: CentreManagerUncheckedUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreCreateManyInput = {
@@ -22780,11 +24515,14 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     farmer: UserCreateNestedOneWithoutQueueTokensInput
     centre: ProcurementCentreCreateNestedOneWithoutQueueTokensInput
     crop: CropCreateNestedOneWithoutQueueTokensInput
+    payments?: PaymentCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenUncheckedCreateInput = {
@@ -22801,8 +24539,11 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenUpdateInput = {
@@ -22816,11 +24557,14 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmer?: UserUpdateOneRequiredWithoutQueueTokensNestedInput
     centre?: ProcurementCentreUpdateOneRequiredWithoutQueueTokensNestedInput
     crop?: CropUpdateOneRequiredWithoutQueueTokensNestedInput
+    payments?: PaymentUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateInput = {
@@ -22837,8 +24581,11 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenCreateManyInput = {
@@ -22855,6 +24602,8 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22870,6 +24619,8 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22888,6 +24639,8 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23584,6 +25337,191 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentCreateInput = {
+    id?: string
+    paymentNumber: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmer: UserCreateNestedOneWithoutPaymentsInput
+    centre: ProcurementCentreCreateNestedOneWithoutPaymentsInput
+    crop: CropCreateNestedOneWithoutPaymentsInput
+    queueToken?: QueueTokenCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmer?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    centre?: ProcurementCentreUpdateOneRequiredWithoutPaymentsNestedInput
+    crop?: CropUpdateOneRequiredWithoutPaymentsNestedInput
+    queueToken?: QueueTokenUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCreateManyInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -23672,6 +25610,12 @@ export namespace Prisma {
     none?: AlertWhereInput
   }
 
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput
+    some?: PaymentWhereInput
+    none?: PaymentWhereInput
+  }
+
   export type CentreManagerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -23701,6 +25645,10 @@ export namespace Prisma {
   }
 
   export type AlertOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24254,6 +26202,8 @@ export namespace Prisma {
     calledAt?: SortOrder
     startedAt?: SortOrder
     completedAt?: SortOrder
+    vehicleNumber?: SortOrder
+    vehicleType?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24278,6 +26228,8 @@ export namespace Prisma {
     calledAt?: SortOrder
     startedAt?: SortOrder
     completedAt?: SortOrder
+    vehicleNumber?: SortOrder
+    vehicleType?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24296,6 +26248,8 @@ export namespace Prisma {
     calledAt?: SortOrder
     startedAt?: SortOrder
     completedAt?: SortOrder
+    vehicleNumber?: SortOrder
+    vehicleType?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24686,6 +26640,108 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type QueueTokenNullableRelationFilter = {
+    is?: QueueTokenWhereInput | null
+    isNot?: QueueTokenWhereInput | null
+  }
+
+  export type PaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    paymentNumber?: SortOrder
+    farmerId?: SortOrder
+    centreId?: SortOrder
+    cropId?: SortOrder
+    queueTokenId?: SortOrder
+    procurementRequestId?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+    status?: SortOrder
+    paymentMethod?: SortOrder
+    utrNumber?: SortOrder
+    bankName?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    qualityGrade?: SortOrder
+    vehicleNumber?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+  }
+
+  export type PaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    paymentNumber?: SortOrder
+    farmerId?: SortOrder
+    centreId?: SortOrder
+    cropId?: SortOrder
+    queueTokenId?: SortOrder
+    procurementRequestId?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+    status?: SortOrder
+    paymentMethod?: SortOrder
+    utrNumber?: SortOrder
+    bankName?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    qualityGrade?: SortOrder
+    vehicleNumber?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    paymentNumber?: SortOrder
+    farmerId?: SortOrder
+    centreId?: SortOrder
+    cropId?: SortOrder
+    queueTokenId?: SortOrder
+    procurementRequestId?: SortOrder
+    quantity?: SortOrder
+    unit?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+    status?: SortOrder
+    paymentMethod?: SortOrder
+    utrNumber?: SortOrder
+    bankName?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    qualityGrade?: SortOrder
+    vehicleNumber?: SortOrder
+    paidAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    ratePerUnit?: SortOrder
+    grossAmount?: SortOrder
+    deductions?: SortOrder
+    netAmount?: SortOrder
+  }
+
   export type FarmerProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutUserInput
@@ -24754,6 +26810,13 @@ export namespace Prisma {
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
   }
 
+  export type PaymentCreateNestedManyWithoutFarmerInput = {
+    create?: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput> | PaymentCreateWithoutFarmerInput[] | PaymentUncheckedCreateWithoutFarmerInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutFarmerInput | PaymentCreateOrConnectWithoutFarmerInput[]
+    createMany?: PaymentCreateManyFarmerInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
   export type FarmerProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutUserInput
@@ -24820,6 +26883,13 @@ export namespace Prisma {
     connectOrCreate?: AlertCreateOrConnectWithoutCreatedByInput | AlertCreateOrConnectWithoutCreatedByInput[]
     createMany?: AlertCreateManyCreatedByInputEnvelope
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutFarmerInput = {
+    create?: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput> | PaymentCreateWithoutFarmerInput[] | PaymentUncheckedCreateWithoutFarmerInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutFarmerInput | PaymentCreateOrConnectWithoutFarmerInput[]
+    createMany?: PaymentCreateManyFarmerInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -24966,6 +27036,20 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
+  export type PaymentUpdateManyWithoutFarmerNestedInput = {
+    create?: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput> | PaymentCreateWithoutFarmerInput[] | PaymentUncheckedCreateWithoutFarmerInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutFarmerInput | PaymentCreateOrConnectWithoutFarmerInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutFarmerInput | PaymentUpsertWithWhereUniqueWithoutFarmerInput[]
+    createMany?: PaymentCreateManyFarmerInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutFarmerInput | PaymentUpdateWithWhereUniqueWithoutFarmerInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutFarmerInput | PaymentUpdateManyWithWhereWithoutFarmerInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type FarmerProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutUserInput
@@ -25098,6 +27182,20 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
+  export type PaymentUncheckedUpdateManyWithoutFarmerNestedInput = {
+    create?: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput> | PaymentCreateWithoutFarmerInput[] | PaymentUncheckedCreateWithoutFarmerInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutFarmerInput | PaymentCreateOrConnectWithoutFarmerInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutFarmerInput | PaymentUpsertWithWhereUniqueWithoutFarmerInput[]
+    createMany?: PaymentCreateManyFarmerInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutFarmerInput | PaymentUpdateWithWhereUniqueWithoutFarmerInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutFarmerInput | PaymentUpdateManyWithWhereWithoutFarmerInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutFarmerProfileInput = {
     create?: XOR<UserCreateWithoutFarmerProfileInput, UserUncheckedCreateWithoutFarmerProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutFarmerProfileInput
@@ -25208,6 +27306,13 @@ export namespace Prisma {
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
   }
 
+  export type PaymentCreateNestedManyWithoutCropInput = {
+    create?: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput> | PaymentCreateWithoutCropInput[] | PaymentUncheckedCreateWithoutCropInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCropInput | PaymentCreateOrConnectWithoutCropInput[]
+    createMany?: PaymentCreateManyCropInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
   export type FarmerCropUncheckedCreateNestedManyWithoutCropInput = {
     create?: XOR<FarmerCropCreateWithoutCropInput, FarmerCropUncheckedCreateWithoutCropInput> | FarmerCropCreateWithoutCropInput[] | FarmerCropUncheckedCreateWithoutCropInput[]
     connectOrCreate?: FarmerCropCreateOrConnectWithoutCropInput | FarmerCropCreateOrConnectWithoutCropInput[]
@@ -25248,6 +27353,13 @@ export namespace Prisma {
     connectOrCreate?: AlertCreateOrConnectWithoutCropInput | AlertCreateOrConnectWithoutCropInput[]
     createMany?: AlertCreateManyCropInputEnvelope
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutCropInput = {
+    create?: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput> | PaymentCreateWithoutCropInput[] | PaymentUncheckedCreateWithoutCropInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCropInput | PaymentCreateOrConnectWithoutCropInput[]
+    createMany?: PaymentCreateManyCropInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
   export type FarmerCropUpdateManyWithoutCropNestedInput = {
@@ -25334,6 +27446,20 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
+  export type PaymentUpdateManyWithoutCropNestedInput = {
+    create?: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput> | PaymentCreateWithoutCropInput[] | PaymentUncheckedCreateWithoutCropInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCropInput | PaymentCreateOrConnectWithoutCropInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutCropInput | PaymentUpsertWithWhereUniqueWithoutCropInput[]
+    createMany?: PaymentCreateManyCropInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutCropInput | PaymentUpdateWithWhereUniqueWithoutCropInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutCropInput | PaymentUpdateManyWithWhereWithoutCropInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type FarmerCropUncheckedUpdateManyWithoutCropNestedInput = {
     create?: XOR<FarmerCropCreateWithoutCropInput, FarmerCropUncheckedCreateWithoutCropInput> | FarmerCropCreateWithoutCropInput[] | FarmerCropUncheckedCreateWithoutCropInput[]
     connectOrCreate?: FarmerCropCreateOrConnectWithoutCropInput | FarmerCropCreateOrConnectWithoutCropInput[]
@@ -25418,6 +27544,20 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
+  export type PaymentUncheckedUpdateManyWithoutCropNestedInput = {
+    create?: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput> | PaymentCreateWithoutCropInput[] | PaymentUncheckedCreateWithoutCropInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCropInput | PaymentCreateOrConnectWithoutCropInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutCropInput | PaymentUpsertWithWhereUniqueWithoutCropInput[]
+    createMany?: PaymentCreateManyCropInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutCropInput | PaymentUpdateWithWhereUniqueWithoutCropInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutCropInput | PaymentUpdateManyWithWhereWithoutCropInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type FarmerProfileCreateNestedOneWithoutCropsInput = {
     create?: XOR<FarmerProfileCreateWithoutCropsInput, FarmerProfileUncheckedCreateWithoutCropsInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutCropsInput
@@ -25474,6 +27614,13 @@ export namespace Prisma {
     connect?: QueueTokenWhereUniqueInput | QueueTokenWhereUniqueInput[]
   }
 
+  export type PaymentCreateNestedManyWithoutCentreInput = {
+    create?: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput> | PaymentCreateWithoutCentreInput[] | PaymentUncheckedCreateWithoutCentreInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCentreInput | PaymentCreateOrConnectWithoutCentreInput[]
+    createMany?: PaymentCreateManyCentreInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
   export type CentreCropUncheckedCreateNestedManyWithoutCentreInput = {
     create?: XOR<CentreCropCreateWithoutCentreInput, CentreCropUncheckedCreateWithoutCentreInput> | CentreCropCreateWithoutCentreInput[] | CentreCropUncheckedCreateWithoutCentreInput[]
     connectOrCreate?: CentreCropCreateOrConnectWithoutCentreInput | CentreCropCreateOrConnectWithoutCentreInput[]
@@ -25500,6 +27647,13 @@ export namespace Prisma {
     connectOrCreate?: QueueTokenCreateOrConnectWithoutCentreInput | QueueTokenCreateOrConnectWithoutCentreInput[]
     createMany?: QueueTokenCreateManyCentreInputEnvelope
     connect?: QueueTokenWhereUniqueInput | QueueTokenWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutCentreInput = {
+    create?: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput> | PaymentCreateWithoutCentreInput[] | PaymentUncheckedCreateWithoutCentreInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCentreInput | PaymentCreateOrConnectWithoutCentreInput[]
+    createMany?: PaymentCreateManyCentreInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
   export type CentreCropUpdateManyWithoutCentreNestedInput = {
@@ -25558,6 +27712,20 @@ export namespace Prisma {
     deleteMany?: QueueTokenScalarWhereInput | QueueTokenScalarWhereInput[]
   }
 
+  export type PaymentUpdateManyWithoutCentreNestedInput = {
+    create?: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput> | PaymentCreateWithoutCentreInput[] | PaymentUncheckedCreateWithoutCentreInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCentreInput | PaymentCreateOrConnectWithoutCentreInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutCentreInput | PaymentUpsertWithWhereUniqueWithoutCentreInput[]
+    createMany?: PaymentCreateManyCentreInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutCentreInput | PaymentUpdateWithWhereUniqueWithoutCentreInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutCentreInput | PaymentUpdateManyWithWhereWithoutCentreInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
   export type CentreCropUncheckedUpdateManyWithoutCentreNestedInput = {
     create?: XOR<CentreCropCreateWithoutCentreInput, CentreCropUncheckedCreateWithoutCentreInput> | CentreCropCreateWithoutCentreInput[] | CentreCropUncheckedCreateWithoutCentreInput[]
     connectOrCreate?: CentreCropCreateOrConnectWithoutCentreInput | CentreCropCreateOrConnectWithoutCentreInput[]
@@ -25612,6 +27780,20 @@ export namespace Prisma {
     update?: QueueTokenUpdateWithWhereUniqueWithoutCentreInput | QueueTokenUpdateWithWhereUniqueWithoutCentreInput[]
     updateMany?: QueueTokenUpdateManyWithWhereWithoutCentreInput | QueueTokenUpdateManyWithWhereWithoutCentreInput[]
     deleteMany?: QueueTokenScalarWhereInput | QueueTokenScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutCentreNestedInput = {
+    create?: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput> | PaymentCreateWithoutCentreInput[] | PaymentUncheckedCreateWithoutCentreInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutCentreInput | PaymentCreateOrConnectWithoutCentreInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutCentreInput | PaymentUpsertWithWhereUniqueWithoutCentreInput[]
+    createMany?: PaymentCreateManyCentreInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutCentreInput | PaymentUpdateWithWhereUniqueWithoutCentreInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutCentreInput | PaymentUpdateManyWithWhereWithoutCentreInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
   export type ProcurementCentreCreateNestedOneWithoutSupportedCropsInput = {
@@ -25730,6 +27912,20 @@ export namespace Prisma {
     connect?: CropWhereUniqueInput
   }
 
+  export type PaymentCreateNestedManyWithoutQueueTokenInput = {
+    create?: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput> | PaymentCreateWithoutQueueTokenInput[] | PaymentUncheckedCreateWithoutQueueTokenInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutQueueTokenInput | PaymentCreateOrConnectWithoutQueueTokenInput[]
+    createMany?: PaymentCreateManyQueueTokenInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutQueueTokenInput = {
+    create?: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput> | PaymentCreateWithoutQueueTokenInput[] | PaymentUncheckedCreateWithoutQueueTokenInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutQueueTokenInput | PaymentCreateOrConnectWithoutQueueTokenInput[]
+    createMany?: PaymentCreateManyQueueTokenInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -25764,6 +27960,34 @@ export namespace Prisma {
     upsert?: CropUpsertWithoutQueueTokensInput
     connect?: CropWhereUniqueInput
     update?: XOR<XOR<CropUpdateToOneWithWhereWithoutQueueTokensInput, CropUpdateWithoutQueueTokensInput>, CropUncheckedUpdateWithoutQueueTokensInput>
+  }
+
+  export type PaymentUpdateManyWithoutQueueTokenNestedInput = {
+    create?: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput> | PaymentCreateWithoutQueueTokenInput[] | PaymentUncheckedCreateWithoutQueueTokenInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutQueueTokenInput | PaymentCreateOrConnectWithoutQueueTokenInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutQueueTokenInput | PaymentUpsertWithWhereUniqueWithoutQueueTokenInput[]
+    createMany?: PaymentCreateManyQueueTokenInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutQueueTokenInput | PaymentUpdateWithWhereUniqueWithoutQueueTokenInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutQueueTokenInput | PaymentUpdateManyWithWhereWithoutQueueTokenInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutQueueTokenNestedInput = {
+    create?: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput> | PaymentCreateWithoutQueueTokenInput[] | PaymentUncheckedCreateWithoutQueueTokenInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutQueueTokenInput | PaymentCreateOrConnectWithoutQueueTokenInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutQueueTokenInput | PaymentUpsertWithWhereUniqueWithoutQueueTokenInput[]
+    createMany?: PaymentCreateManyQueueTokenInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutQueueTokenInput | PaymentUpdateWithWhereUniqueWithoutQueueTokenInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutQueueTokenInput | PaymentUpdateManyWithWhereWithoutQueueTokenInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -25884,6 +28108,64 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPushSubscriptionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPushSubscriptionsInput, UserUpdateWithoutPushSubscriptionsInput>, UserUncheckedUpdateWithoutPushSubscriptionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProcurementCentreCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<ProcurementCentreCreateWithoutPaymentsInput, ProcurementCentreUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: ProcurementCentreCreateOrConnectWithoutPaymentsInput
+    connect?: ProcurementCentreWhereUniqueInput
+  }
+
+  export type CropCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<CropCreateWithoutPaymentsInput, CropUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: CropCreateOrConnectWithoutPaymentsInput
+    connect?: CropWhereUniqueInput
+  }
+
+  export type QueueTokenCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<QueueTokenCreateWithoutPaymentsInput, QueueTokenUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: QueueTokenCreateOrConnectWithoutPaymentsInput
+    connect?: QueueTokenWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPaymentsInput
+    upsert?: UserUpsertWithoutPaymentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPaymentsInput, UserUpdateWithoutPaymentsInput>, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type ProcurementCentreUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<ProcurementCentreCreateWithoutPaymentsInput, ProcurementCentreUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: ProcurementCentreCreateOrConnectWithoutPaymentsInput
+    upsert?: ProcurementCentreUpsertWithoutPaymentsInput
+    connect?: ProcurementCentreWhereUniqueInput
+    update?: XOR<XOR<ProcurementCentreUpdateToOneWithWhereWithoutPaymentsInput, ProcurementCentreUpdateWithoutPaymentsInput>, ProcurementCentreUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type CropUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<CropCreateWithoutPaymentsInput, CropUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: CropCreateOrConnectWithoutPaymentsInput
+    upsert?: CropUpsertWithoutPaymentsInput
+    connect?: CropWhereUniqueInput
+    update?: XOR<XOR<CropUpdateToOneWithWhereWithoutPaymentsInput, CropUpdateWithoutPaymentsInput>, CropUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type QueueTokenUpdateOneWithoutPaymentsNestedInput = {
+    create?: XOR<QueueTokenCreateWithoutPaymentsInput, QueueTokenUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: QueueTokenCreateOrConnectWithoutPaymentsInput
+    upsert?: QueueTokenUpsertWithoutPaymentsInput
+    disconnect?: QueueTokenWhereInput | boolean
+    delete?: QueueTokenWhereInput | boolean
+    connect?: QueueTokenWhereUniqueInput
+    update?: XOR<XOR<QueueTokenUpdateToOneWithWhereWithoutPaymentsInput, QueueTokenUpdateWithoutPaymentsInput>, QueueTokenUncheckedUpdateWithoutPaymentsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -26133,10 +28415,13 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     centre: ProcurementCentreCreateNestedOneWithoutQueueTokensInput
     crop: CropCreateNestedOneWithoutQueueTokensInput
+    payments?: PaymentCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenUncheckedCreateWithoutFarmerInput = {
@@ -26152,8 +28437,11 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenCreateOrConnectWithoutFarmerInput = {
@@ -26388,6 +28676,67 @@ export namespace Prisma {
     data: AlertCreateManyCreatedByInput | AlertCreateManyCreatedByInput[]
   }
 
+  export type PaymentCreateWithoutFarmerInput = {
+    id?: string
+    paymentNumber: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    centre: ProcurementCentreCreateNestedOneWithoutPaymentsInput
+    crop: CropCreateNestedOneWithoutPaymentsInput
+    queueToken?: QueueTokenCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutFarmerInput = {
+    id?: string
+    paymentNumber: string
+    centreId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutFarmerInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput>
+  }
+
+  export type PaymentCreateManyFarmerInputEnvelope = {
+    data: PaymentCreateManyFarmerInput | PaymentCreateManyFarmerInput[]
+  }
+
   export type FarmerProfileUpsertWithoutUserInput = {
     update: XOR<FarmerProfileUpdateWithoutUserInput, FarmerProfileUncheckedUpdateWithoutUserInput>
     create: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
@@ -26478,6 +28827,8 @@ export namespace Prisma {
     calledAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     startedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"QueueToken"> | Date | string | null
+    vehicleNumber?: StringNullableFilter<"QueueToken"> | string | null
+    vehicleType?: StringNullableFilter<"QueueToken"> | string | null
     createdAt?: DateTimeFilter<"QueueToken"> | Date | string
     updatedAt?: DateTimeFilter<"QueueToken"> | Date | string
   }
@@ -26704,6 +29055,52 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Alert"> | Date | string
   }
 
+  export type PaymentUpsertWithWhereUniqueWithoutFarmerInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutFarmerInput, PaymentUncheckedUpdateWithoutFarmerInput>
+    create: XOR<PaymentCreateWithoutFarmerInput, PaymentUncheckedCreateWithoutFarmerInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutFarmerInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutFarmerInput, PaymentUncheckedUpdateWithoutFarmerInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutFarmerInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutFarmerInput>
+  }
+
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    OR?: PaymentScalarWhereInput[]
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    paymentNumber?: StringFilter<"Payment"> | string
+    farmerId?: StringFilter<"Payment"> | string
+    centreId?: StringFilter<"Payment"> | string
+    cropId?: StringFilter<"Payment"> | string
+    queueTokenId?: StringNullableFilter<"Payment"> | string | null
+    procurementRequestId?: StringNullableFilter<"Payment"> | string | null
+    quantity?: FloatFilter<"Payment"> | number
+    unit?: StringFilter<"Payment"> | string
+    ratePerUnit?: FloatFilter<"Payment"> | number
+    grossAmount?: FloatFilter<"Payment"> | number
+    deductions?: FloatFilter<"Payment"> | number
+    netAmount?: FloatFilter<"Payment"> | number
+    status?: StringFilter<"Payment"> | string
+    paymentMethod?: StringFilter<"Payment"> | string
+    utrNumber?: StringNullableFilter<"Payment"> | string | null
+    bankName?: StringNullableFilter<"Payment"> | string | null
+    accountNumberMasked?: StringNullableFilter<"Payment"> | string | null
+    ifscCode?: StringNullableFilter<"Payment"> | string | null
+    qualityGrade?: StringNullableFilter<"Payment"> | string | null
+    vehicleNumber?: StringNullableFilter<"Payment"> | string | null
+    paidAt?: DateTimeNullableFilter<"Payment"> | Date | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+  }
+
   export type UserCreateWithoutFarmerProfileInput = {
     id?: string
     email: string
@@ -26728,6 +29125,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutFarmerProfileInput = {
@@ -26754,6 +29152,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutFarmerProfileInput = {
@@ -26833,6 +29232,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFarmerProfileInput = {
@@ -26859,6 +29259,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type FarmerCropUpsertWithWhereUniqueWithoutFarmerProfileInput = {
@@ -27005,10 +29406,13 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     farmer: UserCreateNestedOneWithoutQueueTokensInput
     centre: ProcurementCentreCreateNestedOneWithoutQueueTokensInput
+    payments?: PaymentCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenUncheckedCreateWithoutCropInput = {
@@ -27024,8 +29428,11 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenCreateOrConnectWithoutCropInput = {
@@ -27113,6 +29520,67 @@ export namespace Prisma {
 
   export type AlertCreateManyCropInputEnvelope = {
     data: AlertCreateManyCropInput | AlertCreateManyCropInput[]
+  }
+
+  export type PaymentCreateWithoutCropInput = {
+    id?: string
+    paymentNumber: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmer: UserCreateNestedOneWithoutPaymentsInput
+    centre: ProcurementCentreCreateNestedOneWithoutPaymentsInput
+    queueToken?: QueueTokenCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutCropInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutCropInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput>
+  }
+
+  export type PaymentCreateManyCropInputEnvelope = {
+    data: PaymentCreateManyCropInput | PaymentCreateManyCropInput[]
   }
 
   export type FarmerCropUpsertWithWhereUniqueWithoutCropInput = {
@@ -27224,6 +29692,22 @@ export namespace Prisma {
     data: XOR<AlertUpdateManyMutationInput, AlertUncheckedUpdateManyWithoutCropInput>
   }
 
+  export type PaymentUpsertWithWhereUniqueWithoutCropInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutCropInput, PaymentUncheckedUpdateWithoutCropInput>
+    create: XOR<PaymentCreateWithoutCropInput, PaymentUncheckedCreateWithoutCropInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutCropInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutCropInput, PaymentUncheckedUpdateWithoutCropInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutCropInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutCropInput>
+  }
+
   export type FarmerProfileCreateWithoutCropsInput = {
     id?: string
     profilePictureUrl?: string | null
@@ -27264,6 +29748,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutFarmerCropsInput = {
@@ -27281,6 +29766,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutFarmerCropsInput = {
@@ -27345,6 +29831,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutFarmerCropsInput = {
@@ -27362,6 +29849,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type CentreCropCreateWithoutCentreInput = {
@@ -27458,10 +29946,13 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     farmer: UserCreateNestedOneWithoutQueueTokensInput
     crop: CropCreateNestedOneWithoutQueueTokensInput
+    payments?: PaymentCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenUncheckedCreateWithoutCentreInput = {
@@ -27477,8 +29968,11 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    payments?: PaymentUncheckedCreateNestedManyWithoutQueueTokenInput
   }
 
   export type QueueTokenCreateOrConnectWithoutCentreInput = {
@@ -27488,6 +29982,67 @@ export namespace Prisma {
 
   export type QueueTokenCreateManyCentreInputEnvelope = {
     data: QueueTokenCreateManyCentreInput | QueueTokenCreateManyCentreInput[]
+  }
+
+  export type PaymentCreateWithoutCentreInput = {
+    id?: string
+    paymentNumber: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmer: UserCreateNestedOneWithoutPaymentsInput
+    crop: CropCreateNestedOneWithoutPaymentsInput
+    queueToken?: QueueTokenCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutCentreInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutCentreInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput>
+  }
+
+  export type PaymentCreateManyCentreInputEnvelope = {
+    data: PaymentCreateManyCentreInput | PaymentCreateManyCentreInput[]
   }
 
   export type CentreCropUpsertWithWhereUniqueWithoutCentreInput = {
@@ -27554,6 +30109,22 @@ export namespace Prisma {
     data: XOR<QueueTokenUpdateManyMutationInput, QueueTokenUncheckedUpdateManyWithoutCentreInput>
   }
 
+  export type PaymentUpsertWithWhereUniqueWithoutCentreInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutCentreInput, PaymentUncheckedUpdateWithoutCentreInput>
+    create: XOR<PaymentCreateWithoutCentreInput, PaymentUncheckedCreateWithoutCentreInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutCentreInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutCentreInput, PaymentUncheckedUpdateWithoutCentreInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutCentreInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutCentreInput>
+  }
+
   export type ProcurementCentreCreateWithoutSupportedCropsInput = {
     id?: string
     name: string
@@ -27574,6 +30145,7 @@ export namespace Prisma {
     managers?: CentreManagerCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCentreInput
+    payments?: PaymentCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUncheckedCreateWithoutSupportedCropsInput = {
@@ -27596,6 +30168,7 @@ export namespace Prisma {
     managers?: CentreManagerUncheckedCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCentreInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreCreateOrConnectWithoutSupportedCropsInput = {
@@ -27618,6 +30191,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutCentreCropsInput = {
@@ -27635,6 +30209,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutCentreCropsInput = {
@@ -27673,6 +30248,7 @@ export namespace Prisma {
     managers?: CentreManagerUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreUncheckedUpdateWithoutSupportedCropsInput = {
@@ -27695,6 +30271,7 @@ export namespace Prisma {
     managers?: CentreManagerUncheckedUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCentreNestedInput
   }
 
   export type CropUpsertWithoutCentreCropsInput = {
@@ -27723,6 +30300,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutCentreCropsInput = {
@@ -27740,6 +30318,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type UserCreateWithoutManagedCentresInput = {
@@ -27766,6 +30345,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutManagedCentresInput = {
@@ -27792,6 +30372,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutManagedCentresInput = {
@@ -27819,6 +30400,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCentreInput
+    payments?: PaymentCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUncheckedCreateWithoutManagersInput = {
@@ -27841,6 +30423,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCentreInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreCreateOrConnectWithoutManagersInput = {
@@ -27883,6 +30466,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagedCentresInput = {
@@ -27909,6 +30493,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type ProcurementCentreUpsertWithoutManagersInput = {
@@ -27942,6 +30527,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreUncheckedUpdateWithoutManagersInput = {
@@ -27964,6 +30550,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCentreNestedInput
   }
 
   export type UserCreateWithoutProcurementRequestsInput = {
@@ -27990,6 +30577,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutProcurementRequestsInput = {
@@ -28016,6 +30604,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutProcurementRequestsInput = {
@@ -28043,6 +30632,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropCreateNestedManyWithoutCentreInput
     managers?: CentreManagerCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCentreInput
+    payments?: PaymentCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUncheckedCreateWithoutProcurementRequestsInput = {
@@ -28065,6 +30655,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedCreateNestedManyWithoutCentreInput
     managers?: CentreManagerUncheckedCreateNestedManyWithoutCentreInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCentreInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreCreateOrConnectWithoutProcurementRequestsInput = {
@@ -28087,6 +30678,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutProcurementRequestsInput = {
@@ -28104,6 +30696,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutProcurementRequestsInput = {
@@ -28146,6 +30739,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProcurementRequestsInput = {
@@ -28172,6 +30766,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type ProcurementCentreUpsertWithoutProcurementRequestsInput = {
@@ -28205,6 +30800,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUpdateManyWithoutCentreNestedInput
     managers?: CentreManagerUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreUncheckedUpdateWithoutProcurementRequestsInput = {
@@ -28227,6 +30823,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedUpdateManyWithoutCentreNestedInput
     managers?: CentreManagerUncheckedUpdateManyWithoutCentreNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCentreNestedInput
   }
 
   export type CropUpsertWithoutProcurementRequestsInput = {
@@ -28255,6 +30852,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutProcurementRequestsInput = {
@@ -28272,6 +30870,7 @@ export namespace Prisma {
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type UserCreateWithoutQueueTokensInput = {
@@ -28298,6 +30897,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutQueueTokensInput = {
@@ -28324,6 +30924,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutQueueTokensInput = {
@@ -28351,6 +30952,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropCreateNestedManyWithoutCentreInput
     managers?: CentreManagerCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCentreInput
+    payments?: PaymentCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreUncheckedCreateWithoutQueueTokensInput = {
@@ -28373,6 +30975,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedCreateNestedManyWithoutCentreInput
     managers?: CentreManagerUncheckedCreateNestedManyWithoutCentreInput
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCentreInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCentreInput
   }
 
   export type ProcurementCentreCreateOrConnectWithoutQueueTokensInput = {
@@ -28395,6 +30998,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutQueueTokensInput = {
@@ -28412,11 +31016,73 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutQueueTokensInput = {
     where: CropWhereUniqueInput
     create: XOR<CropCreateWithoutQueueTokensInput, CropUncheckedCreateWithoutQueueTokensInput>
+  }
+
+  export type PaymentCreateWithoutQueueTokenInput = {
+    id?: string
+    paymentNumber: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmer: UserCreateNestedOneWithoutPaymentsInput
+    centre: ProcurementCentreCreateNestedOneWithoutPaymentsInput
+    crop: CropCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateWithoutQueueTokenInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutQueueTokenInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput>
+  }
+
+  export type PaymentCreateManyQueueTokenInputEnvelope = {
+    data: PaymentCreateManyQueueTokenInput | PaymentCreateManyQueueTokenInput[]
   }
 
   export type UserUpsertWithoutQueueTokensInput = {
@@ -28454,6 +31120,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQueueTokensInput = {
@@ -28480,6 +31147,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type ProcurementCentreUpsertWithoutQueueTokensInput = {
@@ -28513,6 +31181,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUpdateManyWithoutCentreNestedInput
     managers?: CentreManagerUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUpdateManyWithoutCentreNestedInput
   }
 
   export type ProcurementCentreUncheckedUpdateWithoutQueueTokensInput = {
@@ -28535,6 +31204,7 @@ export namespace Prisma {
     supportedCrops?: CentreCropUncheckedUpdateManyWithoutCentreNestedInput
     managers?: CentreManagerUncheckedUpdateManyWithoutCentreNestedInput
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCentreNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCentreNestedInput
   }
 
   export type CropUpsertWithoutQueueTokensInput = {
@@ -28563,6 +31233,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutQueueTokensInput = {
@@ -28580,6 +31251,23 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutQueueTokenInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutQueueTokenInput, PaymentUncheckedUpdateWithoutQueueTokenInput>
+    create: XOR<PaymentCreateWithoutQueueTokenInput, PaymentUncheckedCreateWithoutQueueTokenInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutQueueTokenInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutQueueTokenInput, PaymentUncheckedUpdateWithoutQueueTokenInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutQueueTokenInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutQueueTokenInput>
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -28606,6 +31294,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -28632,6 +31321,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -28674,6 +31364,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -28700,6 +31391,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserCreateWithoutNotificationPreferenceInput = {
@@ -28726,6 +31418,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutNotificationPreferenceInput = {
@@ -28752,6 +31445,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutNotificationPreferenceInput = {
@@ -28794,6 +31488,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationPreferenceInput = {
@@ -28820,6 +31515,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type CropCreateWithoutGovernmentPricesInput = {
@@ -28837,6 +31533,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCropInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     alerts?: AlertCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutGovernmentPricesInput = {
@@ -28854,6 +31551,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCropInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutGovernmentPricesInput = {
@@ -28885,6 +31583,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutCreatedPricesInput = {
@@ -28911,6 +31610,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutCreatedPricesInput = {
@@ -28944,6 +31644,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUpdateManyWithoutCropNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     alerts?: AlertUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutGovernmentPricesInput = {
@@ -28961,6 +31662,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCropNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type UserUpsertWithoutCreatedPricesInput = {
@@ -28998,6 +31700,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedPricesInput = {
@@ -29024,6 +31727,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type CropCreateWithoutAlertsInput = {
@@ -29041,6 +31745,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestCreateNestedManyWithoutCropInput
     queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
+    payments?: PaymentCreateNestedManyWithoutCropInput
   }
 
   export type CropUncheckedCreateWithoutAlertsInput = {
@@ -29058,6 +31763,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCropInput
     queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
     governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutCropInput
   }
 
   export type CropCreateOrConnectWithoutAlertsInput = {
@@ -29089,6 +31795,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutCreatedAlertsInput = {
@@ -29115,6 +31822,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutCreatedAlertsInput = {
@@ -29148,6 +31856,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUpdateManyWithoutCropNestedInput
     queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
+    payments?: PaymentUpdateManyWithoutCropNestedInput
   }
 
   export type CropUncheckedUpdateWithoutAlertsInput = {
@@ -29165,6 +31874,7 @@ export namespace Prisma {
     procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCropNestedInput
     queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
     governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutCropNestedInput
   }
 
   export type UserUpsertWithoutCreatedAlertsInput = {
@@ -29202,6 +31912,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedAlertsInput = {
@@ -29228,6 +31939,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -29254,6 +31966,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -29280,6 +31993,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -29322,6 +32036,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -29348,6 +32063,7 @@ export namespace Prisma {
     pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserCreateWithoutPushSubscriptionsInput = {
@@ -29374,6 +32090,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentCreateNestedManyWithoutFarmerInput
   }
 
   export type UserUncheckedCreateWithoutPushSubscriptionsInput = {
@@ -29400,6 +32117,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
     createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutFarmerInput
   }
 
   export type UserCreateOrConnectWithoutPushSubscriptionsInput = {
@@ -29442,6 +32160,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUpdateManyWithoutFarmerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushSubscriptionsInput = {
@@ -29468,6 +32187,423 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
     createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutFarmerNestedInput
+  }
+
+  export type UserCreateWithoutPaymentsInput = {
+    id?: string
+    email: string
+    mobile: string
+    passwordHash: string
+    fullName: string
+    role?: string
+    state: string
+    district: string
+    village: string
+    address: string
+    preferredLanguage?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmerProfile?: FarmerProfileCreateNestedOneWithoutUserInput
+    managedCentres?: CentreManagerCreateNestedManyWithoutUserInput
+    queueTokens?: QueueTokenCreateNestedManyWithoutFarmerInput
+    procurementRequests?: ProcurementRequestCreateNestedManyWithoutFarmerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notificationPreference?: NotificationPreferenceCreateNestedOneWithoutUserInput
+    pushSubscriptions?: PushSubscriptionCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    createdPrices?: GovernmentCropPriceCreateNestedManyWithoutCreatedByInput
+    createdAlerts?: AlertCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    email: string
+    mobile: string
+    passwordHash: string
+    fullName: string
+    role?: string
+    state: string
+    district: string
+    village: string
+    address: string
+    preferredLanguage?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmerProfile?: FarmerProfileUncheckedCreateNestedOneWithoutUserInput
+    managedCentres?: CentreManagerUncheckedCreateNestedManyWithoutUserInput
+    queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutFarmerInput
+    procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutFarmerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notificationPreference?: NotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    pushSubscriptions?: PushSubscriptionUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    createdPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCreatedByInput
+    createdAlerts?: AlertUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutPaymentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type ProcurementCentreCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    address: string
+    state: string
+    district: string
+    village: string
+    latitude: number
+    longitude: number
+    contactNumber: string
+    openingHours?: string
+    totalCapacity: number
+    currentUsage?: number
+    processingRate?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    supportedCrops?: CentreCropCreateNestedManyWithoutCentreInput
+    managers?: CentreManagerCreateNestedManyWithoutCentreInput
+    procurementRequests?: ProcurementRequestCreateNestedManyWithoutCentreInput
+    queueTokens?: QueueTokenCreateNestedManyWithoutCentreInput
+  }
+
+  export type ProcurementCentreUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    address: string
+    state: string
+    district: string
+    village: string
+    latitude: number
+    longitude: number
+    contactNumber: string
+    openingHours?: string
+    totalCapacity: number
+    currentUsage?: number
+    processingRate?: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    supportedCrops?: CentreCropUncheckedCreateNestedManyWithoutCentreInput
+    managers?: CentreManagerUncheckedCreateNestedManyWithoutCentreInput
+    procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCentreInput
+    queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCentreInput
+  }
+
+  export type ProcurementCentreCreateOrConnectWithoutPaymentsInput = {
+    where: ProcurementCentreWhereUniqueInput
+    create: XOR<ProcurementCentreCreateWithoutPaymentsInput, ProcurementCentreUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type CropCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    scientificName?: string | null
+    category?: string
+    defaultUnit?: string
+    imageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmerCrops?: FarmerCropCreateNestedManyWithoutCropInput
+    centreCrops?: CentreCropCreateNestedManyWithoutCropInput
+    procurementRequests?: ProcurementRequestCreateNestedManyWithoutCropInput
+    queueTokens?: QueueTokenCreateNestedManyWithoutCropInput
+    governmentPrices?: GovernmentCropPriceCreateNestedManyWithoutCropInput
+    alerts?: AlertCreateNestedManyWithoutCropInput
+  }
+
+  export type CropUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    name: string
+    scientificName?: string | null
+    category?: string
+    defaultUnit?: string
+    imageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmerCrops?: FarmerCropUncheckedCreateNestedManyWithoutCropInput
+    centreCrops?: CentreCropUncheckedCreateNestedManyWithoutCropInput
+    procurementRequests?: ProcurementRequestUncheckedCreateNestedManyWithoutCropInput
+    queueTokens?: QueueTokenUncheckedCreateNestedManyWithoutCropInput
+    governmentPrices?: GovernmentCropPriceUncheckedCreateNestedManyWithoutCropInput
+    alerts?: AlertUncheckedCreateNestedManyWithoutCropInput
+  }
+
+  export type CropCreateOrConnectWithoutPaymentsInput = {
+    where: CropWhereUniqueInput
+    create: XOR<CropCreateWithoutPaymentsInput, CropUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type QueueTokenCreateWithoutPaymentsInput = {
+    id?: string
+    tokenNumber: string
+    quantity: number
+    unit?: string
+    status?: string
+    position?: number
+    estimatedWaitMinutes?: number
+    calledAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    farmer: UserCreateNestedOneWithoutQueueTokensInput
+    centre: ProcurementCentreCreateNestedOneWithoutQueueTokensInput
+    crop: CropCreateNestedOneWithoutQueueTokensInput
+  }
+
+  export type QueueTokenUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    tokenNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    quantity: number
+    unit?: string
+    status?: string
+    position?: number
+    estimatedWaitMinutes?: number
+    calledAt?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QueueTokenCreateOrConnectWithoutPaymentsInput = {
+    where: QueueTokenWhereUniqueInput
+    create: XOR<QueueTokenCreateWithoutPaymentsInput, QueueTokenUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type UserUpsertWithoutPaymentsInput = {
+    update: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<UserCreateWithoutPaymentsInput, UserUncheckedCreateWithoutPaymentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPaymentsInput, UserUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type UserUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    district?: StringFieldUpdateOperationsInput | string
+    village?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerProfile?: FarmerProfileUpdateOneWithoutUserNestedInput
+    managedCentres?: CentreManagerUpdateManyWithoutUserNestedInput
+    queueTokens?: QueueTokenUpdateManyWithoutFarmerNestedInput
+    procurementRequests?: ProcurementRequestUpdateManyWithoutFarmerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notificationPreference?: NotificationPreferenceUpdateOneWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    createdPrices?: GovernmentCropPriceUpdateManyWithoutCreatedByNestedInput
+    createdAlerts?: AlertUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    district?: StringFieldUpdateOperationsInput | string
+    village?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerProfile?: FarmerProfileUncheckedUpdateOneWithoutUserNestedInput
+    managedCentres?: CentreManagerUncheckedUpdateManyWithoutUserNestedInput
+    queueTokens?: QueueTokenUncheckedUpdateManyWithoutFarmerNestedInput
+    procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutFarmerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreference?: NotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    pushSubscriptions?: PushSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    createdPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdAlerts?: AlertUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type ProcurementCentreUpsertWithoutPaymentsInput = {
+    update: XOR<ProcurementCentreUpdateWithoutPaymentsInput, ProcurementCentreUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<ProcurementCentreCreateWithoutPaymentsInput, ProcurementCentreUncheckedCreateWithoutPaymentsInput>
+    where?: ProcurementCentreWhereInput
+  }
+
+  export type ProcurementCentreUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: ProcurementCentreWhereInput
+    data: XOR<ProcurementCentreUpdateWithoutPaymentsInput, ProcurementCentreUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type ProcurementCentreUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    district?: StringFieldUpdateOperationsInput | string
+    village?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    openingHours?: StringFieldUpdateOperationsInput | string
+    totalCapacity?: FloatFieldUpdateOperationsInput | number
+    currentUsage?: FloatFieldUpdateOperationsInput | number
+    processingRate?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supportedCrops?: CentreCropUpdateManyWithoutCentreNestedInput
+    managers?: CentreManagerUpdateManyWithoutCentreNestedInput
+    procurementRequests?: ProcurementRequestUpdateManyWithoutCentreNestedInput
+    queueTokens?: QueueTokenUpdateManyWithoutCentreNestedInput
+  }
+
+  export type ProcurementCentreUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    district?: StringFieldUpdateOperationsInput | string
+    village?: StringFieldUpdateOperationsInput | string
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    openingHours?: StringFieldUpdateOperationsInput | string
+    totalCapacity?: FloatFieldUpdateOperationsInput | number
+    currentUsage?: FloatFieldUpdateOperationsInput | number
+    processingRate?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    supportedCrops?: CentreCropUncheckedUpdateManyWithoutCentreNestedInput
+    managers?: CentreManagerUncheckedUpdateManyWithoutCentreNestedInput
+    procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCentreNestedInput
+    queueTokens?: QueueTokenUncheckedUpdateManyWithoutCentreNestedInput
+  }
+
+  export type CropUpsertWithoutPaymentsInput = {
+    update: XOR<CropUpdateWithoutPaymentsInput, CropUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<CropCreateWithoutPaymentsInput, CropUncheckedCreateWithoutPaymentsInput>
+    where?: CropWhereInput
+  }
+
+  export type CropUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: CropWhereInput
+    data: XOR<CropUpdateWithoutPaymentsInput, CropUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type CropUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    scientificName?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    defaultUnit?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerCrops?: FarmerCropUpdateManyWithoutCropNestedInput
+    centreCrops?: CentreCropUpdateManyWithoutCropNestedInput
+    procurementRequests?: ProcurementRequestUpdateManyWithoutCropNestedInput
+    queueTokens?: QueueTokenUpdateManyWithoutCropNestedInput
+    governmentPrices?: GovernmentCropPriceUpdateManyWithoutCropNestedInput
+    alerts?: AlertUpdateManyWithoutCropNestedInput
+  }
+
+  export type CropUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    scientificName?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    defaultUnit?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerCrops?: FarmerCropUncheckedUpdateManyWithoutCropNestedInput
+    centreCrops?: CentreCropUncheckedUpdateManyWithoutCropNestedInput
+    procurementRequests?: ProcurementRequestUncheckedUpdateManyWithoutCropNestedInput
+    queueTokens?: QueueTokenUncheckedUpdateManyWithoutCropNestedInput
+    governmentPrices?: GovernmentCropPriceUncheckedUpdateManyWithoutCropNestedInput
+    alerts?: AlertUncheckedUpdateManyWithoutCropNestedInput
+  }
+
+  export type QueueTokenUpsertWithoutPaymentsInput = {
+    update: XOR<QueueTokenUpdateWithoutPaymentsInput, QueueTokenUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<QueueTokenCreateWithoutPaymentsInput, QueueTokenUncheckedCreateWithoutPaymentsInput>
+    where?: QueueTokenWhereInput
+  }
+
+  export type QueueTokenUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: QueueTokenWhereInput
+    data: XOR<QueueTokenUpdateWithoutPaymentsInput, QueueTokenUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type QueueTokenUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenNumber?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    estimatedWaitMinutes?: IntFieldUpdateOperationsInput | number
+    calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmer?: UserUpdateOneRequiredWithoutQueueTokensNestedInput
+    centre?: ProcurementCentreUpdateOneRequiredWithoutQueueTokensNestedInput
+    crop?: CropUpdateOneRequiredWithoutQueueTokensNestedInput
+  }
+
+  export type QueueTokenUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
+    estimatedWaitMinutes?: IntFieldUpdateOperationsInput | number
+    calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CentreManagerCreateManyUserInput = {
@@ -29489,6 +32625,8 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29566,6 +32704,32 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PaymentCreateManyFarmerInput = {
+    id?: string
+    paymentNumber: string
+    centreId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type CentreManagerUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     assignedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29595,10 +32759,13 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     centre?: ProcurementCentreUpdateOneRequiredWithoutQueueTokensNestedInput
     crop?: CropUpdateOneRequiredWithoutQueueTokensNestedInput
+    payments?: PaymentUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateWithoutFarmerInput = {
@@ -29614,8 +32781,11 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateManyWithoutFarmerInput = {
@@ -29631,6 +32801,8 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29854,6 +33026,84 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentUpdateWithoutFarmerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    centre?: ProcurementCentreUpdateOneRequiredWithoutPaymentsNestedInput
+    crop?: CropUpdateOneRequiredWithoutPaymentsNestedInput
+    queueToken?: QueueTokenUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutFarmerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutFarmerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FarmerCropCreateManyFarmerProfileInput = {
     id?: string
     cropId: string
@@ -29959,6 +33209,8 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29989,6 +33241,32 @@ export namespace Prisma {
     startTime?: Date | string
     expiryTime: Date | string
     createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateManyCropInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30112,10 +33390,13 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmer?: UserUpdateOneRequiredWithoutQueueTokensNestedInput
     centre?: ProcurementCentreUpdateOneRequiredWithoutQueueTokensNestedInput
+    payments?: PaymentUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateWithoutCropInput = {
@@ -30131,8 +33412,11 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateManyWithoutCropInput = {
@@ -30148,6 +33432,8 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30242,6 +33528,84 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentUpdateWithoutCropInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmer?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    centre?: ProcurementCentreUpdateOneRequiredWithoutPaymentsNestedInput
+    queueToken?: QueueTokenUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutCropInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutCropInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CentreCropCreateManyCentreInput = {
     id?: string
     cropId: string
@@ -30283,6 +33647,34 @@ export namespace Prisma {
     calledAt?: Date | string | null
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    vehicleNumber?: string | null
+    vehicleType?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateManyCentreInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    cropId: string
+    queueTokenId?: string | null
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30382,10 +33774,13 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmer?: UserUpdateOneRequiredWithoutQueueTokensNestedInput
     crop?: CropUpdateOneRequiredWithoutQueueTokensNestedInput
+    payments?: PaymentUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateWithoutCentreInput = {
@@ -30401,8 +33796,11 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    payments?: PaymentUncheckedUpdateManyWithoutQueueTokenNestedInput
   }
 
   export type QueueTokenUncheckedUpdateManyWithoutCentreInput = {
@@ -30418,6 +33816,190 @@ export namespace Prisma {
     calledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleType?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUpdateWithoutCentreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmer?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    crop?: CropUpdateOneRequiredWithoutPaymentsNestedInput
+    queueToken?: QueueTokenUpdateOneWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutCentreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutCentreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    queueTokenId?: NullableStringFieldUpdateOperationsInput | string | null
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCreateManyQueueTokenInput = {
+    id?: string
+    paymentNumber: string
+    farmerId: string
+    centreId: string
+    cropId: string
+    procurementRequestId?: string | null
+    quantity: number
+    unit?: string
+    ratePerUnit: number
+    grossAmount: number
+    deductions?: number
+    netAmount: number
+    status?: string
+    paymentMethod?: string
+    utrNumber?: string | null
+    bankName?: string | null
+    accountNumberMasked?: string | null
+    ifscCode?: string | null
+    qualityGrade?: string | null
+    vehicleNumber?: string | null
+    paidAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUpdateWithoutQueueTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmer?: UserUpdateOneRequiredWithoutPaymentsNestedInput
+    centre?: ProcurementCentreUpdateOneRequiredWithoutPaymentsNestedInput
+    crop?: CropUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateWithoutQueueTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutQueueTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentNumber?: StringFieldUpdateOperationsInput | string
+    farmerId?: StringFieldUpdateOperationsInput | string
+    centreId?: StringFieldUpdateOperationsInput | string
+    cropId?: StringFieldUpdateOperationsInput | string
+    procurementRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    ratePerUnit?: FloatFieldUpdateOperationsInput | number
+    grossAmount?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    utrNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumberMasked?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    qualityGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    vehicleNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30443,6 +34025,10 @@ export namespace Prisma {
      * @deprecated Use ProcurementCentreCountOutputTypeDefaultArgs instead
      */
     export type ProcurementCentreCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProcurementCentreCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use QueueTokenCountOutputTypeDefaultArgs instead
+     */
+    export type QueueTokenCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = QueueTokenCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -30511,6 +34097,10 @@ export namespace Prisma {
      * @deprecated Use PushSubscriptionDefaultArgs instead
      */
     export type PushSubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PushSubscriptionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentDefaultArgs instead
+     */
+    export type PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

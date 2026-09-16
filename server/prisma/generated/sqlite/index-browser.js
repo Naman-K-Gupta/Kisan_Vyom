@@ -237,6 +237,8 @@ exports.Prisma.QueueTokenScalarFieldEnum = {
   calledAt: 'calledAt',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
+  vehicleNumber: 'vehicleNumber',
+  vehicleType: 'vehicleType',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -341,6 +343,33 @@ exports.Prisma.PushSubscriptionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  paymentNumber: 'paymentNumber',
+  farmerId: 'farmerId',
+  centreId: 'centreId',
+  cropId: 'cropId',
+  queueTokenId: 'queueTokenId',
+  procurementRequestId: 'procurementRequestId',
+  quantity: 'quantity',
+  unit: 'unit',
+  ratePerUnit: 'ratePerUnit',
+  grossAmount: 'grossAmount',
+  deductions: 'deductions',
+  netAmount: 'netAmount',
+  status: 'status',
+  paymentMethod: 'paymentMethod',
+  utrNumber: 'utrNumber',
+  bankName: 'bankName',
+  accountNumberMasked: 'accountNumberMasked',
+  ifscCode: 'ifscCode',
+  qualityGrade: 'qualityGrade',
+  vehicleNumber: 'vehicleNumber',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -369,7 +398,8 @@ exports.Prisma.ModelName = {
   WeatherRecord: 'WeatherRecord',
   Alert: 'Alert',
   AuditLog: 'AuditLog',
-  PushSubscription: 'PushSubscription'
+  PushSubscription: 'PushSubscription',
+  Payment: 'Payment'
 };
 
 /**

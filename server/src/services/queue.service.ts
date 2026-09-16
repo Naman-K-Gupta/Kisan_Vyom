@@ -109,8 +109,10 @@ export class QueueService {
     cropId: string;
     quantity: number;
     unit?: string;
+    vehicleNumber?: string | null;
+    vehicleType?: string | null;
   }) {
-    const { farmerId, centreId, cropId, quantity, unit = 'Quintal' } = params;
+    const { farmerId, centreId, cropId, quantity, unit = 'Quintal', vehicleNumber, vehicleType } = params;
 
     // 1. Check if centre is open
     const centre = await prisma.procurementCentre.findUnique({
@@ -168,6 +170,8 @@ export class QueueService {
         status: 'WAITING',
         position,
         estimatedWaitMinutes,
+        vehicleNumber: vehicleNumber ? vehicleNumber.trim().toUpperCase() : null,
+        vehicleType: vehicleType || 'Tractor Trolley',
       },
       include: {
         centre: { select: { id: true, name: true, address: true, status: true } },
@@ -302,15 +306,40 @@ export class QueueService {
   }
 
   /**
-   * Manager completes procurement for this token
+   * Manager completes procurement for this token with quality assay and weighment
    */
-  static async completeProcurement(tokenId: string, managerUserId: string) {
+  static async completeProcurement(
+    tokenId: string,
+    managerUserId: string,
+    options?: {
+      actualQuantity?: number;
+      grossWeight?: number | null;
+      tareWeight?: number | null;
+      moisturePercentage?: number | null;
+      foreignMatterPercentage?: number | null;
+      damagedGrainPercentage?: number | null;
+      qualityGrade?: string | null;
+      deductions?: number | null;
+      vehicleNumber?: string | null;
+      vehicleType?: string | null;
+      notes?: string | null;
+    }
+  ) {
     const token = await prisma.queueToken.findUnique({
       where: { id: tokenId },
-      include: { centre: true, crop: true },
+      include: { centre: true, crop: true, farmer: true },
     });
 
     if (!token) throw new Error('Queue token not found');
+
+    const finalQuantity =
+      options?.actualQuantity && options.actualQuantity > 0
+        ? options.actualQuantity
+        : token.quantity;
+    const finalVehicle =
+      options?.vehicleNumber || token.vehicleNumber || 'Registered Vehicle';
+    const finalVehicleType =
+      options?.vehicleType || token.vehicleType || 'Tractor Trolley';
 
     // Update token to COMPLETED
     const updatedToken = await prisma.queueToken.update({
@@ -318,32 +347,93 @@ export class QueueService {
       data: {
         status: 'COMPLETED',
         completedAt: new Date(),
+        vehicleNumber: finalVehicle,
+        vehicleType: finalVehicleType,
       },
       include: {
-        farmer: { select: { id: true, fullName: true, mobile: true } },
+        farmer: { select: { id: true, fullName: true, mobile: true, village: true } },
         crop: true,
         centre: true,
       },
     });
 
-    // Automatically update centre currentUsage!
-    const newUsage = Math.min(token.centre.totalCapacity, token.centre.currentUsage + token.quantity);
+    // Automatically update centre currentUsage with actual weighed quantity!
+    const newUsage = Math.min(
+      token.centre.totalCapacity,
+      token.centre.currentUsage + finalQuantity
+    );
     const updatedCentre = await prisma.procurementCentre.update({
       where: { id: token.centreId },
       data: { currentUsage: newUsage },
     });
 
-    // Also update or create procurement request record as COMPLETED
+    // Lookup latest MSP price for crop or fallback to standard rate
+    const mspRecord = await prisma.governmentCropPrice.findFirst({
+      where: { cropId: token.cropId },
+      orderBy: { effectiveFrom: 'desc' },
+    });
+    const mspRate = mspRecord ? mspRecord.price : 2275;
+    const grossAmount = Math.round(finalQuantity * mspRate * 100) / 100;
+    const deductions = Math.max(
+      0,
+      Math.round((options?.deductions || 0) * 100) / 100
+    );
+    const netAmount = Math.max(0, Math.round((grossAmount - deductions) * 100) / 100);
+
+    let qualityGrade = options?.qualityGrade;
+    if (!qualityGrade) {
+      if (options?.moisturePercentage != null) {
+        qualityGrade =
+          options.moisturePercentage <= 12
+            ? 'Grade A (FAQ Passed)'
+            : 'Grade B (Moisture Cut)';
+      } else {
+        qualityGrade = 'Grade A (FAQ)';
+      }
+    }
+
+    const farmer = await prisma.user.findUnique({ where: { id: token.farmerId } });
+    const maskedAcc = `XXXXXX${farmer?.mobile ? farmer.mobile.slice(-4) : '4021'}`;
+    const datePrefix = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const randSuffix = Math.floor(1000 + Math.random() * 9000);
+    const paymentNumber = `PAY-${datePrefix}-${token.tokenNumber.slice(-4)}${randSuffix}`;
+
+    // Create Payment record
+    const payment = await prisma.payment.create({
+      data: {
+        paymentNumber,
+        farmerId: token.farmerId,
+        centreId: token.centreId,
+        cropId: token.cropId,
+        queueTokenId: token.id,
+        quantity: finalQuantity,
+        unit: token.unit,
+        ratePerUnit: mspRate,
+        grossAmount,
+        deductions,
+        netAmount,
+        status: 'PROCESSING',
+        paymentMethod: 'DBT_PFMS',
+        bankName: 'State Bank of India',
+        accountNumberMasked: maskedAcc,
+        ifscCode: 'SBIN0001234',
+        qualityGrade,
+        vehicleNumber: finalVehicle,
+      },
+    });
+
+    // Create procurement request record as COMPLETED with assay details
+    const assayNotes = options?.notes || `Vehicle: ${finalVehicle} (${finalVehicleType}) | Moisture: ${options?.moisturePercentage ?? 11.5}% | Impurities: ${options?.foreignMatterPercentage ?? 0.5}% | Grade: ${qualityGrade}`;
     await prisma.procurementRequest.create({
       data: {
         farmerId: token.farmerId,
         centreId: token.centreId,
         cropId: token.cropId,
-        quantity: token.quantity,
+        quantity: finalQuantity,
         unit: token.unit,
         preferredDate: new Date(),
         status: 'COMPLETED',
-        notes: `Procured via Digital Queue Token ${token.tokenNumber}`,
+        notes: assayNotes,
       },
     });
 
@@ -354,28 +444,127 @@ export class QueueService {
       entity: 'QueueToken',
       entityId: tokenId,
       previousValue: { status: token.status, currentUsage: token.centre.currentUsage },
-      newValue: { status: 'COMPLETED', currentUsage: newUsage },
+      newValue: { status: 'COMPLETED', currentUsage: newUsage, netAmount, paymentNumber },
     });
 
+    // Rich receipt metadata sent via Telegram & In-App notification
     await sendNotification({
       userId: token.farmerId,
-      title: 'Procurement Successfully Completed',
-      message: `Token ${token.tokenNumber}: Successfully procured ${token.quantity} ${token.unit} of ${token.crop.name}. Thank you!`,
+      title: 'Official APMC Mandi Weighment Slip (तुलाई पर्ची)',
+      message: `Token ${token.tokenNumber}: Procured ${finalQuantity} ${token.unit} of ${token.crop.name} (Vehicle: ${finalVehicle}). Payment order of ₹${netAmount.toLocaleString('en-IN')} initiated to your Aadhaar-linked bank account.`,
       type: 'PROCUREMENT_COMPLETED',
-      metadata: { tokenId: token.id, centreId: token.centreId, quantity: token.quantity },
+      metadata: {
+        tokenId: token.id,
+        tokenNumber: token.tokenNumber,
+        paymentNumber,
+        centreId: token.centreId,
+        centreName: token.centre.name,
+        farmerName: token.farmer?.fullName,
+        farmerMobile: token.farmer?.mobile,
+        farmerVillage: token.farmer?.village,
+        cropName: token.crop.name,
+        quantity: finalQuantity,
+        unit: token.unit,
+        grossWeight: options?.grossWeight,
+        tareWeight: options?.tareWeight,
+        ratePerUnit: mspRate,
+        grossAmount,
+        deductions,
+        amount: netAmount,
+        moisturePercentage: options?.moisturePercentage,
+        foreignMatterPercentage: options?.foreignMatterPercentage,
+        damagedGrainPercentage: options?.damagedGrainPercentage,
+        qualityGrade,
+        vehicleNumber: finalVehicle,
+        vehicleType: finalVehicleType,
+        accountNumberMasked: maskedAcc,
+        isOfficialReceipt: true,
+      },
     });
 
     // Broadcast events
     const io = getIO();
     if (io) {
-      io.to(`centre:${token.centreId}`).emit('queue:completed', updatedToken);
-      io.to(`user:${token.farmerId}`).emit('queue:completed', updatedToken);
+      io.to(`centre:${token.centreId}`).emit('queue:completed', {
+        ...updatedToken,
+        payment,
+      });
+      io.to(`user:${token.farmerId}`).emit('queue:completed', {
+        ...updatedToken,
+        payment,
+      });
       io.emit('centre:capacityUpdated', {
         centreId: token.centreId,
         currentUsage: updatedCentre.currentUsage,
         totalCapacity: updatedCentre.totalCapacity,
-        remainingCapacity: updatedCentre.totalCapacity - updatedCentre.currentUsage,
+        remainingCapacity: Math.max(0, updatedCentre.totalCapacity - updatedCentre.currentUsage),
+        processingRate: updatedCentre.processingRate,
+        addedQuantity: finalQuantity,
+        farmerName: token.farmer?.fullName,
+        tokenNumber: token.tokenNumber,
       });
+    }
+
+    await this.recalculateAndBroadcast(token.centreId);
+    return { token: updatedToken, payment, centre: updatedCentre };
+  }
+
+  /**
+   * Manager rejects consignment due to high moisture or impurities
+   */
+  static async rejectConsignment(
+    tokenId: string,
+    managerUserId: string,
+    options: {
+      reason: string;
+      moisturePercentage?: number | null;
+      foreignMatterPercentage?: number | null;
+      advisoryNote?: string | null;
+    }
+  ) {
+    const token = await prisma.queueToken.findUnique({
+      where: { id: tokenId },
+      include: { centre: true, crop: true, farmer: true },
+    });
+
+    if (!token) throw new Error('Queue token not found');
+
+    const updatedToken = await prisma.queueToken.update({
+      where: { id: tokenId },
+      data: { status: 'CANCELLED' },
+      include: { farmer: true, crop: true, centre: true },
+    });
+
+    await logAudit({
+      userId: managerUserId,
+      role: 'PROCUREMENT_CENTRE_MANAGER',
+      action: 'CONSIGNMENT_REJECTED',
+      entity: 'QueueToken',
+      entityId: tokenId,
+      previousValue: { status: token.status },
+      newValue: { status: 'CANCELLED', reason: options.reason },
+    });
+
+    await sendNotification({
+      userId: token.farmerId,
+      title: 'Consignment Quality Rejection Advisory',
+      message: `Token ${token.tokenNumber} for ${token.crop.name} could not be accepted at ${token.centre.name}. Reason: ${options.reason}. ${options.advisoryNote || 'Please sun-dry grain in the mandi yard before re-booking.'}`,
+      type: 'TOKEN_CANCELLED',
+      metadata: {
+        tokenId: token.id,
+        tokenNumber: token.tokenNumber,
+        cropName: token.crop.name,
+        moisturePercentage: options.moisturePercentage,
+        foreignMatterPercentage: options.foreignMatterPercentage,
+        reason: options.reason,
+        advisoryNote: options.advisoryNote,
+      },
+    });
+
+    const io = getIO();
+    if (io) {
+      io.to(`centre:${token.centreId}`).emit('queue:cancelled', updatedToken);
+      io.to(`user:${token.farmerId}`).emit('queue:cancelled', updatedToken);
     }
 
     await this.recalculateAndBroadcast(token.centreId);

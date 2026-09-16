@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kisan-kendra-app
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/smartfarmer?schema=public
+      - JWT_SECRET=smart_farmer_production_secure_key_change_me_32_chars
+      - JWT_EXPIRES_IN=7d
+      - TELEGRAM_BOT_TOKEN=8927569233:AAEhn5gU6Gwnx5GsvPpoPdv_Qmclp-QV4C8
+      - TELEGRAM_BOT_USERNAME=Kisan_kendra_bot
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:16-alpine
+    container_name: kisan-kendra-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: smartfarmer
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:

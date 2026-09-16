@@ -1,0 +1,48 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kk_bg_gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="50%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="kk_wheat_gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97706" />
+      <stop offset="45%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FDE68A" />
+    </linearGradient>
+    <linearGradient id="kk_leaf_gradient" x1="0%" y1="100%" x2="60%" y2="0%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="50%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#6EE7B7" />
+    </linearGradient>
+    <radialGradient id="kk_sun_radial" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.95" />
+      <stop offset="65%" stop-color="#F59E0B" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="100" height="100" rx="26" fill="url(#kk_bg_gradient)" />
+  <rect x="2.5" y="2.5" width="95" height="95" rx="23.5" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-opacity="0.25" />
+
+  <circle cx="50" cy="42" r="22" fill="url(#kk_sun_radial)" />
+  <circle cx="50" cy="46" r="12" fill="#FBBF24" fill-opacity="0.9" />
+
+  <path d="M 6 77 Q 28 67 52 74 T 94 72 L 94 88 Q 72 94 50 94 T 6 88 Z" fill="#064E3B" fill-opacity="0.5" />
+  <path d="M 6 83 Q 32 75 60 80 T 94 78 L 94 92 Q 50 96 6 92 Z" fill="#047857" fill-opacity="0.85" />
+
+  <path d="M 50 82 C 50 66 48 46 47 24" stroke="#FDE68A" stroke-width="2.5" stroke-linecap="round" />
+
+  <path d="M 48 64 C 40 63 35 57 36 51 C 42 52 48 58 48 64 Z" fill="url(#kk_wheat_gradient)" />
+  <path d="M 48 54 C 39 53 34 46 36 40 C 42 41 48 48 48 54 Z" fill="url(#kk_wheat_gradient)" />
+  <path d="M 48 44 C 39 42 35 35 37 29 C 43 30 48 37 48 44 Z" fill="url(#kk_wheat_gradient)" />
+  <path d="M 48 34 C 40 31 37 24 40 19 C 45 21 48 27 48 34 Z" fill="url(#kk_wheat_gradient)" />
+  <path d="M 47 25 C 45 19 47 14 49 13 C 51 17 50 21 47 25 Z" fill="url(#kk_wheat_gradient)" />
+
+  <path d="M 50 72 C 59 70 75 61 73 43 C 71 33 60 37 52 45 C 50 55 49 66 50 72 Z" fill="url(#kk_leaf_gradient)" />
+  <path d="M 51 58 C 57 53 66 47 69 43" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round" stroke-opacity="0.6" />
+  <path d="M 49 46 C 56 43 65 37 63 26 C 56 27 51 34 49 46 Z" fill="url(#kk_leaf_gradient)" />
+
+  <path d="M 76 18 C 76 22 79 24 83 24 C 79 24 76 26 76 30 C 76 26 73 24 69 24 C 73 24 76 22 76 18 Z" fill="#FDE68A" />
+  <circle cx="76" cy="24" r="1.5" fill="#FFFFFF" />
+</svg>

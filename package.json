@@ -15,7 +15,8 @@
     "start": "npm start --workspace=server",
     "prisma:generate": "npm run prisma:generate --workspace=server",
     "prisma:migrate": "npm run prisma:migrate --workspace=server",
-    "prisma:seed": "npm run prisma:seed --workspace=server"
+    "prisma:seed": "npm run prisma:seed --workspace=server",
+    "studio": "prisma studio --schema=server/prisma/schema.sqlite.prisma"
   },
   "keywords": ["agriculture", "agritech", "farmers", "procurement", "realtime-queue", "ai"],
   "author": "Smart Farmer Assistance Team",

@@ -50,4 +50,162 @@ export class NotificationController {
 
     res.json({ success: true, message: 'All notifications marked as read.' });
   }
+
+
+  static async getTelegramStatus(req: Request, res: Response) {
+    if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const { ENV } = require('../utils/env');
+    const { getTelegramLinkByMobile, getTelegramLinkByUserId, cleanMobileNumber } = require('../services/telegram.service');
+
+    const botUsername = process.env.TELEGRAM_BOT_USERNAME || ENV.TELEGRAM_BOT_USERNAME || 'Kisan_kendra_bot';
+    const clean = cleanMobileNumber(req.user.mobile);
+    const deepLink = clean ? `https://t.me/${botUsername}?start=${clean}` : `https://t.me/${botUsername}`;
+
+    let link = null;
+    if (clean) link = await getTelegramLinkByMobile(clean);
+    if (!link && req.user.id) link = await getTelegramLinkByUserId(req.user.id);
+
+    res.json({
+      success: true,
+      botUsername,
+      deepLink,
+      isLinked: Boolean(link?.chatId),
+      chatId: link?.chatId || null,
+      username: link?.username || null,
+      firstName: link?.firstName || null,
+      mobile: clean,
+    });
+  }
+
+  static async linkTelegramManually(req: Request, res: Response) {
+    if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+    const { chatId } = req.body;
+    if (!chatId) return res.status(400).json({ success: false, message: 'chatId is required' });
+
+    const { ENV } = require('../utils/env');
+    const { saveTelegramLink, cleanMobileNumber, sendTelegramMessage } = require('../services/telegram.service');
+    const clean = cleanMobileNumber(req.user.mobile);
+
+    const botToken = process.env.TELEGRAM_BOT_TOKEN || ENV.TELEGRAM_BOT_TOKEN || '';
+    const botId = botToken ? botToken.split(':')[0] : '8927569233';
+    const trimmedChatId = chatId.toString().trim();
+
+    // Check if user accidentally entered the Bot ID
+    if (trimmedChatId === botId || trimmedChatId === '8927569233') {
+      return res.status(400).json({
+        success: false,
+        message: `${trimmedChatId} is the Bot ID itself! A Telegram bot cannot send messages to itself. To receive alerts on your phone, please tap "Connect Telegram" to open @Kisan_kendra_bot and tap START, or enter your personal user Chat ID (check with @userinfobot).`,
+      });
+    }
+
+    // Attempt verification message first to ensure chat exists
+    const verifySend = await sendTelegramMessage(
+      trimmedChatId,
+      `🌾 *Namaste ${req.user.fullName || 'Farmer'}!* 🌾\n\n✅ *Aapka mobile number +91 ${clean || req.user.mobile} safaltapoorvak link ho gaya hai!*\nAb aapko Kisan Kendra ke sabhi live alerts Telegram par milenge.\n\n🏛️ _APMC Mandi Portal_`
+    );
+
+    if (!verifySend.success) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not send message to Chat ID ${trimmedChatId}: ${verifySend.error}. Make sure you have opened @Kisan_kendra_bot in Telegram and tapped START first!`,
+      });
+    }
+
+    const saved = await saveTelegramLink({
+      mobile: clean || req.user.mobile,
+      chatId: trimmedChatId,
+      userId: req.user.id,
+      firstName: req.user.fullName,
+    });
+
+    if (!saved) {
+      return res.status(500).json({ success: false, message: 'Failed to save Telegram link' });
+    }
+
+    res.json({
+      success: true,
+      message: 'Telegram successfully linked and verified!',
+      link: saved,
+    });
+  }
+
+  static async sendTestTelegram(req: Request, res: Response) {
+    if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const { ENV } = require('../utils/env');
+    const {
+      getTelegramLinkByMobile,
+      getTelegramLinkByUserId,
+      sendTelegramMessage,
+      cleanMobileNumber,
+    } = require('../services/telegram.service');
+
+    const botToken = process.env.TELEGRAM_BOT_TOKEN || ENV.TELEGRAM_BOT_TOKEN;
+    const botUsername = process.env.TELEGRAM_BOT_USERNAME || ENV.TELEGRAM_BOT_USERNAME || 'Kisan_kendra_bot';
+
+    if (!botToken) {
+      return res.status(400).json({
+        success: false,
+        message: 'Telegram Bot is not configured. Please add TELEGRAM_BOT_TOKEN to server/.env',
+      });
+    }
+
+    const clean = cleanMobileNumber(req.user.mobile);
+    const deepLink = clean ? `https://t.me/${botUsername}?start=${clean}` : `https://t.me/${botUsername}`;
+
+    // 1. Look up user's personal chat link
+    let targetChatId = null;
+    let link = null;
+    if (clean) link = await getTelegramLinkByMobile(clean);
+    if (!link && req.user.id) link = await getTelegramLinkByUserId(req.user.id);
+
+    if (link && link.chatId) {
+      targetChatId = link.chatId;
+    } else if (process.env.TELEGRAM_CHAT_ID || ENV.TELEGRAM_CHAT_ID) {
+      targetChatId = process.env.TELEGRAM_CHAT_ID || ENV.TELEGRAM_CHAT_ID;
+    }
+
+    if (!targetChatId) {
+      return res.status(400).json({
+        success: false,
+        notLinked: true,
+        botUsername,
+        deepLink,
+        message: `Your phone number (+91 ${clean}) is not yet connected to @${botUsername}. Tap "Connect Telegram" to start receiving alerts instantly!`,
+      });
+    }
+
+    try {
+      const nowStr = new Date().toLocaleTimeString('en-IN', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      });
+
+      const tgText = `🌾 *Kisan Kendra Verification*\n━━━━━━━━━━━━━━━━━━━━\n✅ *Telegram Alert Gateway Active!*\nNamaste *${req.user.fullName || 'Farmer'}*! Your Telegram notification channel is live.\n\n📱 *Linked Mobile:* +91 ${clean || req.user.mobile}\n💬 *Chat ID:* \`${targetChatId}\`\n\nYou will receive real-time APMC Mandi queue tokens, weighing bay callouts, quality inspection certificates, and DBT payment credits directly on Telegram.\n━━━━━━━━━━━━━━━━━━━━\n⏰ _${nowStr}_`;
+
+      const response = await sendTelegramMessage(targetChatId, tgText);
+
+      if (!response.success) {
+        return res.status(400).json({
+          success: false,
+          message: `Telegram dispatch failed: ${response.error}`,
+        });
+      }
+
+      return res.json({
+        success: true,
+        message: `Telegram test alert delivered successfully to +91${clean || req.user.mobile}!`,
+        messageId: response.messageId,
+        chatId: targetChatId,
+      });
+    } catch (err: any) {
+      return res.status(400).json({
+        success: false,
+        message: `Telegram dispatch failed: ${err.message}`,
+      });
+    }
+  }
 }

@@ -33,6 +33,19 @@ export enum ProcurementRequestStatus {
   COMPLETED = 'COMPLETED',
 }
 
+export enum PaymentStatus {
+  PENDING = 'PENDING',
+  PROCESSING = 'PROCESSING',
+  PAID = 'PAID',
+  FAILED = 'FAILED',
+}
+
+export enum PaymentMethod {
+  DBT_PFMS = 'DBT_PFMS',
+  NEFT_RTGS = 'NEFT_RTGS',
+  DIRECT_BANK_TRANSFER = 'DIRECT_BANK_TRANSFER',
+}
+
 export enum CropGrowthStatus {
   PLANNED = 'PLANNED',
   SOWN = 'SOWN',
@@ -189,6 +202,10 @@ export interface QueueTokenDTO {
     fullName: string;
     mobile: string;
     village: string;
+    district?: string;
+    state?: string;
+    profilePictureUrl?: string | null;
+    landAreaTotal?: number;
   };
   centreId: string;
   centre?: {
@@ -208,6 +225,8 @@ export interface QueueTokenDTO {
   calledAt?: string | null;
   startedAt?: string | null;
   completedAt?: string | null;
+  vehicleNumber?: string | null;
+  vehicleType?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -346,6 +365,8 @@ export interface AIChatMessage {
 export interface AIChatRequest {
   messages: AIChatMessage[];
   location?: { latitude: number; longitude: number; state?: string; district?: string };
+  apiKey?: string;
+  provider?: 'gemini' | 'groq' | 'openai' | 'auto';
 }
 
 export interface AICropRecommendationRequest {
@@ -425,3 +446,93 @@ export interface AICentreRecommendationResponse {
     availableCapacityPercent: number;
   }>;
 }
+
+export interface PaymentDTO {
+  id: string;
+  paymentNumber: string;
+  farmerId: string;
+  farmerName?: string;
+  farmerMobile?: string;
+  centreId: string;
+  centreName?: string;
+  centreDistrict?: string;
+  centreState?: string;
+  cropId: string;
+  cropName?: string;
+  queueTokenId?: string | null;
+  procurementRequestId?: string | null;
+  quantity: number;
+  unit: string;
+  ratePerUnit: number;
+  grossAmount: number;
+  deductions: number;
+  netAmount: number;
+  status: PaymentStatus;
+  paymentMethod: PaymentMethod;
+  utrNumber?: string | null;
+  bankName?: string | null;
+  accountNumberMasked?: string | null;
+  ifscCode?: string | null;
+  qualityGrade?: string;
+  paidAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaymentSummaryDTO {
+  totalDisbursed: number;
+  pendingDisbursement: number;
+  totalQuantitySold: number;
+  completedTransactionsCount: number;
+  verifiedBankAccount?: {
+    bankName: string;
+    accountNumberMasked: string;
+    ifscCode: string;
+    accountHolderName: string;
+    isAadhaarLinked: boolean;
+  };
+}
+
+// =========================================================
+// GOVERNMENT SCHEMES & POLICIES DTOs
+// =========================================================
+
+export interface GovernmentSchemeDTO {
+  id: string;
+  title: string;
+  category: 'SUBSIDY' | 'INSURANCE' | 'SOLAR_PUMP' | 'FINANCE' | 'MACHINERY' | 'IRRIGATION';
+  ministry: string;
+  benefitAmount: string;
+  summary: string;
+  details?: string | null;
+  eligibilityCriteria: string;
+  maxLandAcreage?: number | null;
+  applicableStates: string;
+  applicationUrl: string;
+  officialCircularUrl?: string | null;
+  deadlineDate?: string | null;
+  status: 'ACTIVE' | 'CLOSING_SOON' | 'NEW_AMENDMENT' | 'CLOSED';
+  isFeatured: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateGovernmentSchemeDTO {
+  title: string;
+  category: string;
+  ministry: string;
+  benefitAmount: string;
+  summary: string;
+  details?: string;
+  eligibilityCriteria: string;
+  maxLandAcreage?: number | null;
+  applicableStates?: string;
+  applicationUrl: string;
+  officialCircularUrl?: string;
+  deadlineDate?: string | null;
+  status?: string;
+  isFeatured?: boolean;
+}
+
+export interface UpdateGovernmentSchemeDTO extends Partial<CreateGovernmentSchemeDTO> {}
+

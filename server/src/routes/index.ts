@@ -10,6 +10,9 @@ import aiRoutes from './ai.routes';
 import notificationRoutes from './notification.routes';
 import adminRoutes from './admin.routes';
 import alertRoutes from './alert.routes';
+import paymentRoutes from './payment.routes';
+import translateRoutes from './translate.routes';
+import schemeRoutes from './scheme.routes';
 
 const router = Router();
 
@@ -24,5 +27,8 @@ router.use('/ai', aiRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/admin', adminRoutes);
 router.use('/alerts', alertRoutes);
+router.use('/payments', paymentRoutes);
+router.use('/translate', translateRoutes);
+router.use('/schemes', schemeRoutes);
 
 export default router;

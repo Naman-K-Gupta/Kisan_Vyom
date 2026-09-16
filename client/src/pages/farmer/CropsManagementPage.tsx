@@ -5,10 +5,12 @@ import { Badge } from '../../components/common/Badge';
 import { Modal } from '../../components/common/Modal';
 import { EmptyState } from '../../components/common/EmptyState';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { Plus, Edit2, Trash2, Wheat, Calendar, Scale, Layers } from 'lucide-react';
 
 export const CropsManagementPage: React.FC = () => {
   const { showToast } = useNotifications();
+  const { t } = useLanguage();
 
   const [farmerCrops, setFarmerCrops] = useState<FarmerCropDTO[]>([]);
   const [masterCrops, setMasterCrops] = useState<CropDTO[]>([]);
@@ -62,7 +64,7 @@ export const CropsManagementPage: React.FC = () => {
       await api.crops.addFarmerCrop(formData);
       setIsAddModalOpen(false);
       loadData();
-      showToast('Crop Added', 'New crop has been registered to your farm.', 'success');
+      showToast(t('crops.cropAddedSuccess'), '', 'success');
     } catch (err: any) {
       alert(err.response?.data?.message || 'Failed to add crop');
     }
@@ -84,18 +86,18 @@ export const CropsManagementPage: React.FC = () => {
       });
       setEditingCrop(null);
       loadData();
-      showToast('Crop Updated', 'Crop details updated.', 'success');
+      showToast(t('crops.cropUpdatedSuccess'), '', 'success');
     } catch (err: any) {
       alert(err.response?.data?.message || 'Failed to update crop');
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this crop record?')) return;
+    if (!window.confirm(t('crops.confirmDelete'))) return;
     try {
       await api.crops.deleteFarmerCrop(id);
       loadData();
-      showToast('Crop Deleted', 'Crop record was removed.', 'info');
+      showToast(t('crops.cropDeletedInfo'), '', 'info');
     } catch (err) {
       console.error(err);
     }
@@ -120,10 +122,10 @@ export const CropsManagementPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Crops & Field Management
+            {t('crops.managementTitle')}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Track your seasonal crops, sowing calendar, expected yields, and cultivation area
+            {t('crops.managementSubtitle')}
           </p>
         </div>
         <button
@@ -144,17 +146,17 @@ export const CropsManagementPage: React.FC = () => {
           }}
           className="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2"
         >
-          <Plus className="w-4 h-4" /> Add New Crop
+          <Plus className="w-4 h-4" /> {t('crops.addNewCrop')}
         </button>
       </div>
 
       {/* Crops Table / Cards */}
       {farmerCrops.length === 0 ? (
         <EmptyState
-          title="No Crops Registered Yet"
-          description="You haven't added any crops under cultivation. Add your first crop to track yields, get AI diagnostics, and book digital procurement tokens."
+          title={t('crops.noCropsTitle')}
+          description={t('crops.noCropsDescFull')}
           icon={Wheat}
-          actionLabel="Add Your First Crop"
+          actionLabel={t('crops.addFirstCropBtn')}
           onAction={() => setIsAddModalOpen(true)}
         />
       ) : (
@@ -181,14 +183,14 @@ export const CropsManagementPage: React.FC = () => {
                 <div className="space-y-2.5 my-4 pt-2 border-t border-slate-50 text-xs text-slate-600">
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-slate-400">
-                      <Layers className="w-3.5 h-3.5" /> Land Cultivated
+                      <Layers className="w-3.5 h-3.5" /> {t('crops.landCultivated')}
                     </span>
-                    <span className="font-bold text-slate-800">{c.landArea} Acres</span>
+                    <span className="font-bold text-slate-800">{c.landArea} {t('crops.acres')}</span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-slate-400">
-                      <Scale className="w-3.5 h-3.5" /> Expected Yield
+                      <Scale className="w-3.5 h-3.5" /> {t('crops.expectedYield')}
                     </span>
                     <span className="font-bold text-slate-800">
                       {c.expectedProduction} {c.unit}
@@ -197,7 +199,7 @@ export const CropsManagementPage: React.FC = () => {
 
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-slate-400">
-                      <Calendar className="w-3.5 h-3.5" /> Sowing Date
+                      <Calendar className="w-3.5 h-3.5" /> {t('crops.sowingDate')}
                     </span>
                     <span className="text-slate-700">
                       {new Date(c.sowingDate).toLocaleDateString()}
@@ -206,7 +208,7 @@ export const CropsManagementPage: React.FC = () => {
 
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-slate-400">
-                      <Calendar className="w-3.5 h-3.5 text-amber-500" /> Expected Harvest
+                      <Calendar className="w-3.5 h-3.5 text-amber-500" /> {t('crops.expectedHarvest')}
                     </span>
                     <span className="text-slate-700 font-medium">
                       {new Date(c.expectedHarvestDate).toLocaleDateString()}
@@ -219,14 +221,14 @@ export const CropsManagementPage: React.FC = () => {
                 <button
                   onClick={() => openEditModal(c)}
                   className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
-                  title="Edit Crop"
+                  title={t('crops.editCrop')}
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(c.id)}
                   className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors"
-                  title="Delete Crop"
+                  title={t('crops.deleteCrop')}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -240,12 +242,12 @@ export const CropsManagementPage: React.FC = () => {
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Add Crop to Your Farm"
+        title={t('crops.addCropModalTitle')}
       >
         <form onSubmit={handleCreateSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Select Crop Type *
+              {t('crops.selectCropType')}
             </label>
             <select
               value={formData.cropId}
@@ -264,7 +266,7 @@ export const CropsManagementPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Variety / Seed *
+                {t('crops.varietySeed')}
               </label>
               <input
                 type="text"
@@ -278,7 +280,7 @@ export const CropsManagementPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Land Area (Acres) *
+                {t('crops.landAreaAcres')}
               </label>
               <input
                 type="number"
@@ -297,7 +299,7 @@ export const CropsManagementPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Sowing Date *
+                {t('crops.sowingDate')} *
               </label>
               <input
                 type="date"
@@ -310,7 +312,7 @@ export const CropsManagementPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Expected Harvest *
+                {t('crops.expectedHarvest')} *
               </label>
               <input
                 type="date"
@@ -327,7 +329,7 @@ export const CropsManagementPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Expected Yield *
+                {t('crops.expectedYield')} *
               </label>
               <input
                 type="number"
@@ -344,7 +346,7 @@ export const CropsManagementPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Unit
+                {t('crops.unit')}
               </label>
               <select
                 value={formData.unit}
@@ -364,13 +366,13 @@ export const CropsManagementPage: React.FC = () => {
               onClick={() => setIsAddModalOpen(false)}
               className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Cancel
+              {t('crops.cancel')}
             </button>
             <button
               type="submit"
               className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
             >
-              Save Crop Record
+              {t('crops.saveCropRecord')}
             </button>
           </div>
         </form>
@@ -380,13 +382,13 @@ export const CropsManagementPage: React.FC = () => {
       <Modal
         isOpen={Boolean(editingCrop)}
         onClose={() => setEditingCrop(null)}
-        title={`Edit ${editingCrop?.crop?.name || 'Crop'}`}
+        title={`${t('crops.editCropModalTitle')}: ${editingCrop?.crop?.name || ''}`}
       >
         <form onSubmit={handleUpdateSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Variety / Seed *
+                {t('crops.varietySeed')}
               </label>
               <input
                 type="text"
@@ -399,7 +401,7 @@ export const CropsManagementPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Land Area (Acres) *
+                {t('crops.landAreaAcres')}
               </label>
               <input
                 type="number"
@@ -418,7 +420,7 @@ export const CropsManagementPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Expected Yield *
+                {t('crops.expectedYield')} *
               </label>
               <input
                 type="number"
@@ -435,7 +437,7 @@ export const CropsManagementPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Growth Status
+                {t('crops.growthStatus')}
               </label>
               <select
                 value={formData.status}
@@ -457,13 +459,13 @@ export const CropsManagementPage: React.FC = () => {
               onClick={() => setEditingCrop(null)}
               className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Cancel
+              {t('crops.cancel')}
             </button>
             <button
               type="submit"
               className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
             >
-              Update Crop
+              {t('crops.updateCropBtn')}
             </button>
           </div>
         </form>

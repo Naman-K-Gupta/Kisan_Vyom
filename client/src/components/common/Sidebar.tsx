@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import {
   LayoutDashboard,
   Wheat,
@@ -10,10 +11,12 @@ import {
   Sparkles,
   User,
   Users,
-  ShieldCheck,
   AlertTriangle,
   History,
   Scale,
+  IndianRupee,
+  FileText,
+  Landmark,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -23,34 +26,45 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const farmerNavItems = [
-    { label: 'Dashboard', path: '/farmer/dashboard', icon: LayoutDashboard },
-    { label: 'My Crops', path: '/farmer/crops', icon: Wheat },
-    { label: 'Procurement Centres', path: '/farmer/centres', icon: Building2 },
-    { label: 'Live Queue Tracker', path: '/farmer/queue', icon: Clock },
-    { label: 'MSP & Mandi Prices', path: '/farmer/prices', icon: BadgePercent },
-    { label: 'AI Farm Advisor', path: '/farmer/ai', icon: Sparkles },
-    { label: 'Farmer Profile', path: '/farmer/profile', icon: User },
+    { label: t('nav.dashboard'), path: '/farmer/dashboard', icon: LayoutDashboard },
+    { label: t('nav.crops'), path: '/farmer/crops', icon: Wheat },
+    { label: t('nav.centres'), path: '/farmer/centres', icon: Building2 },
+    { label: t('nav.queue'), path: '/farmer/queue', icon: Clock },
+    { label: t('nav.prices'), path: '/farmer/prices', icon: BadgePercent },
+    { label: t('nav.payments') || 'Payments (DBT)', path: '/farmer/payments', icon: IndianRupee },
+    { label: t('nav.schemes', 'Govt Policies & Schemes'), path: '/farmer/schemes', icon: Landmark },
+    { label: t('nav.ai'), path: '/farmer/ai', icon: Sparkles },
+    { label: t('nav.profile'), path: '/farmer/profile', icon: User },
   ];
 
   const managerNavItems = [
-    { label: 'Queue Operations Desk', path: '/manager/dashboard', icon: LayoutDashboard },
-    { label: 'Capacity & Processing Rate', path: '/manager/capacity', icon: Scale },
+    { label: t('nav.managerDesk'), path: '/manager/dashboard', icon: LayoutDashboard },
+    { label: t('nav.capacityRate'), path: '/manager/capacity', icon: Scale },
   ];
 
   const adminNavItems = [
-    { label: 'Overview & Analytics', path: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'Farmers Directory', path: '/admin/farmers', icon: Users },
-    { label: 'Procurement Centres', path: '/admin/centres', icon: Building2 },
-    { label: 'MSP Price Master', path: '/admin/msp', icon: BadgePercent },
-    { label: 'System Alerts', path: '/admin/alerts', icon: AlertTriangle },
-    { label: 'Audit Compliance Logs', path: '/admin/audit-logs', icon: History },
+    { label: t('nav.adminOverview'), path: '/admin/dashboard', icon: LayoutDashboard },
+    { label: t('nav.procurementRecords', 'Procurement Records'), path: '/admin/procurement-records', icon: FileText },
+    { label: t('nav.schemes', 'Govt Policies & Schemes'), path: '/admin/schemes', icon: Landmark },
+    { label: t('nav.farmersDirectory'), path: '/admin/farmers', icon: Users },
+    { label: t('nav.centres'), path: '/admin/centres', icon: Building2 },
+    { label: t('nav.mspMaster'), path: '/admin/msp', icon: BadgePercent },
+    { label: t('nav.alerts'), path: '/admin/alerts', icon: AlertTriangle },
+    { label: t('nav.auditLogs'), path: '/admin/audit-logs', icon: History },
   ];
 
   let items = farmerNavItems;
   if (user?.role === 'PROCUREMENT_CENTRE_MANAGER') items = managerNavItems;
   if (user?.role === 'ADMIN') items = adminNavItems;
+
+  const getRoleHeader = () => {
+    if (user?.role === 'ADMIN') return t('roles.admin');
+    if (user?.role === 'PROCUREMENT_CENTRE_MANAGER') return t('roles.manager');
+    return t('roles.farmer');
+  };
 
   return (
     <>
@@ -69,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       >
         <div className="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto">
           <div className="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            {user?.role ? user.role.replace(/_/g, ' ') : 'Navigation'}
+            {getRoleHeader()}
           </div>
 
           {items.map((item) => {
@@ -97,8 +111,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         {/* Footer Support Info */}
         <div className="p-4 border-t border-slate-100">
           <div className="rounded-xl bg-slate-50 p-3 border border-slate-200/50">
-            <p className="text-[11px] font-semibold text-slate-800">Kisan Call Centre</p>
-            <p className="text-[10px] text-slate-500 mt-0.5">Toll-free advisory: 1800-180-1551</p>
+            <p className="text-[11px] font-semibold text-slate-800">{t('nav.kisanCallCentre')}</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">{t('nav.tollFree')}</p>
           </div>
         </div>
       </aside>

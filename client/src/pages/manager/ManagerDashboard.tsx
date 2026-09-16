@@ -2,33 +2,50 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSocket } from '../../contexts/SocketContext';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../api';
 import { ProcurementCentreDTO, QueueTokenDTO } from '@smart-farmer/shared';
-import { Badge } from '../../components/common/Badge';
 import { StatCard } from '../../components/common/StatCard';
-import { EmptyState } from '../../components/common/EmptyState';
 import {
   Users,
   Scale,
-  Clock,
-  Play,
   CheckCircle,
-  SkipForward,
-  XCircle,
+  Play,
   Pause,
-  Phone,
-  Radio,
-  Sliders,
-  Building2,
   RefreshCw,
+  Radio,
+  Camera,
+  ShieldCheck,
 } from 'lucide-react';
+import { QualityAssayModal } from '../../components/manager/QualityAssayModal';
+import { WeighmentReceiptModal } from '../../components/manager/WeighmentReceiptModal';
+import { CapacityRateController } from '../../components/manager/CapacityRateController';
+import { VehicleQueueTable } from '../../components/manager/VehicleQueueTable';
+import { ActiveInspectionBay } from '../../components/manager/ActiveInspectionBay';
+import { FarmerIdentityModal } from '../../components/manager/FarmerIdentityModal';
+import { CentreSwitcherCard } from '../../components/manager/CentreSwitcherCard';
 
 export const ManagerDashboard: React.FC = () => {
-  const { user } = useAuth();
-  const { socket, joinCentreRoom } = useSocket();
+  const { user, refreshUser } = useAuth();
+  const { socket, joinCentreRoom, leaveCentreRoom } = useSocket();
   const { showToast } = useNotifications();
+  const { t } = useLanguage();
 
-  // Centre assigned to this manager
+  const [isUploadingManagerPhoto, setIsUploadingManagerPhoto] = useState(false);
+  const [selectedFarmerModal, setSelectedFarmerModal] = useState<QueueTokenDTO | null>(null);
+  const [assayToken, setAssayToken] = useState<QueueTokenDTO | null>(null);
+  const [receiptData, setReceiptData] = useState<{ token: QueueTokenDTO; payment: any } | null>(null);
+
+  // All available centres for selection
+  const [allCentres, setAllCentres] = useState<ProcurementCentreDTO[]>([]);
+  const [selectedCentreId, setSelectedCentreId] = useState<string>(() => {
+    return localStorage.getItem('manager_active_centre_id') || '';
+  });
+  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedState, setSelectedState] = useState('ALL');
+
+  // Currently active centre and queue data
   const [centre, setCentre] = useState<ProcurementCentreDTO | null>(null);
   const [waitingTokens, setWaitingTokens] = useState<QueueTokenDTO[]>([]);
   const [calledTokens, setCalledTokens] = useState<QueueTokenDTO[]>([]);
@@ -41,27 +58,24 @@ export const ManagerDashboard: React.FC = () => {
   const [totalCapacity, setTotalCapacity] = useState(5000);
   const [processingRate, setProcessingRate] = useState(50);
   const [isUpdatingCapacity, setIsUpdatingCapacity] = useState(false);
+  const [lastCapacityUpdate, setLastCapacityUpdate] = useState<{
+    quantity: number;
+    farmerName?: string;
+    tokenNumber?: string;
+    timestamp: number;
+  } | null>(null);
 
-  const loadCentreQueue = async () => {
+  const loadCentreQueue = async (targetId?: string) => {
+    const idToUse = targetId || selectedCentreId;
+    if (!idToUse) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Fetch user's managed centre ID
-      let centreId = user?.managedCentres?.[0];
-      if (!centreId) {
-        // Fallback: fetch all centres and pick first
-        const allCentresRes = await api.centres.getAll();
-        if (allCentresRes.data.centres.length > 0) {
-          centreId = allCentresRes.data.centres[0].id;
-        }
-      }
+      joinCentreRoom(idToUse);
 
-      if (!centreId) {
-        setIsLoading(false);
-        return;
-      }
-
-      joinCentreRoom(centreId);
-
-      const res = await api.queue.getCentreQueue(centreId);
+      const res = await api.queue.getCentreQueue(idToUse);
       if (res.data.success) {
         setCentre(res.data.centre);
         setWaitingTokens(res.data.queue.waiting);
@@ -80,28 +94,140 @@ export const ManagerDashboard: React.FC = () => {
     }
   };
 
+  const loadAllCentresAndInit = async () => {
+    try {
+      setIsLoading(true);
+      const res = await api.centres.getAll();
+      const centresList = res.data.centres || [];
+      setAllCentres(centresList);
+
+      if (centresList.length > 0) {
+        const storedId = localStorage.getItem('manager_active_centre_id');
+        const userAssigned = user?.managedCentres?.[0];
+
+        let initialId = '';
+        if (storedId && centresList.some((c) => c.id === storedId)) {
+          initialId = storedId;
+        } else if (userAssigned && centresList.some((c) => c.id === userAssigned)) {
+          initialId = userAssigned;
+        } else {
+          initialId = centresList[0].id;
+        }
+
+        setSelectedCentreId(initialId);
+        localStorage.setItem('manager_active_centre_id', initialId);
+        await loadCentreQueue(initialId);
+      } else {
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.error('Failed to load centres:', err);
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    loadCentreQueue();
+    loadAllCentresAndInit();
   }, [user]);
 
-  // Real-time socket events for Manager Queue Desk
+  const handleSelectCentre = async (newCentre: ProcurementCentreDTO) => {
+    if (newCentre.id === selectedCentreId) {
+      setIsSelectorOpen(false);
+      return;
+    }
+
+    if (selectedCentreId) {
+      leaveCentreRoom(selectedCentreId);
+    }
+
+    setSelectedCentreId(newCentre.id);
+    localStorage.setItem('manager_active_centre_id', newCentre.id);
+    setIsSelectorOpen(false);
+
+    showToast(
+      t('manager.switchCentre'),
+      `${t('manager.switchedCentreSuccess')} ${newCentre.name} (${newCentre.state})`,
+      'info'
+    );
+
+    await loadCentreQueue(newCentre.id);
+  };
+
+  // Real-time socket events for Manager Queue Desk & Live Capacity
   useEffect(() => {
     if (!socket) return;
 
     const handleQueueUpdated = () => {
-      loadCentreQueue();
+      if (selectedCentreId) {
+        loadCentreQueue(selectedCentreId);
+      }
+    };
+
+    const handleCapacityUpdated = (payload: {
+      centreId: string;
+      currentUsage: number;
+      totalCapacity: number;
+      processingRate?: number;
+      remainingCapacity?: number;
+      addedQuantity?: number;
+      farmerName?: string;
+      tokenNumber?: string;
+    }) => {
+      if (!payload) return;
+
+      setAllCentres((prev) =>
+        prev.map((c) =>
+          c.id === payload.centreId
+            ? {
+                ...c,
+                currentUsage: payload.currentUsage,
+                totalCapacity: payload.totalCapacity,
+                processingRate: payload.processingRate ?? c.processingRate,
+              }
+            : c
+        )
+      );
+
+      if (payload.centreId === selectedCentreId) {
+        setCapacityUsage(payload.currentUsage);
+        setTotalCapacity(payload.totalCapacity);
+        if (payload.processingRate !== undefined) {
+          setProcessingRate(payload.processingRate);
+        }
+        setCentre((prev) =>
+          prev
+            ? {
+                ...prev,
+                currentUsage: payload.currentUsage,
+                totalCapacity: payload.totalCapacity,
+                processingRate: payload.processingRate ?? prev.processingRate,
+              }
+            : prev
+        );
+
+        if (payload.addedQuantity) {
+          setLastCapacityUpdate({
+            quantity: payload.addedQuantity,
+            farmerName: payload.farmerName || 'Farmer',
+            tokenNumber: payload.tokenNumber,
+            timestamp: Date.now(),
+          });
+        }
+      }
     };
 
     socket.on('queue:updated', handleQueueUpdated);
-    socket.on('centre:capacityUpdated', handleQueueUpdated);
+    socket.on('queue:completed', handleQueueUpdated);
+    socket.on('centre:capacityUpdated', handleCapacityUpdated);
     socket.on('centre:statusUpdated', handleQueueUpdated);
 
     return () => {
       socket.off('queue:updated', handleQueueUpdated);
-      socket.off('centre:capacityUpdated', handleQueueUpdated);
+      socket.off('queue:completed', handleQueueUpdated);
+      socket.off('centre:capacityUpdated', handleCapacityUpdated);
       socket.off('centre:statusUpdated', handleQueueUpdated);
     };
-  }, [socket]);
+  }, [socket, selectedCentreId]);
 
   // Actions
   const handleCallToken = async (id: string) => {
@@ -124,14 +250,40 @@ export const ManagerDashboard: React.FC = () => {
     }
   };
 
-  const handleCompleteProcurement = async (id: string) => {
-    try {
-      await api.queue.completeProcurement(id);
-      showToast('Procurement Complete', 'Receipt signed off and storage capacity updated.', 'PROCUREMENT_COMPLETED');
-      loadCentreQueue();
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Action failed');
+  const handleCompleteProcurement = (tokenObj: QueueTokenDTO) => {
+    setAssayToken(tokenObj);
+  };
+
+  const handleAssayComplete = (completedToken: QueueTokenDTO, paymentObj: any, updatedCentre?: any) => {
+    setAssayToken(null);
+    setReceiptData({ token: completedToken, payment: paymentObj });
+    showToast(
+      'Procurement Completed!',
+      `Official Tulai Parchi dispatched to farmer ${completedToken.farmer?.fullName || ''} on Telegram.`,
+      'PROCUREMENT_COMPLETED'
+    );
+
+    if (updatedCentre) {
+      setCentre(updatedCentre);
+      setCapacityUsage(updatedCentre.currentUsage);
+      setTotalCapacity(updatedCentre.totalCapacity);
+      setProcessingRate(updatedCentre.processingRate);
+      setAllCentres((prev) =>
+        prev.map((c) => (c.id === updatedCentre.id ? { ...c, ...updatedCentre } : c))
+      );
+    } else if (completedToken.quantity) {
+      setCapacityUsage((prev) => prev + completedToken.quantity);
+      setCentre((prev) => (prev ? { ...prev, currentUsage: prev.currentUsage + completedToken.quantity } : prev));
     }
+
+    setLastCapacityUpdate({
+      quantity: completedToken.quantity,
+      farmerName: completedToken.farmer?.fullName,
+      tokenNumber: completedToken.tokenNumber,
+      timestamp: Date.now(),
+    });
+
+    loadCentreQueue(selectedCentreId);
   };
 
   const handleSkipToken = async (id: string) => {
@@ -177,26 +329,117 @@ export const ManagerDashboard: React.FC = () => {
     }
   };
 
+  const handleManagerPhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      showToast('Invalid File', 'Only JPG, PNG, and WebP images are allowed.', 'error');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('File Too Large', 'Image file size must be under 5MB.', 'error');
+      return;
+    }
+
+    const uploadFormData = new FormData();
+    uploadFormData.append('picture', file);
+
+    setIsUploadingManagerPhoto(true);
+    try {
+      await api.farmer.uploadProfilePicture(uploadFormData);
+      await refreshUser();
+      showToast('Photo Updated', 'Manager profile photo updated successfully.', 'success');
+    } catch (err: any) {
+      showToast('Upload Failed', err.response?.data?.message || 'Failed to upload photo.', 'error');
+    } finally {
+      setIsUploadingManagerPhoto(false);
+    }
+  };
+
   const isQueuePaused = centre?.status === 'TEMPORARILY_UNAVAILABLE';
   const remainingCapacity = centre ? Math.max(0, centre.totalCapacity - centre.currentUsage) : 0;
   const usagePercentage = centre
     ? Math.min(100, Math.round((centre.currentUsage / centre.totalCapacity) * 100))
     : 0;
 
+  const availableStates = [
+    'ALL',
+    ...Array.from(new Set(allCentres.map((c) => c.state))).filter(Boolean).sort(),
+  ];
+
+  const filteredCentres = allCentres.filter((c) => {
+    const matchesState = selectedState === 'ALL' || c.state.toLowerCase() === selectedState.toLowerCase();
+    const q = searchQuery.toLowerCase().trim();
+    const matchesSearch =
+      !q ||
+      c.name.toLowerCase().includes(q) ||
+      c.district.toLowerCase().includes(q) ||
+      c.state.toLowerCase().includes(q);
+    return matchesState && matchesSearch;
+  });
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-              Queue Operations & Weighing Bay Desk
-            </h1>
-            <span className="live-pulse w-3 h-3 rounded-full bg-emerald-500" />
+        <div className="flex items-center gap-4">
+          {/* Manager Photo Avatar */}
+          <div className="relative group shrink-0">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-emerald-800 border-2 border-emerald-500 overflow-hidden shadow-md flex items-center justify-center text-white font-black text-xl">
+              {user?.farmerProfile?.profilePictureUrl ? (
+                <img
+                  src={user.farmerProfile.profilePictureUrl}
+                  alt={user.fullName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span>{user?.fullName ? user.fullName.charAt(0).toUpperCase() : 'M'}</span>
+              )}
+            </div>
+
+            {/* Camera Upload Button */}
+            <label
+              htmlFor="manager-photo-upload"
+              className="absolute -bottom-1 -right-1 p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-md cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              title="Update Manager Photo"
+            >
+              {isUploadingManagerPhoto ? (
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Camera className="w-3.5 h-3.5" />
+              )}
+            </label>
+            <input
+              id="manager-photo-upload"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={handleManagerPhotoUpload}
+              disabled={isUploadingManagerPhoto}
+            />
           </div>
-          <p className="text-xs text-slate-500 mt-1">
-            Managing <span className="font-bold text-slate-800">{centre?.name || 'Assigned APMC Centre'}</span>
-          </p>
+
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                {t('manager.title')}
+              </h1>
+              <span className="live-pulse w-3 h-3 rounded-full bg-emerald-500" />
+            </div>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                {user?.fullName || 'Centre In-Charge'}
+              </span>
+              <p className="text-xs text-slate-500">
+                {t('manager.operatingAt')}:{' '}
+                <span className="font-bold text-slate-800">{centre?.name || t('manager.assignedCentre')}</span>
+                {centre && ` (${centre.district}, ${centre.state})`}
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -209,11 +452,11 @@ export const ManagerDashboard: React.FC = () => {
             }`}
           >
             {isQueuePaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
-            {isQueuePaused ? 'Resume Queue' : 'Pause Intake Queue'}
+            {isQueuePaused ? t('manager.resumeQueue') : t('manager.pauseQueue')}
           </button>
 
           <button
-            onClick={loadCentreQueue}
+            onClick={() => loadCentreQueue()}
             className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
             title="Refresh"
           >
@@ -221,6 +464,25 @@ export const ManagerDashboard: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Procurement Centre Switcher / Selector Card */}
+      <CentreSwitcherCard
+        centre={centre}
+        allCentres={allCentres}
+        selectedCentreId={selectedCentreId}
+        isQueuePaused={isQueuePaused}
+        processingRate={processingRate}
+        isSelectorOpen={isSelectorOpen}
+        searchQuery={searchQuery}
+        selectedState={selectedState}
+        availableStates={availableStates}
+        filteredCentres={filteredCentres}
+        t={t}
+        onToggleSelector={() => setIsSelectorOpen(!isSelectorOpen)}
+        onSearchQueryChange={setSearchQuery}
+        onSelectedStateChange={setSelectedState}
+        onSelectCentre={handleSelectCentre}
+      />
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -245,7 +507,7 @@ export const ManagerDashboard: React.FC = () => {
         <StatCard
           title="Completed Today"
           value={completedCount}
-          subtitle="Receipts issued"
+          subtitle="Consignments cleared"
           icon={CheckCircle}
           iconColor="text-emerald-600"
           bgColor="bg-emerald-50"
@@ -261,242 +523,62 @@ export const ManagerDashboard: React.FC = () => {
         />
       </div>
 
-      {/* Active Processing & Called Bay Focus Card */}
+      {/* Active Processing & Called Bay Focus Card and Real-Time Capacity Adjustment */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Currently Called / Inspecting Bay */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Radio className="w-4 h-4 text-blue-600 animate-pulse" />
-              Weighing Bay Active Inspection
-            </h3>
-            <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700">
-              Bay 1
-            </span>
-          </div>
+        <ActiveInspectionBay
+          calledTokens={calledTokens}
+          processingTokens={processingTokens}
+          onStartProcessing={handleStartProcessing}
+          onSkipToken={handleSkipToken}
+          onCompleteProcurement={handleCompleteProcurement}
+          onSelectFarmer={setSelectedFarmerModal}
+        />
 
-          {calledTokens.length === 0 && processingTokens.length === 0 ? (
-            <div className="py-10 text-center text-slate-400 text-xs">
-              Bay is currently idle. Click "Call Next Farmer" from the waiting queue below.
-            </div>
-          ) : (
-            <div className="space-y-4 mt-4">
-              {calledTokens.map((t) => (
-                <div
-                  key={t.id}
-                  className="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-black text-blue-900">{t.tokenNumber}</span>
-                      <Badge status="CALLED" />
-                    </div>
-                    <p className="text-xs font-bold text-slate-800 mt-1">{t.farmer?.fullName}</p>
-                    <p className="text-[11px] text-slate-500">
-                      Mobile: {t.farmer?.mobile} • Crop: {t.crop?.name} ({t.quantity} {t.unit})
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleStartProcessing(t.id)}
-                      className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm flex items-center gap-1.5 transition-all"
-                    >
-                      <Play className="w-3.5 h-3.5" /> Start Weighing
-                    </button>
-                    <button
-                      onClick={() => handleSkipToken(t.id)}
-                      className="p-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-500 transition-colors"
-                      title="Skip Absent"
-                    >
-                      <SkipForward className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-
-              {processingTokens.map((t) => (
-                <div
-                  key={t.id}
-                  className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-black text-emerald-900">{t.tokenNumber}</span>
-                      <Badge status="PROCESSING" />
-                    </div>
-                    <p className="text-xs font-bold text-slate-800 mt-1">{t.farmer?.fullName}</p>
-                    <p className="text-[11px] text-slate-500">
-                      Moisture check & weighing: {t.crop?.name} ({t.quantity} {t.unit})
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => handleCompleteProcurement(t.id)}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 flex items-center gap-1.5 transition-all"
-                  >
-                    <CheckCircle className="w-4 h-4" /> Complete & Issue Receipt
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Real-time Capacity Adjustment */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-purple-600" />
-              Live Centre Capacity & Rate Controller
-            </h3>
-            <span className="text-xs font-bold text-slate-400">Real-time sync</span>
-          </div>
-
-          <form onSubmit={handleSaveCapacity} className="space-y-4 mt-4">
-            <div>
-              <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
-                <span>Current Silo Usage</span>
-                <span className="text-emerald-700">{capacityUsage} Quintals</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max={totalCapacity}
-                step="50"
-                value={capacityUsage}
-                onChange={(e) => setCapacityUsage(parseFloat(e.target.value) || 0)}
-                className="w-full accent-emerald-600"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
-                  Total Capacity (Qtl)
-                </label>
-                <input
-                  type="number"
-                  min="100"
-                  value={totalCapacity}
-                  onChange={(e) => setTotalCapacity(parseFloat(e.target.value) || 100)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-bold text-slate-600 uppercase mb-1">
-                  Processing Rate (Qtl/hr)
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={processingRate}
-                  onChange={(e) => setProcessingRate(parseFloat(e.target.value) || 1)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isUpdatingCapacity}
-              className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50"
-            >
-              {isUpdatingCapacity ? 'Broadcasting updates...' : 'Save & Broadcast Live Capacity'}
-            </button>
-          </form>
-        </div>
+        <CapacityRateController
+          capacityUsage={capacityUsage}
+          totalCapacity={totalCapacity}
+          processingRate={processingRate}
+          isUpdatingCapacity={isUpdatingCapacity}
+          lastCapacityUpdate={lastCapacityUpdate}
+          onCapacityUsageChange={setCapacityUsage}
+          onTotalCapacityChange={setTotalCapacity}
+          onProcessingRateChange={setProcessingRate}
+          onSaveCapacity={handleSaveCapacity}
+        />
       </div>
 
       {/* Waiting Farmers Queue Table */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
-        <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h3 className="text-base font-bold text-slate-900">Waiting Vehicles Queue</h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              {waitingTokens.length} farmers waiting in chronological order of arrival
-            </p>
-          </div>
+      <VehicleQueueTable
+        waitingTokens={waitingTokens}
+        onCallToken={handleCallToken}
+        onSkipToken={handleSkipToken}
+        onSelectFarmer={setSelectedFarmerModal}
+      />
 
-          {waitingTokens.length > 0 && (
-            <button
-              onClick={() => handleCallToken(waitingTokens[0].id)}
-              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-1.5 self-start sm:self-auto"
-            >
-              <Play className="w-3.5 h-3.5" /> Call Next Farmer ({waitingTokens[0].tokenNumber})
-            </button>
-          )}
-        </div>
+      {/* Farmer Identity & Photo Verification Modal */}
+      <FarmerIdentityModal
+        selectedFarmerModal={selectedFarmerModal}
+        onClose={() => setSelectedFarmerModal(null)}
+        onCallToken={handleCallToken}
+        onStartProcessing={handleStartProcessing}
+        onCompleteProcurement={handleCompleteProcurement}
+      />
 
-        {waitingTokens.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 text-xs">
-            No farmers are currently waiting in the queue.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
-                <tr>
-                  <th className="px-6 py-3.5">Position</th>
-                  <th className="px-6 py-3.5">Token Number</th>
-                  <th className="px-6 py-3.5">Farmer Details</th>
-                  <th className="px-6 py-3.5">Crop & Consignment</th>
-                  <th className="px-6 py-3.5">Est. Wait</th>
-                  <th className="px-6 py-3.5">Arrival Time</th>
-                  <th className="px-6 py-3.5 text-right">Gate Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
-                {waitingTokens.map((t, index) => (
-                  <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="px-6 py-4 font-bold text-slate-700">#{index + 1}</td>
-                    <td className="px-6 py-4 font-black text-slate-900">{t.tokenNumber}</td>
-                    <td className="px-6 py-4">
-                      <span className="font-bold text-slate-900 block">{t.farmer?.fullName}</span>
-                      <span className="text-[11px] text-slate-500 flex items-center gap-1 mt-0.5">
-                        <Phone className="w-3 h-3 text-slate-400" /> {t.farmer?.mobile} • {t.farmer?.village}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="font-bold text-emerald-800">{t.crop?.name}</span>
-                      <span className="text-slate-500 block text-[11px]">
-                        {t.quantity} {t.unit}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-amber-700 font-semibold">
-                      ~{t.estimatedWaitMinutes} mins
-                    </td>
-                    <td className="px-6 py-4 text-slate-400">
-                      {new Date(t.createdAt).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleCallToken(t.id)}
-                          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all flex items-center gap-1"
-                        >
-                          <Play className="w-3 h-3" /> Call
-                        </button>
-                        <button
-                          onClick={() => handleSkipToken(t.id)}
-                          className="p-1.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-500 transition-colors"
-                          title="Skip Absent Farmer"
-                        >
-                          <SkipForward className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+      {/* Quality Assay & Moisture Refraction Modal */}
+      <QualityAssayModal
+        isOpen={Boolean(assayToken)}
+        onClose={() => setAssayToken(null)}
+        token={assayToken}
+        onComplete={handleAssayComplete}
+      />
+
+      {/* Official Digital Weighment Slip (Tulai Parchi) Modal */}
+      <WeighmentReceiptModal
+        isOpen={Boolean(receiptData)}
+        onClose={() => setReceiptData(null)}
+        token={receiptData?.token || null}
+        payment={receiptData?.payment || null}
+      />
     </div>
   );
 };

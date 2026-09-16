@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -9,10 +10,11 @@ import rateLimit from 'express-rate-limit';
 
 import { ENV } from './utils/env';
 import { logger } from './utils/logger';
-import { checkDatabaseConnection } from './utils/prisma';
+import { checkDatabaseConnection, prisma } from './utils/prisma';
 import { initializeSocketIO } from './sockets/socketHandler';
 import apiRoutes from './routes';
 import { errorHandler } from './middleware/error.middleware';
+import { startTelegramBotListener } from './services/telegram.service';
 
 const app = express();
 const server = http.createServer(app);
@@ -20,7 +22,7 @@ const server = http.createServer(app);
 // 1. Initialize Socket.IO with CORS
 const io = new Server(server, {
   cors: {
-    origin: [ENV.CLIENT_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
   },
@@ -30,13 +32,14 @@ initializeSocketIO(io);
 // 2. Global Security & Parsing Middlewares
 app.use(
   helmet({
+    contentSecurityPolicy: false,
     crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allows images to be served to client
   })
 );
 
 app.use(
   cors({
-    origin: [ENV.CLIENT_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+    origin: true,
     credentials: true,
   })
 );
@@ -95,15 +98,61 @@ if (fs.existsSync(clientDistDir)) {
 // 6. Centralized Error Handler
 app.use(errorHandler);
 
+async function cleanupRameshData() {
+  try {
+    const rameshUsers = await (prisma as any).user.findMany({
+      where: {
+        OR: [
+          { email: 'farmer.ramesh@smartfarmer.gov.in' },
+          { fullName: { contains: 'Ramesh' } },
+        ],
+      },
+      include: { farmerProfile: true },
+    });
+
+    for (const u of rameshUsers) {
+      logger.info(`Cleaning up user: ${u.email} (${u.fullName})...`);
+      if (u.farmerProfile?.id) {
+        await (prisma as any).farmerCrop.deleteMany({
+          where: { farmerProfileId: u.farmerProfile.id },
+        }).catch(() => {});
+        await (prisma as any).farmerProfile.delete({
+          where: { id: u.farmerProfile.id },
+        }).catch(() => {});
+      }
+      await (prisma as any).notificationPreference.deleteMany({
+        where: { userId: u.id },
+      }).catch(() => {});
+      await (prisma as any).queueToken.deleteMany({
+        where: { farmerId: u.id },
+      }).catch(() => {});
+      await (prisma as any).notification.deleteMany({
+        where: { userId: u.id },
+      }).catch(() => {});
+      await (prisma as any).auditLog?.deleteMany({
+        where: { userId: u.id },
+      }).catch(() => {});
+      await (prisma as any).user.delete({
+        where: { id: u.id },
+      }).catch(() => {});
+      logger.success(`✅ Removed seeded farmer data: ${u.email}`);
+    }
+  } catch (err: any) {
+    logger.warn('Ramesh cleanup note:', err.message);
+  }
+}
+
 // 6. Start Server
 async function start() {
   logger.info('Starting Smart Farmer Assistance Server...');
   await checkDatabaseConnection();
+  await cleanupRameshData();
 
   server.listen(ENV.PORT, () => {
     logger.success(`🚀 Server running on http://localhost:${ENV.PORT}`);
     logger.info(`🔌 WebSocket Server active on port ${ENV.PORT}`);
     logger.info(`🌍 Environment: ${ENV.NODE_ENV}`);
+    startTelegramBotListener();
   });
 }
 

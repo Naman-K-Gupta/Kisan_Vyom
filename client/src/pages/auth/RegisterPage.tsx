@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { LanguageSwitcher } from '../../components/common/LanguageSwitcher';
 import { Sprout, UserPlus, AlertCircle } from 'lucide-react';
+import { Logo } from '../../components/common/Logo';
 
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -18,7 +22,7 @@ export const RegisterPage: React.FC = () => {
     village: '',
     address: '',
     landAreaTotal: 5,
-    preferredLanguage: 'hi',
+    preferredLanguage: language,
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -59,8 +63,8 @@ export const RegisterPage: React.FC = () => {
       }
     } catch (err: any) {
       setError(
-        err.response?.data?.message ||
-          err.response?.data?.errors?.[0]?.message ||
+        err.response?.data?.errors?.[0]?.message ||
+          err.response?.data?.message ||
           'Registration failed. Please review your information.'
       );
     } finally {
@@ -69,18 +73,21 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8 relative">
+      {/* Top Bar with Language Switcher */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <LanguageSwitcher />
+      </div>
+
       <div className="sm:mx-auto sm:w-full sm:max-w-xl text-center">
-        <Link to="/" className="inline-flex items-center gap-2.5">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-600/20">
-            <Sprout className="w-7 h-7" />
-          </div>
+        <Link to="/" className="inline-flex items-center justify-center group">
+          <Logo size="lg" showText={false} />
         </Link>
         <h2 className="mt-4 text-2xl font-extrabold text-slate-900 tracking-tight">
-          Create Your Smart Farmer Account
+          {t('auth.registerTitle')}
         </h2>
         <p className="mt-1 text-xs text-slate-500">
-          Join India's unified digital procurement and agronomy platform
+          {t('auth.registerSubtitle')}
         </p>
       </div>
 
@@ -97,7 +104,7 @@ export const RegisterPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Full Name *
+                  {t('auth.fullName')} *
                 </label>
                 <input
                   type="text"
@@ -105,14 +112,14 @@ export const RegisterPage: React.FC = () => {
                   required
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="e.g. Balwinder Singh"
+                  placeholder="e.g. Enter your full name"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Mobile Number (10 digits) *
+                  {t('auth.mobileNumber')} *
                 </label>
                 <input
                   type="tel"
@@ -130,12 +137,11 @@ export const RegisterPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Email Address *
+                  {t('auth.emailOptional')}
                 </label>
                 <input
                   type="email"
                   name="email"
-                  required
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="name@example.com"
@@ -145,7 +151,7 @@ export const RegisterPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Password (min 6 chars) *
+                  {t('auth.password')} *
                 </label>
                 <input
                   type="password"
@@ -162,7 +168,7 @@ export const RegisterPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  State *
+                  {t('auth.state')} *
                 </label>
                 <input
                   type="text"
@@ -176,7 +182,7 @@ export const RegisterPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  District *
+                  {t('auth.district')} *
                 </label>
                 <input
                   type="text"
@@ -190,7 +196,7 @@ export const RegisterPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Village / Locality *
+                  {t('auth.village')} *
                 </label>
                 <input
                   type="text"
@@ -198,7 +204,7 @@ export const RegisterPage: React.FC = () => {
                   required
                   value={formData.village}
                   onChange={handleChange}
-                  placeholder="e.g. Taraori"
+                  placeholder="e.g. Taraori / Gharaunda"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                 />
               </div>
@@ -206,39 +212,22 @@ export const RegisterPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Full Farm Address *
+                Address / Street / Landmark (Optional)
               </label>
               <input
                 type="text"
                 name="address"
-                required
                 value={formData.address}
                 onChange={handleChange}
-                placeholder="House / Survey Plot number, Landmark, Post Office"
+                placeholder="e.g. Near Mandi Road, Sector 4"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Account Role
-                </label>
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition-all"
-                >
-                  <option value="FARMER">Farmer (Kisan)</option>
-                  <option value="PROCUREMENT_CENTRE_MANAGER">Centre Manager</option>
-                  <option value="ADMIN">Administrator</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Total Land (Acres)
+                  {t('auth.totalLandAcres')}
                 </label>
                 <input
                   type="number"
@@ -253,19 +242,17 @@ export const RegisterPage: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Language
+                  {t('auth.role')}
                 </label>
                 <select
-                  name="preferredLanguage"
-                  value={formData.preferredLanguage}
+                  name="role"
+                  value={formData.role}
                   onChange={handleChange}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition-all"
                 >
-                  <option value="en">English</option>
-                  <option value="hi">हिंदी (Hindi)</option>
-                  <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-                  <option value="gu">ગુજરાતી (Gujarati)</option>
-                  <option value="mr">मराठी (Marathi)</option>
+                  <option value="FARMER">{t('roles.farmer')}</option>
+                  <option value="PROCUREMENT_CENTRE_MANAGER">{t('roles.manager')}</option>
+                  <option value="ADMIN">{t('roles.admin')}</option>
                 </select>
               </div>
             </div>
@@ -276,15 +263,15 @@ export const RegisterPage: React.FC = () => {
               className="w-full mt-4 py-3.5 px-4 rounded-xl text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-98 transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               <UserPlus className="w-4 h-4" />
-              {isLoading ? 'Creating Account...' : 'Complete Registration'}
+              {isLoading ? t('common.loading') : t('auth.registerBtn')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-xs text-slate-500">
-              Already have an account?{' '}
+              {t('auth.haveAccount')}{' '}
               <Link to="/login" className="font-bold text-emerald-600 hover:text-emerald-700">
-                Sign In
+                {t('auth.signInBtn')}
               </Link>
             </p>
           </div>

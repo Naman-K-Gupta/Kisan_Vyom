@@ -6,14 +6,14 @@ import { z } from 'zod';
 
 export const registerSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Invalid email address').optional().or(z.literal('')),
   mobile: z.string().regex(/^[0-9]{10}$/, 'Mobile number must be a 10-digit number'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['FARMER', 'PROCUREMENT_CENTRE_MANAGER', 'ADMIN']).default('FARMER'),
   state: z.string().min(2, 'State is required'),
   district: z.string().min(2, 'District is required'),
   village: z.string().min(2, 'Village/Locality is required'),
-  address: z.string().min(5, 'Full address is required'),
+  address: z.string().optional().default(''),
   preferredLanguage: z.string().default('en'),
   landAreaTotal: z.number().nonnegative().optional().default(0),
   crops: z.array(z.string()).optional(), // Optional initial crop names/ids
@@ -110,6 +110,29 @@ export const joinQueueSchema = z.object({
   quantity: z.number().positive('Quantity must be greater than 0'),
   unit: z.string().default('Quintal'),
   preferredDate: z.string().optional(),
+  vehicleNumber: z.string().optional().nullable(),
+  vehicleType: z.string().optional().nullable(),
+});
+
+export const completeProcurementSchema = z.object({
+  actualQuantity: z.number().positive().optional(),
+  grossWeight: z.number().optional().nullable(),
+  tareWeight: z.number().optional().nullable(),
+  moisturePercentage: z.number().min(0).max(50).optional().nullable(),
+  foreignMatterPercentage: z.number().min(0).max(25).optional().nullable(),
+  damagedGrainPercentage: z.number().min(0).max(25).optional().nullable(),
+  qualityGrade: z.string().optional().nullable(),
+  deductions: z.number().min(0).optional().nullable(),
+  vehicleNumber: z.string().optional().nullable(),
+  vehicleType: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
+});
+
+export const rejectConsignmentSchema = z.object({
+  reason: z.string().min(3, 'Rejection reason is required'),
+  moisturePercentage: z.number().optional().nullable(),
+  foreignMatterPercentage: z.number().optional().nullable(),
+  advisoryNote: z.string().optional().nullable(),
 });
 
 export const queueActionSchema = z.object({

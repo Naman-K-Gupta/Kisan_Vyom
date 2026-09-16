@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { QueueService } from '../services/queue.service';
 import { prisma } from '../utils/prisma';
-import { joinQueueSchema, queueActionSchema } from '../validators';
+import { joinQueueSchema, queueActionSchema, completeProcurementSchema, rejectConsignmentSchema } from '../validators';
 import { getIO } from '../sockets/socketHandler';
 
 export class QueueController {
@@ -19,6 +19,8 @@ export class QueueController {
       cropId: validated.cropId,
       quantity: validated.quantity,
       unit: validated.unit,
+      vehicleNumber: validated.vehicleNumber,
+      vehicleType: validated.vehicleType,
     });
 
     res.status(201).json({
@@ -103,16 +105,47 @@ export class QueueController {
         status: { in: ['WAITING', 'CALLED', 'PROCESSING', 'COMPLETED', 'SKIPPED'] },
       },
       include: {
-        farmer: { select: { id: true, fullName: true, mobile: true, village: true } },
+        farmer: {
+          select: {
+            id: true,
+            fullName: true,
+            mobile: true,
+            village: true,
+            district: true,
+            state: true,
+            farmerProfile: {
+              select: {
+                profilePictureUrl: true,
+                landAreaTotal: true,
+              },
+            },
+          },
+        },
         crop: { select: { id: true, name: true, defaultUnit: true } },
       },
       orderBy: { createdAt: 'asc' },
     });
 
-    const waiting = tokens.filter((t) => t.status === 'WAITING');
-    const called = tokens.filter((t) => t.status === 'CALLED');
-    const processing = tokens.filter((t) => t.status === 'PROCESSING');
-    const completedToday = tokens.filter((t) => t.status === 'COMPLETED');
+    const mappedTokens = tokens.map((t: any) => ({
+      ...t,
+      farmer: t.farmer
+        ? {
+            id: t.farmer.id,
+            fullName: t.farmer.fullName,
+            mobile: t.farmer.mobile,
+            village: t.farmer.village,
+            district: t.farmer.district,
+            state: t.farmer.state,
+            profilePictureUrl: t.farmer.farmerProfile?.profilePictureUrl || null,
+            landAreaTotal: t.farmer.farmerProfile?.landAreaTotal || 0,
+          }
+        : undefined,
+    }));
+
+    const waiting = mappedTokens.filter((t) => t.status === 'WAITING');
+    const called = mappedTokens.filter((t) => t.status === 'CALLED');
+    const processing = mappedTokens.filter((t) => t.status === 'PROCESSING');
+    const completedToday = mappedTokens.filter((t) => t.status === 'COMPLETED');
 
     res.json({
       success: true,
@@ -150,16 +183,35 @@ export class QueueController {
   }
 
   /**
-   * Manager completes procurement
+   * Manager completes procurement with quality assay & weighment
    */
   static async completeProcurement(req: Request, res: Response) {
     if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
     const { id } = req.params;
+    const validated = completeProcurementSchema.parse(req.body || {});
 
-    const token = await QueueService.completeProcurement(id, req.user.id);
+    const result = await QueueService.completeProcurement(id, req.user.id, validated);
     res.json({
       success: true,
-      message: `Procurement completed for Token ${token.tokenNumber}! Capacity updated.`,
+      message: `Procurement completed for Token ${result.token.tokenNumber}! Official receipt issued.`,
+      token: result.token,
+      payment: result.payment,
+      centre: result.centre,
+    });
+  }
+
+  /**
+   * Manager rejects consignment due to high moisture or impurities
+   */
+  static async rejectConsignment(req: Request, res: Response) {
+    if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+    const { id } = req.params;
+    const validated = rejectConsignmentSchema.parse(req.body);
+
+    const token = await QueueService.rejectConsignment(id, req.user.id, validated);
+    res.json({
+      success: true,
+      message: `Consignment for Token ${token.tokenNumber} rejected with advisory issued.`,
       token,
     });
   }

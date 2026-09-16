@@ -48,3 +48,6 @@ Thumbs.db
 # Uploads
 uploads/*
 !uploads/.gitkeep
+**/uploads/*
+!**/uploads/.gitkeep
+*.tmp*

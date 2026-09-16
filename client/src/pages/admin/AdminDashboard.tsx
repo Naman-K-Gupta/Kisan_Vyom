@@ -7,13 +7,11 @@ import {
   Users,
   Building2,
   Clock,
-  TrendingUp,
-  CheckCircle2,
   Scale,
   Shield,
-  AlertTriangle,
   ArrowRight,
-  History,
+  Landmark,
+  FileSpreadsheet,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -26,19 +24,20 @@ export const AdminDashboard: React.FC = () => {
       .then((res) => {
         if (res.data.success) setStats(res.data.stats);
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.error('Failed to fetch admin stats:', err))
       .finally(() => setIsLoading(false));
   }, []);
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-8 animate-fade-in pb-12">
+      {/* Top Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
             State Agriculture Administration Hub <Shield className="w-6 h-6 text-purple-600" />
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Real-time procurement oversight, silo capacity tracking, and compliance audit trail
+            Real-time procurement oversight, silo capacity tracking, and government policy administration
           </p>
         </div>
       </div>
@@ -82,8 +81,32 @@ export const AdminDashboard: React.FC = () => {
         />
       </div>
 
+      {/* Featured: Daily Centre Procurement Records Banner */}
+      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-purple-800/50">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-800/80 text-purple-200 text-[11px] font-bold uppercase tracking-wider border border-purple-700/50">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Real-Time State Procurement Oversight
+          </div>
+          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+            Daily Mandi Procurement Records by Centre
+          </h2>
+          <p className="text-xs sm:text-sm text-purple-200 leading-relaxed">
+            Inspect daily weighbridge arrivals, grain quantities, Fair Average Quality (FAQ) grades, and DBT banking transaction UTRs for any procurement centre across the state.
+          </p>
+        </div>
+
+        <Link
+          to="/admin/procurement-records"
+          className="px-6 py-3.5 rounded-2xl bg-white hover:bg-purple-50 active:scale-95 text-purple-950 font-extrabold text-xs shadow-lg transition flex items-center gap-2 self-start md:self-auto flex-shrink-0"
+        >
+          <span>Open Daily Procurement Ledger</span>
+          <ArrowRight className="w-4 h-4 text-purple-600" />
+        </Link>
+      </div>
+
       {/* Administrative Operations Shortcuts */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
@@ -117,6 +140,26 @@ export const AdminDashboard: React.FC = () => {
             className="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
           >
             Manage Centres <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+          <div>
+            <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">
+              Policy & Welfare
+            </span>
+            <h3 className="text-lg font-bold text-slate-900 mt-1 mb-2">Govt Policies & Schemes</h3>
+            <p className="text-xs text-slate-500 leading-relaxed mb-6">
+              Publish central/state subsidies, revise DBT benefit amounts, extend deadlines, and broadcast live alerts.
+            </p>
+          </div>
+          <Link
+            to="/admin/schemes"
+            className="w-full py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+          >
+            <Landmark className="w-3.5 h-3.5 text-amber-700" />
+            <span>Policy Console</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
