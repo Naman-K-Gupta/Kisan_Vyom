@@ -4,11 +4,13 @@ services:
     name: kisan-kendra-app
     env: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm install --include=dev && npm run build && npx prisma db push --schema=server/prisma/schema.prisma
+    startCommand: node server/dist/server.js
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
       - key: PORT
         value: 10000
       - key: DATABASE_URL
