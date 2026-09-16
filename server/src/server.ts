@@ -15,6 +15,7 @@ import { initializeSocketIO } from './sockets/socketHandler';
 import apiRoutes from './routes';
 import { errorHandler } from './middleware/error.middleware';
 import { startTelegramBotListener } from './services/telegram.service';
+import { ensureComprehensiveDemoData } from './services/demoSeed.service';
 
 const app = express();
 const server = http.createServer(app);
@@ -76,6 +77,18 @@ app.get('/health', async (_req, res) => {
     database: dbOk ? 'connected' : 'disconnected',
     version: '1.0.0',
   });
+});
+
+// Demo data seeding endpoint for Render / remote initialization
+app.get('/api/demo/seed', async (req, res) => {
+  try {
+    const force = req.query.force === 'true' || req.query.force === '1';
+    await ensureComprehensiveDemoData(force);
+    res.json({ success: true, message: 'Comprehensive demo data seeded successfully' });
+  } catch (err: any) {
+    logger.error('Manual demo seed failed:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // 5. Static Client Serving in Production
@@ -147,6 +160,7 @@ async function start() {
   logger.info('Starting Smart Farmer Assistance Server...');
   await checkDatabaseConnection();
   await cleanupRameshData();
+  await ensureComprehensiveDemoData();
 
   server.listen(ENV.PORT, () => {
     logger.success(`🚀 Server running on http://localhost:${ENV.PORT}`);
