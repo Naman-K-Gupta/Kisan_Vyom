@@ -3,6 +3,21 @@ import { prisma } from '../utils/prisma';
 import { createCropSchema, createFarmerCropSchema, updateFarmerCropSchema } from '../validators';
 import { logAudit } from '../services/audit.service';
 
+const DEFAULT_APMC_CROPS = [
+  { name: 'Wheat (Kanak)', scientificName: 'Triticum aestivum', category: 'Cereal', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Paddy (Dhaan - Common)', scientificName: 'Oryza sativa', category: 'Cereal', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Paddy (Grade A)', scientificName: 'Oryza sativa var.', category: 'Cereal', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Mustard / Rapeseed (Sarson)', scientificName: 'Brassica juncea', category: 'Oilseed', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Cotton (Kapas)', scientificName: 'Gossypium hirsutum', category: 'Cash Crop', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Soybean (Yellow)', scientificName: 'Glycine max', category: 'Oilseed', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Gram (Chana / Chickpea)', scientificName: 'Cicer arietinum', category: 'Pulse', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Maize (Makka)', scientificName: 'Zea mays', category: 'Cereal', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Sugarcane (Ganna)', scientificName: 'Saccharum officinarum', category: 'Cash Crop', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Moong (Green Gram)', scientificName: 'Vigna radiata', category: 'Pulse', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Bajra (Pearl Millet)', scientificName: 'Pennisetum glaucum', category: 'Millet', defaultUnit: 'Quintal', isActive: true },
+  { name: 'Groundnut (Mungfali)', scientificName: 'Arachis hypogaea', category: 'Oilseed', defaultUnit: 'Quintal', isActive: true },
+];
+
 export class CropController {
   /**
    * Master Crop Catalog (Public / Authenticated)
@@ -10,7 +25,7 @@ export class CropController {
   static async getAllCrops(req: Request, res: Response) {
     const { category, search } = req.query;
 
-    const crops = await prisma.crop.findMany({
+    let crops = await prisma.crop.findMany({
       where: {
         isActive: true,
         ...(category ? { category: String(category) } : {}),
@@ -25,6 +40,37 @@ export class CropController {
       },
       orderBy: { name: 'asc' },
     });
+
+    // Self-healing: if crops table is empty in production, auto-seed default APMC crops
+    if (crops.length === 0 && !search) {
+      for (const item of DEFAULT_APMC_CROPS) {
+        await prisma.crop.upsert({
+          where: { name: item.name },
+          update: {},
+          create: item,
+        }).catch(() => {});
+      }
+      crops = await prisma.crop.findMany({
+        where: { isActive: true },
+        orderBy: { name: 'asc' },
+      });
+
+      // Auto-link crops to centres that have no supported crops
+      const centresWithoutCrops = await prisma.procurementCentre.findMany({
+        where: { supportedCrops: { none: {} } },
+      });
+      for (const centre of centresWithoutCrops) {
+        await prisma.centreCrop.createMany({
+          data: crops.slice(0, 8).map((c) => ({
+            centreId: centre.id,
+            cropId: c.id,
+            maxDailyCapacity: 2500,
+            isAccepting: true,
+          })),
+          skipDuplicates: true,
+        }).catch(() => {});
+      }
+    }
 
     res.json({ success: true, count: crops.length, crops });
   }

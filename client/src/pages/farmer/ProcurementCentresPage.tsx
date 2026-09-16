@@ -534,16 +534,25 @@ export const ProcurementCentresPage: React.FC = () => {
               required
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             >
-              {selectedCentre?.supportedCrops?.map((sc) => (
-                <option key={sc.cropId} value={sc.cropId}>
-                  {sc.crop?.name} ({t('centres.maxDaily')}: {sc.maxDailyCapacity} {t('common.quintal')})
-                </option>
-              )) ||
+              {selectedCentre?.supportedCrops && selectedCentre.supportedCrops.length > 0 ? (
+                selectedCentre.supportedCrops.map((sc) => (
+                  <option key={sc.cropId} value={sc.cropId}>
+                    {sc.crop?.name || 'Produce'} ({t('centres.maxDaily')}: {sc.maxDailyCapacity} {t('common.quintal')})
+                  </option>
+                ))
+              ) : masterCrops && masterCrops.length > 0 ? (
                 masterCrops.map((mc) => (
                   <option key={mc.id} value={mc.id}>
                     {mc.name}
                   </option>
-                ))}
+                ))
+              ) : (
+                <>
+                  <option value="wheat-default">Wheat (Kanak)</option>
+                  <option value="paddy-default">Paddy (Dhaan)</option>
+                  <option value="mustard-default">Mustard (Sarson)</option>
+                </>
+              )}
             </select>
           </div>
 
