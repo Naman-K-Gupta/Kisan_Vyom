@@ -15,7 +15,6 @@ import {
   Shield,
   Briefcase,
   MessageSquare,
-  FileDown,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
@@ -72,31 +71,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
           <Link to="/" className="flex items-center group">
             <Logo size="md" />
           </Link>
-
-          {user && (
-            <Link
-              to={user.role === 'ADMIN' ? '/admin/schemes' : '/farmer/schemes'}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 transition active:scale-95 shadow-2xs ml-3"
-            >
-              <span>🏛️ {t('nav.govtPolicies', 'Govt Policies')}</span>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
-              </span>
-            </Link>
-          )}
-
-          <a
-            href="/Smart_Farmer_Documentation.pdf"
-            download="Smart_Farmer_Assistance_Architecture_and_Logic_Guide.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200/80 border border-slate-200 transition active:scale-95 shadow-2xs ml-2"
-            title="Download Architecture, Logic & Technology Guide (PDF)"
-          >
-            <FileDown className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Architecture PDF</span>
-          </a>
         </div>
 
         {/* Right: Actions, Weather, Notifications, Profile */}

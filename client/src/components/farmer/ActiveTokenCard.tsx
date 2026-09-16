@@ -20,7 +20,9 @@ export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-slate-900">{t('dashboard.activeTokenTitle')}</h3>
+            <h3 className="text-lg font-bold text-slate-900">
+              {t('dashboard.activeTokenTitle', 'Active Gate Pass & Queue Token')}
+            </h3>
             {activeToken && (
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

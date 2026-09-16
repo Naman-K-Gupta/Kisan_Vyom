@@ -12,7 +12,7 @@ import {
   AlertDTO,
   PaymentSummaryDTO,
 } from '@smart-farmer/shared';
-import { StatCard } from '../../components/common/StatCard';
+import { EnvironmentAwarenessBanner } from '../../components/farmer/EnvironmentAwarenessBanner';
 import { Badge } from '../../components/common/Badge';
 import { Link } from 'react-router-dom';
 import { FarmerWeatherCard } from '../../components/farmer/FarmerWeatherCard';
@@ -417,41 +417,14 @@ export const FarmerDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* Top Telemetry Grid: Weather & Farm Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <FarmerWeatherCard weather={weather} t={t} />
-
-        <StatCard
-          title={t('dashboard.activeQueueStatus')}
-          value={activeToken ? `#${activeToken.tokenNumber}` : t('dashboard.noToken')}
-          trend={{
-            value: activeToken
-              ? `${activeToken.farmersAhead ?? 0} ${t('dashboard.aheadInLine')}`
-              : t('dashboard.bookNow'),
-            isPositive: !activeToken || (activeToken.farmersAhead ?? 0) <= 2,
-          }}
-          icon={Clock}
-        />
-
-        <StatCard
-          title={t('dashboard.cultivatedArea')}
-          value={`${user?.farmerProfile?.landAreaTotal || 0} ${t('common.acres')}`}
-          trend={{
-            value: `${crops.length} ${t('dashboard.cropsInField')}`,
-            isPositive: true,
-          }}
-          icon={Wheat}
-        />
-
-        <StatCard
-          title={t('dashboard.seasonMSPProcured')}
-          value={`${paymentSummary?.totalQuantitySold || 0} Qtl`}
-          trend={{
-            value: formatCurrency(paymentSummary?.totalDisbursed || 0),
-            isPositive: true,
-          }}
-          icon={TrendingUp}
-        />
+      {/* Top Telemetry & Environmental Protection Awareness Banner */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+        <div className="lg:col-span-4 flex flex-col">
+          <FarmerWeatherCard weather={weather} t={t} />
+        </div>
+        <div className="lg:col-span-8 flex flex-col">
+          <EnvironmentAwarenessBanner t={t} />
+        </div>
       </div>
 
       {/* Financial Settlement & Bank Details Grid */}
@@ -465,13 +438,17 @@ export const FarmerDashboard: React.FC = () => {
                   <IndianRupee className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-white">{t('dashboard.dbtOverviewTitle')}</h3>
-                  <p className="text-[11px] text-emerald-200/80">{t('dashboard.dbtOverviewSub')}</p>
+                  <h3 className="font-bold text-base text-white">
+                    {t('dashboard.dbtOverviewTitle', 'Direct Benefit Transfer (DBT) Payouts')}
+                  </h3>
+                  <p className="text-[11px] text-emerald-200/80">
+                    {t('dashboard.dbtOverviewSub', 'Central & State PFMS electronic clearing directly to your linked bank account')}
+                  </p>
                 </div>
               </div>
               <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30 flex items-center gap-1">
                 <CheckCircle className="w-3 h-3 text-emerald-400" />
-                {t('dashboard.dbtDirectSettlement')}
+                {t('dashboard.dbtDirectSettlement', 'Direct Bank Settlement')}
               </span>
             </div>
 
@@ -645,21 +622,25 @@ export const FarmerDashboard: React.FC = () => {
         <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
-              <h3 className="text-base font-bold text-slate-900">{t('dashboard.topMspRates')}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">{t('dashboard.officialGovtFloorPrice')}</p>
+              <h3 className="text-base font-bold text-slate-900">
+                {t('dashboard.topMspRates', 'Top Minimum Support Price (MSP) Rates')}
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {t('dashboard.officialGovtFloorPrice', 'Official Government Floor Price & Procurement Benchmarks')}
+              </p>
             </div>
             <Link
               to="/farmer/prices"
               className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
             >
-              {t('dashboard.allPrices')} <ArrowRight className="w-3.5 h-3.5" />
+              {t('dashboard.allPrices', 'All Prices')} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="mt-4 divide-y divide-slate-50">
             {topPrices.length === 0 ? (
               <p className="py-6 text-xs text-slate-400 text-center">
-                {t('dashboard.noMspAvailable')}
+                {t('dashboard.noMspAvailable', 'No government price records available currently.')}
               </p>
             ) : (
               topPrices.map((price) => (
@@ -671,7 +652,7 @@ export const FarmerDashboard: React.FC = () => {
                     <div>
                       <h4 className="text-xs font-bold text-slate-900">{price.cropName}</h4>
                       <p className="text-[10px] text-slate-400">
-                        {t('dashboard.season')}: {price.season}
+                        {t('dashboard.season', 'Season')}: {price.season}
                       </p>
                     </div>
                   </div>
