@@ -504,7 +504,7 @@ export const FarmerPaymentsPage: React.FC = () => {
               {/* Official Seal & Signature */}
               <div className="pt-4 flex items-center justify-between border-t border-slate-200 text-[11px] text-slate-500">
                 <div>
-                  <p className="font-bold text-slate-700">Kisan Kendra Portal</p>
+                  <p className="font-bold text-slate-700">Kisan Vyom Portal</p>
                   <p className="text-[10px]">Direct APMC Procurement & Mandi Management System</p>
                 </div>
                 <div className="text-right">

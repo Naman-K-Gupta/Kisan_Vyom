@@ -7,7 +7,6 @@ import {
   Truck,
   Scale,
   FlaskConical,
-  Send,
   Building,
   Landmark,
   ShieldCheck,
@@ -26,63 +25,64 @@ export const WeighmentReceiptModal: React.FC<WeighmentReceiptModalProps> = ({
   token,
   payment,
 }) => {
-  if (!isOpen || !token || !payment) return null;
+  if (!isOpen || !token) return null;
 
   const handlePrint = () => {
     window.print();
   };
 
-  const formattedDate = new Date(payment.createdAt || Date.now()).toLocaleDateString('en-IN', {
+  const formattedDate = new Date(payment?.createdAt || Date.now()).toLocaleDateString('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
   });
-  const formattedTime = new Date(payment.createdAt || Date.now()).toLocaleTimeString('en-IN', {
+  const formattedTime = new Date(payment?.createdAt || Date.now()).toLocaleTimeString('en-IN', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
   });
 
   const vehicleNo =
-    payment.vehicleNumber || token.vehicleNumber || 'PB-10-AB-1234';
+    payment?.vehicleNumber || token.vehicleNumber || 'PB-10-AB-1234';
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fade-in print:p-0 print:bg-white">
-      <div className="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-100 overflow-hidden flex flex-col print:shadow-none print:border-none print:max-w-none">
-        {/* Top Control Bar (Hidden on Print) */}
+      <div className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[95vh] print:max-h-none print:shadow-none print:border-none">
+        {/* Modal Action Bar (Hidden on Print) */}
         <div className="px-6 py-3.5 bg-slate-900 text-white flex items-center justify-between print:hidden">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
-              Procurement Receipt Generated
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              Procurement Receipt Finalized
             </span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm"
             >
-              <Printer className="w-3.5 h-3.5" /> Print Slip
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print Mandi Slip</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Telegram Push Notification Banner (Hidden on Print) */}
-        <div className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-between text-xs font-semibold print:hidden shadow-inner">
+        {/* Digital Slip Notice (Hidden on Print) */}
+        <div className="px-6 py-2.5 bg-gradient-to-r from-emerald-700 to-teal-700 text-white flex items-center justify-between text-xs font-semibold print:hidden shadow-inner">
           <div className="flex items-center gap-2">
-            <Send className="w-3.5 h-3.5" />
+            <CheckCircle className="w-3.5 h-3.5" />
             <span>
-              Sent to Farmer's Mobile: <strong>+91 {token.farmer?.mobile}</strong> (@Kisan_kendra_bot)
+              Official Mandi Slip Generated for Farmer: <strong>{token.farmer?.fullName || ''}</strong> (+91 {token.farmer?.mobile})
             </span>
           </div>
           <span className="px-2 py-0.5 rounded-md bg-white/20 text-[10px] font-bold">
-            Delivered
+            Delivered to Portal
           </span>
         </div>
 

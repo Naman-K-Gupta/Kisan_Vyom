@@ -56,7 +56,7 @@ export const en = {
     irrigateNow: 'Irrigate Now',
   },
   nav: {
-    brand: 'Kisan Kendra',
+    brand: 'Kisan Vyom',
     apmcHub: 'APMC Hub',
     tag: 'Digital Mandi & Agricultural Support',
     dashboard: 'Dashboard',
@@ -125,10 +125,10 @@ export const en = {
     adminPoint4: 'Tamper-proof audit compliance logs & emergency alerts',
     getStarted: 'Get Started Today',
     openMandiNetwork: 'Official APMC Procurement Network',
-    rightsReserved: 'Kisan Kendra. Developed for transparent & efficient agriculture.',
+    rightsReserved: 'Kisan Vyom. Developed for transparent & efficient agriculture.',
   },
   auth: {
-    signInTitle: 'Sign In to Kisan Kendra',
+    signInTitle: 'Sign In to Kisan Vyom',
     signInSubtitle: 'Enter your registered email address or 10-digit mobile number',
     registerTitle: 'Farmer Registration',
     registerSubtitle: 'Join thousands of farmers benefiting from digital mandi queues and fair MSP',

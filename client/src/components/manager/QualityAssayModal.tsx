@@ -5,10 +5,10 @@ import {
   Scale,
   FlaskConical,
   CheckCircle,
+  CheckCircle2,
   AlertTriangle,
   XCircle,
   Truck,
-  Send,
   Sliders,
   DollarSign,
   ShieldCheck,
@@ -66,7 +66,6 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
   const [foreignMatterPercentage, setForeignMatterPercentage] = useState<number>(0.5);
   const [damagedGrainPercentage, setDamagedGrainPercentage] = useState<number>(0.5);
 
-  const [sendTelegramReceipt, setSendTelegramReceipt] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -568,30 +567,27 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 {calculations.rejectionReason}
               </p>
               <div className="text-[11px] text-slate-600 bg-white/80 p-2 rounded-xl border border-rose-200">
-                📌 <strong>Action:</strong> Click <em>"Issue Rejection Advisory"</em> below. The farmer will be immediately notified on Telegram with recommendations to sun-dry and aerate the grain.
+                📌 <strong>Action:</strong> Click <em>"Issue Rejection Advisory"</em> below. The farmer will be immediately notified in-app with recommendations to sun-dry and aerate the grain.
               </div>
             </div>
           )}
 
-          {/* Telegram Dispatch Toggle */}
+          {/* Digital Weighment Slip Notification */}
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <Send className="w-4 h-4 text-blue-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <div>
                 <span className="text-xs font-extrabold text-slate-800 block">
-                  Send Digital Weighment Slip (*Tulai Parchi*) to Farmer Mobile
+                  Digital Weighment Slip (*Tulai Parchi*)
                 </span>
                 <span className="text-[10px] text-slate-500">
-                  Delivered via Telegram (@Kisan_kendra_bot) and In-App Web Notification
+                  Instant receipt delivery to Farmer's Account & In-App Portal
                 </span>
               </div>
             </div>
-            <input
-              type="checkbox"
-              checked={sendTelegramReceipt}
-              onChange={(e) => setSendTelegramReceipt(e.target.checked)}
-              className="w-4 h-4 accent-emerald-600 rounded cursor-pointer"
-            />
+            <span className="px-2.5 py-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200">
+              Automated
+            </span>
           </div>
         </div>
 

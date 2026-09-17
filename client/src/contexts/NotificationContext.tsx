@@ -4,6 +4,11 @@ import { api } from '../api';
 import { useAuth } from './AuthContext';
 import { useSocket } from './SocketContext';
 
+import {
+  triggerFarmerAppNotification,
+  requestNotificationPermissionForFarmer,
+} from '../services/nativeNotification';
+
 interface ToastItem {
   id: string;
   title: string;
@@ -19,6 +24,7 @@ interface NotificationContextType {
   markAllAsRead: () => Promise<void>;
   dismissToast: (id: string) => void;
   showToast: (title: string, message: string, type?: string) => void;
+  sendFarmerTestAlert: () => Promise<boolean>;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -45,6 +51,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   useEffect(() => {
     fetchNotifications();
+    // Prompt for Android notification permission only for farmers
+    if (user?.role === 'FARMER') {
+      requestNotificationPermissionForFarmer(user.role);
+    }
   }, [user]);
 
   // Listen for real-time notification socket event
@@ -55,6 +65,14 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       setNotifications((prev) => [notification, ...prev]);
       setUnreadCount((prev) => prev + 1);
       showToast(notification.title, notification.message, notification.type);
+
+      // APP NOTIFICATION ONLY FOR FARMERS (Not for center manager or admin)
+      if (user?.role === 'FARMER') {
+        triggerFarmerAppNotification(user.role, notification.title, notification.message, {
+          notificationId: notification.id,
+          type: notification.type,
+        });
+      }
     };
 
     socket.on('notification:new', handleNewNotification);
@@ -62,7 +80,23 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return () => {
       socket.off('notification:new', handleNewNotification);
     };
-  }, [socket]);
+  }, [socket, user?.role]);
+
+  const sendFarmerTestAlert = async (): Promise<boolean> => {
+    if (user?.role !== 'FARMER') {
+      showToast('Action Blocked', 'Device app notifications are configured exclusively for Farmers.', 'warning');
+      return false;
+    }
+    const success = await triggerFarmerAppNotification(
+      user.role,
+      '🌾 Kisan Sahayak Notification',
+      'Your Android device is receiving real-time APMC Mandi and MSP updates!'
+    );
+    if (success) {
+      showToast('Notification Sent', 'A heads-up Android alert was sent to your status bar!', 'success');
+    }
+    return success;
+  };
 
   const showToast = (title: string, message: string, type = 'info') => {
     const id = `${Date.now()}-${Math.random()}`;
@@ -110,6 +144,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         markAllAsRead,
         dismissToast,
         showToast,
+        sendFarmerTestAlert,
       }}
     >
       {children}

@@ -7,7 +7,7 @@ export interface LogoIconProps {
 }
 
 /**
- * High-definition SVG Logo Mark for Kisan Kendra.
+ * High-definition SVG Logo Mark for Kisan Vyom.
  * Features:
  * - Emerald & teal gradient squircle container
  * - Rising golden dawn sun & rolling field contours
@@ -26,7 +26,7 @@ export const LogoIcon: React.FC<LogoIconProps> = ({ className = 'w-10 h-10', siz
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       style={width ? { width, height } : undefined}
-      aria-label="Kisan Kendra Logo"
+      aria-label="Kisan Vyom Logo"
     >
       <defs>
         {/* Modern Emerald Gradient Background */}
@@ -220,7 +220,7 @@ export const Logo: React.FC<LogoProps> = ({
                 variant === 'dark' ? 'text-emerald-400' : 'text-emerald-600'
               }`}
             >
-              Kendra
+              Vyom
             </span>
           </div>
 

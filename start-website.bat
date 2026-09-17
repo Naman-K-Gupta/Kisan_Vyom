@@ -1,12 +1,12 @@
 @echo off
-title Kisan Kendra Platform - Digital Mandi Assistance
+title Kisan Vyom Platform - Digital Mandi Assistance
 color 0A
 cls
 
 cd /d "%~dp0"
 
 echo =====================================================================
-echo          KISAN KENDRA - DIGITAL MANDI ^& AGRICULTURAL PLATFORM
+echo          KISAN VYOM - DIGITAL MANDI ^& AGRICULTURAL PLATFORM
 echo =====================================================================
 echo.
 echo   [1] Farmer Portal ^& Dashboard
@@ -34,8 +34,8 @@ echo [STATUS] Checking backend server on port 5000...
 netstat -ano | findstr :5000 | findstr LISTENING >nul 2>&1
 if %ERRORLEVEL% equ 0 goto :backend_running
 
-echo [INFO] Starting Kisan Kendra backend server...
-start "Kisan Kendra Backend" /min cmd /c "node server/dist/server.js"
+echo [INFO] Starting Kisan Vyom backend server...
+start "Kisan Vyom Backend" /min cmd /c "node server/dist/server.js"
 
 set attempts=0
 :wait_backend
@@ -61,7 +61,7 @@ netstat -ano | findstr :5173 | findstr LISTENING >nul 2>&1
 if %ERRORLEVEL% equ 0 goto :frontend_running
 
 echo [INFO] Starting Vite frontend client...
-start "Kisan Kendra Client" /min cmd /c "npm run dev --workspace=client"
+start "Kisan Vyom Client" /min cmd /c "npm run dev --workspace=client"
 
 set attempts=0
 :wait_frontend
@@ -85,7 +85,7 @@ netstat -ano | findstr :5173 | findstr LISTENING >nul 2>&1
 if %ERRORLEVEL% neq 0 set "TARGET_URL=http://localhost:5000"
 :: 4. Launch Website in Default Browser reliably via PowerShell
 echo.
-echo [INFO] Opening Kisan Kendra in your default web browser...
+echo [INFO] Opening Kisan Vyom in your default web browser...
 echo [URL]  %TARGET_URL%
 
 powershell -NoProfile -Command "Start-Process '%TARGET_URL%'" >nul 2>&1

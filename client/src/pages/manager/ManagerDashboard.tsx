@@ -259,7 +259,7 @@ export const ManagerDashboard: React.FC = () => {
     setReceiptData({ token: completedToken, payment: paymentObj });
     showToast(
       'Procurement Completed!',
-      `Official Tulai Parchi dispatched to farmer ${completedToken.farmer?.fullName || ''} on Telegram.`,
+      `Official Tulai Parchi dispatched to farmer ${completedToken.farmer?.fullName || ''}.`,
       'PROCUREMENT_COMPLETED'
     );
 

@@ -149,7 +149,7 @@ export async function generateWeighmentSlipPdf(data: WeighmentSlipPdfData): Prom
       doc.text('Weighbridge Incharge (Digital Sign-Off)', 340, sigY + 35);
 
       doc.fontSize(7.5).font('Helvetica').fillColor('#94a3b8').text(
-        'This is a certified digital weighment slip generated via Kisan Kendra Digital Mandi Assistance System under APMC regulations.',
+        'This is a certified digital weighment slip generated via Kisan Vyom Digital Mandi Assistance System under APMC regulations.',
         35,
         782,
         { align: 'center' }

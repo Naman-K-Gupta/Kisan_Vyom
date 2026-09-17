@@ -58,7 +58,7 @@ export const hi: TranslationStructure = {
     irrigateNow: 'तुरंत सिंचाई करें',
   },
   nav: {
-    brand: 'किसान केंद्र',
+    brand: 'किसान व्योम',
     apmcHub: 'मंडी हब',
     tag: 'डिजिटल मंडी एवं कृषि सहायता मंच',
     dashboard: 'डैशबोर्ड',
@@ -127,10 +127,10 @@ export const hi: TranslationStructure = {
     adminPoint4: 'सुरक्षित ऑडिट लॉग एवं आपातकालीन अलर्ट प्रसारण',
     getStarted: 'आज ही शुरुआत करें',
     openMandiNetwork: 'अधिकृत APMC खरीद नेटवर्क',
-    rightsReserved: 'किसान केंद्र। पारदर्शी एवं सशक्त भारतीय कृषि हेतु समर्पित।',
+    rightsReserved: 'किसान व्योम। पारदर्शी एवं सशक्त भारतीय कृषि हेतु समर्पित।',
   },
   auth: {
-    signInTitle: 'किसान केंद्र पोर्टल में लॉगिन करें',
+    signInTitle: 'किसान व्योम पोर्टल में लॉगिन करें',
     signInSubtitle: 'अपना पंजीकृत मोबाइल नंबर या ईमेल आईडी दर्ज करें',
     registerTitle: 'नया किसान पंजीकरण',
     registerSubtitle: 'डिजिटल मंडी कतारों और सुनिश्चित MSP का लाभ लेने हेतु आज ही जुड़ें',

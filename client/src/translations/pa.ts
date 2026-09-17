@@ -58,7 +58,7 @@ export const pa: TranslationStructure = {
     irrigateNow: 'ਤੁਰੰਤ ਸਿੰਚਾਈ ਕਰੋ',
   },
   nav: {
-    brand: 'ਕਿਸਾਨ ਕੇਂਦਰ',
+    brand: 'ਕਿਸਾਨ ਵਿਓਮ',
     apmcHub: 'ਮੰਡੀ ਹੱਬ',
     tag: 'ਡਿਜੀਟਲ ਮੰਡੀ ਅਤੇ ਖੇਤੀਬਾੜੀ ਸਹਾਇਤਾ ਮੰਚ',
     dashboard: 'ਡੈਸ਼ਬੋਰਡ',
@@ -127,10 +127,10 @@ export const pa: TranslationStructure = {
     adminPoint4: 'ਸੁਰੱਖਿਅਤ ਆਡਿਟ ਲੌਗਸ ਅਤੇ ਐਮਰਜੈਂਸੀ ਅਲਰਟ',
     getStarted: 'ਅੱਜ ਹੀ ਸ਼ੁਰੂ ਕਰੋ',
     openMandiNetwork: 'ਸਰਕਾਰੀ ਦਾਣਾ ਮੰਡੀ ਖਰੀਦ ਨੈੱਟਵਰਕ',
-    rightsReserved: 'ਕਿਸਾਨ ਕੇਂਦਰ। ਪਾਰਦਰਸ਼ੀ ਅਤੇ ਖੁਸ਼ਹਾਲ ਖੇਤੀ ਲਈ ਵਚਨਬੱਧ।',
+    rightsReserved: 'ਕਿਸਾਨ ਵਿਓਮ। ਪਾਰਦਰਸ਼ੀ ਅਤੇ ਖੁਸ਼ਹਾਲ ਖੇਤੀ ਲਈ ਵਚਨਬੱਧ।',
   },
   auth: {
-    signInTitle: 'ਕਿਸਾਨ ਕੇਂਦਰ ਪੋਰਟਲ ਵਿੱਚ ਲਾਗ ਇਨ ਕਰੋ',
+    signInTitle: 'ਕਿਸਾਨ ਵਿਓਮ ਪੋਰਟਲ ਵਿੱਚ ਲਾਗ ਇਨ ਕਰੋ',
     signInSubtitle: 'ਆਪਣਾ ਰਜਿਸਟਰਡ ਮੋਬਾਈਲ ਨੰਬਰ ਜਾਂ ਈਮੇਲ ਦਰਜ ਕਰੋ',
     registerTitle: 'ਨਵੀਂ ਕਿਸਾਨ ਰਜਿਸਟ੍ਰੇਸ਼ਨ',
     registerSubtitle: 'ਡਿਜੀਟਲ ਮੰਡੀ ਕਤਾਰਾਂ ਅਤੇ ਪਾਰਦਰਸ਼ੀ MSP ਖਰੀਦ ਦਾ ਲਾਭ ਲੈਣ ਲਈ ਜੁੜੋ',

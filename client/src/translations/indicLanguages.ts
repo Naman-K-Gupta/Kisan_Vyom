@@ -205,7 +205,7 @@ export const mr: TranslationStructure = createIndicTranslation(hi, {
     irrigateNow: 'त्वरित पाणी द्या',
   },
   nav: {
-    brand: 'किसान केंद्र',
+    brand: 'किसान व्योम',
     dashboard: 'डॅशबोर्ड',
     centres: 'खरेदी केंद्रे',
     queue: 'डिजिटल रांग',
@@ -1221,7 +1221,7 @@ export const mai: TranslationStructure = createIndicTranslation(hi, {
     warning: 'चेतावनी',
   },
   nav: {
-    brand: 'किसान केंद्र',
+    brand: 'किसान व्योम',
     dashboard: 'डैशबोर्ड',
     centres: 'खरीद केंद्र',
     queue: 'डिजिटल कतार',
@@ -1286,7 +1286,7 @@ export const kok: TranslationStructure = createIndicTranslation(hi, {
     warning: 'शिटकावणी',
   },
   nav: {
-    brand: 'किसान केंद्र',
+    brand: 'किसान व्योम',
     dashboard: 'डॅशबोर्ड',
     centres: 'खरेदी केंद्रां',
     queue: 'डिजिटल रांक',
@@ -1416,7 +1416,7 @@ export const doi: TranslationStructure = createIndicTranslation(hi, {
     warning: 'चेतावनी',
   },
   nav: {
-    brand: 'किसान केंद्र',
+    brand: 'किसान व्योम',
     dashboard: 'डैशबोर्ड',
     centres: 'खरीद केंद्र',
     queue: 'डिजिटल कतार',

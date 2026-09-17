@@ -344,7 +344,7 @@ export function formatTelegramNotification(options: {
 🏦 *Disbursement:* PFMS Direct Bank Transfer to State Bank of India (${acc})
 ━━━━━━━━━━━━━━━━━━━━
 📌 _Certified digital procurement receipt under APMC guidelines. Keep this slip for your official records._
-🏛️ _Kisan Kendra Portal_
+🏛️ _Kisan Vyom Portal_
 ⏰ _${timeStr}_`;
   }
 
@@ -363,7 +363,7 @@ export function formatTelegramNotification(options: {
     }
   }
 
-  return `${headerIcon} *Kisan Kendra | किसान केंद्र*\n━━━━━━━━━━━━━━━━━━━━\n📌 *${title}*\n\n${message}${extraLines}\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _APMC Mandi Procurement Portal_\n⏰ _${timeStr}_`;
+  return `${headerIcon} *Kisan Vyom | किसान व्योम*\n━━━━━━━━━━━━━━━━━━━━\n📌 *${title}*\n\n${message}${extraLines}\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _APMC Mandi Procurement Portal_\n⏰ _${timeStr}_`;
 }
 
 /**
@@ -585,7 +585,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Aapka mobile number +91 ${cleanPhone} Kisan Kendra Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n• 🎫 Gate Pass & Queue Tokens\n• 🔔 Turn Approaching Callouts\n• ⚖️ Weighbridge & Bay Instructions\n• 💰 Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n🏛️ _Kisan Kendra - Digital APMC Mandi Assistance_`,
+              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Aapka mobile number +91 ${cleanPhone} Kisan Vyom Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n• 🎫 Gate Pass & Queue Tokens\n• 🔔 Turn Approaching Callouts\n• ⚖️ Weighbridge & Bay Instructions\n• 💰 Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n🏛️ _Kisan Vyom - Digital APMC Mandi Assistance_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -606,7 +606,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n🏛️ _Kisan Kendra Digital Mandi Portal_`,
+              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n🏛️ _Kisan Vyom Digital Mandi Portal_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -627,7 +627,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nKisan Kendra portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n🏛️ _Kisan Kendra Support_`,
+              `✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nKisan Vyom portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n🏛️ _Kisan Vyom Support_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -639,7 +639,7 @@ export function startTelegramBotListener() {
           if (text === '/start' || text.startsWith('/start')) {
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste, Kisan Kendra mein aapka swaagat hai!* 🌾\n\nApna Mandi account connect karne ke liye:\n1️⃣ Niche diye gaye button par click karke apna *Mobile Number Share* karein, ya\n2️⃣ Apna 10-digit registered mobile number yahan type karke send karein.\n\n_Ek baar judte hi aapko Gate Token, Bay Calling, aur DBT Payment ke live notifications milenge._`,
+              `🌾 *Namaste, Kisan Vyom mein aapka swaagat hai!* 🌾\n\nApna Mandi account connect karne ke liye:\n1️⃣ Niche दिए gaye button par click karke apna *Mobile Number Share* karein, ya\n2️⃣ Apna 10-digit registered mobile number yahan type karke send karein.\n\n_Ek baar judte hi aapko Gate Token, Bay Calling, aur DBT Payment ke live notifications milenge._`,
               {
                 replyMarkup: {
                   keyboard: [
@@ -662,7 +662,7 @@ export function startTelegramBotListener() {
           if (text === '/help' || text.startsWith('/help')) {
             await sendTelegramMessage(
               chatId,
-              `🌾 *Kisan Kendra Bot Help*\n━━━━━━━━━━━━━━━━━━━━\n• Apna 10-digit phone number bhejein apna account link karne ke liye.\n• Account link hone par sabhi Mandi alerts yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _Digital APMC Mandi Support_`
+              `🌾 *Kisan Vyom Bot Help*\n━━━━━━━━━━━━━━━━━━━━\n• Apna 10-digit phone number bhejein apna account link karne ke liye.\n• Account link hone par sabhi Mandi alerts yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _Digital APMC Mandi Support_`
             );
           }
         }

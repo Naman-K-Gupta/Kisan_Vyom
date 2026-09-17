@@ -70,21 +70,6 @@ export async function sendNotification(options: SendNotificationOptions) {
       }
     }
 
-    // Telegram notification dispatch
-    try {
-      const { sendTelegramNotificationToFarmer } = require('./telegram.service');
-      await sendTelegramNotificationToFarmer({
-        mobile: user?.mobile,
-        userId,
-        title,
-        message,
-        type,
-        metadata,
-      });
-    } catch (tgErr: any) {
-      logger.warn(`Telegram dispatch failed:`, tgErr.message);
-    }
-
     return savedNotification;
   } catch (error: any) {
     logger.error('Failed to create or send notification:', error.message || error);
