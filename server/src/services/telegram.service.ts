@@ -38,6 +38,44 @@ export function cleanMobileNumber(phone?: string): string {
   return digits;
 }
 
+let isTableEnsured = false;
+export async function ensureFarmerTelegramLinkTable(): Promise<void> {
+  if (isTableEnsured) return;
+  try {
+    await (prisma as any).$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "FarmerTelegramLink" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "mobile" TEXT NOT NULL UNIQUE,
+        "userId" TEXT,
+        "chatId" TEXT NOT NULL,
+        "username" TEXT,
+        "firstName" TEXT,
+        "isActive" INTEGER NOT NULL DEFAULT 1,
+        "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    isTableEnsured = true;
+  } catch (err: any) {
+    try {
+      await (prisma as any).$executeRawUnsafe(`
+        CREATE TABLE IF NOT EXISTS "FarmerTelegramLink" (
+          "id" TEXT NOT NULL PRIMARY KEY,
+          "mobile" TEXT NOT NULL UNIQUE,
+          "userId" TEXT,
+          "chatId" TEXT NOT NULL,
+          "username" TEXT,
+          "firstName" TEXT,
+          "isActive" INTEGER NOT NULL DEFAULT 1,
+          "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      isTableEnsured = true;
+    } catch (e) {}
+  }
+}
+
 /**
  * Get active Telegram link for a given mobile number
  */
@@ -46,6 +84,7 @@ export async function getTelegramLinkByMobile(mobile: string): Promise<TelegramL
   if (!clean || clean.length < 10) return null;
 
   try {
+    await ensureFarmerTelegramLinkTable();
     const records = await (prisma as any).$queryRawUnsafe(
       `SELECT * FROM "FarmerTelegramLink" WHERE ("mobile" = ? OR "mobile" = ?) AND "isActive" = 1 ORDER BY "updatedAt" DESC LIMIT 1`,
       clean,
@@ -67,6 +106,7 @@ export async function getTelegramLinkByUserId(userId: string): Promise<TelegramL
   if (!userId) return null;
 
   try {
+    await ensureFarmerTelegramLinkTable();
     const records = await (prisma as any).$queryRawUnsafe(
       `SELECT * FROM "FarmerTelegramLink" WHERE "userId" = ? AND "isActive" = 1 ORDER BY "updatedAt" DESC LIMIT 1`,
       userId
@@ -92,9 +132,10 @@ export async function saveTelegramLink(params: {
 }): Promise<TelegramLinkRecord | null> {
   const clean = cleanMobileNumber(params.mobile);
   if (!clean || clean.length < 10) return null;
-  const chatIdStr = params.chatId.toString();
+  const chatIdStr = params.chatId.toString().trim().replace(/^[#@]/, '');
 
   try {
+    await ensureFarmerTelegramLinkTable();
     let resolvedUserId = params.userId;
     let farmerName = params.firstName;
 

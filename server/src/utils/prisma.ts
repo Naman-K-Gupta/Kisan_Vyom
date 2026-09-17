@@ -47,6 +47,8 @@ export async function checkDatabaseConnection(): Promise<boolean> {
     await (internalPrisma as any).$queryRaw`SELECT 1`;
     if (isUsingSqlite) {
       await ensureSqliteTables();
+    } else {
+      await ensurePostgresTables();
     }
     logger.success(
       `Connected to Database successfully (${isUsingSqlite ? 'SQLite Offline Mode' : 'PostgreSQL'})`
@@ -166,6 +168,44 @@ async function ensureSqliteTables() {
     `);
   } catch (err: any) {
     logger.warn('Could not auto-create SQLite tables:', err.message);
+  }
+}
+
+async function ensurePostgresTables() {
+  if (!internalPrisma || isUsingSqlite) return;
+  try {
+    await (internalPrisma as any).$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "FarmerTelegramLink" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "mobile" TEXT NOT NULL UNIQUE,
+        "userId" TEXT,
+        "chatId" TEXT NOT NULL,
+        "username" TEXT,
+        "firstName" TEXT,
+        "isActive" INTEGER NOT NULL DEFAULT 1,
+        "createdAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await (internalPrisma as any).$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "FarmerBankRecord" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "userId" TEXT NOT NULL UNIQUE,
+        "accountHolderName" TEXT NOT NULL,
+        "bankName" TEXT NOT NULL,
+        "accountNumber" TEXT NOT NULL,
+        "accountNumberMasked" TEXT NOT NULL,
+        "ifscCode" TEXT NOT NULL,
+        "branchName" TEXT NOT NULL,
+        "aadhaarLinked" BOOLEAN NOT NULL DEFAULT true,
+        "pfmsStatus" TEXT NOT NULL DEFAULT 'ACTIVE',
+        "upiId" TEXT,
+        "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+  } catch (err: any) {
+    logger.warn('Could not auto-create PostgreSQL tables:', err.message);
   }
 }
 

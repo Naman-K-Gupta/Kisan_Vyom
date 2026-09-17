@@ -26,7 +26,7 @@ services:
       - key: AI_API_KEY
         sync: false
       - key: TELEGRAM_BOT_TOKEN
-        sync: false
+        value: "8927569233:AAEhn5gU6Gwnx5GsvPpoPdv_Qmclp-QV4C8"
       - key: TELEGRAM_BOT_USERNAME
         value: Kisan_kendra_bot
 

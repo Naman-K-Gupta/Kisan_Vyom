@@ -448,4 +448,36 @@ model GovernmentScheme {
   @@index([category])
 }
 
+model FarmerTelegramLink {
+  id        String   @id @default(uuid())
+  mobile    String   @unique
+  userId    String?
+  chatId    String
+  username  String?
+  firstName String?
+  isActive  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+  @@index([userId])
+}
+
+model FarmerBankRecord {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  accountHolderName   String
+  bankName            String
+  accountNumber       String
+  accountNumberMasked String
+  ifscCode            String
+  branchName          String
+  aadhaarLinked       Boolean  @default(true)
+  pfmsStatus          String   @default("ACTIVE")
+  upiId               String?
+  updatedAt           DateTime @updatedAt
+
+  @@index([userId])
+}
+
 

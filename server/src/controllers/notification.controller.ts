@@ -89,7 +89,8 @@ export class NotificationController {
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN || ENV.TELEGRAM_BOT_TOKEN || '';
     const botId = botToken ? botToken.split(':')[0] : '8927569233';
-    const trimmedChatId = chatId.toString().trim();
+    // Remove leading '#', '@', or whitespace if user typed "#8365953425"
+    const trimmedChatId = chatId.toString().trim().replace(/^[#@]/, '');
 
     // Check if user accidentally entered the Bot ID
     if (trimmedChatId === botId || trimmedChatId === '8927569233') {
@@ -99,33 +100,55 @@ export class NotificationController {
       });
     }
 
-    // Attempt verification message first to ensure chat exists
-    const verifySend = await sendTelegramMessage(
-      trimmedChatId,
-      `🌾 *Namaste ${req.user.fullName || 'Farmer'}!* 🌾\n\n✅ *Aapka mobile number +91 ${clean || req.user.mobile} safaltapoorvak link ho gaya hai!*\nAb aapko Kisan Vyom ke sabhi live alerts Telegram par milenge.\n\n🏛️ _APMC Mandi Portal_`
-    );
-
-    if (!verifySend.success) {
-      return res.status(400).json({
+    // 1. Save link in database first
+    let saved = null;
+    try {
+      saved = await saveTelegramLink({
+        mobile: clean || req.user.mobile,
+        chatId: trimmedChatId,
+        userId: req.user.id,
+        firstName: req.user.fullName,
+      });
+    } catch (saveErr: any) {
+      return res.status(500).json({
         success: false,
-        message: `Could not send message to Chat ID ${trimmedChatId}: ${verifySend.error}. Make sure you have opened @Kisan_kendra_bot in Telegram and tapped START first!`,
+        message: `Database error while saving Telegram link: ${saveErr.message}`,
       });
     }
 
-    const saved = await saveTelegramLink({
-      mobile: clean || req.user.mobile,
-      chatId: trimmedChatId,
-      userId: req.user.id,
-      firstName: req.user.fullName,
-    });
-
     if (!saved) {
-      return res.status(500).json({ success: false, message: 'Failed to save Telegram link' });
+      return res.status(500).json({ success: false, message: 'Failed to save Telegram link in database' });
+    }
+
+    // 2. Attempt verification message (Non-blocking)
+    let verifySuccess = false;
+    let verifyError = '';
+    try {
+      const verifySend = await sendTelegramMessage(
+        trimmedChatId,
+        `🌾 *Namaste ${req.user.fullName || 'Farmer'}!* 🌾\n\n✅ *Aapka mobile number +91 ${clean || req.user.mobile} safaltapoorvak link ho gaya hai!*\nAb aapko Kisan Vyom ke sabhi live alerts Telegram par milenge.\n\n🏛️ _APMC Mandi Portal_`
+      );
+      if (verifySend.success) {
+        verifySuccess = true;
+      } else {
+        verifyError = verifySend.error || '';
+      }
+    } catch (msgErr: any) {
+      verifyError = msgErr.message || '';
+    }
+
+    if (!verifySuccess) {
+      return res.json({
+        success: true,
+        message: `Telegram Chat ID #${trimmedChatId} has been linked! Note: Please make sure to open @Kisan_kendra_bot and tap START in Telegram so the bot can deliver alerts.`,
+        link: saved,
+        warning: true,
+      });
     }
 
     res.json({
       success: true,
-      message: 'Telegram successfully linked and verified!',
+      message: `Telegram successfully linked! A verification alert was sent to Chat ID #${trimmedChatId}.`,
       link: saved,
     });
   }
