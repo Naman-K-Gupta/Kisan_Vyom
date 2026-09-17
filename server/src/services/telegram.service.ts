@@ -98,8 +98,16 @@ export async function saveTelegramLink(params: {
     let resolvedUserId = params.userId;
     let farmerName = params.firstName;
 
-    // Look up user by mobile if userId is not supplied
-    if (!resolvedUserId) {
+    // Look up user by userId or mobile to retrieve official profile username / fullName
+    let dbUser = null;
+    if (resolvedUserId) {
+      dbUser = await (prisma as any).user.findUnique({
+        where: { id: resolvedUserId },
+        select: { id: true, fullName: true, mobile: true },
+      });
+    }
+
+    if (!dbUser) {
       const users = await (prisma as any).user.findMany({
         where: {
           OR: [
@@ -113,9 +121,14 @@ export async function saveTelegramLink(params: {
       });
 
       if (users.length > 0) {
-        resolvedUserId = users[0].id;
-        if (!farmerName) farmerName = users[0].fullName;
+        dbUser = users[0];
+        resolvedUserId = dbUser.id;
       }
+    }
+
+    // Always prioritize the official profile full name / username from portal
+    if (dbUser && dbUser.fullName) {
+      farmerName = dbUser.fullName;
     }
 
     // Check if a link already exists for this mobile number
@@ -286,8 +299,9 @@ export function formatTelegramNotification(options: {
   message: string;
   type?: string;
   metadata?: Record<string, any>;
+  farmerName?: string;
 }): string {
-  const { title, message, type, metadata } = options;
+  const { title, message, type, metadata, farmerName } = options;
 
   let headerIcon = '🌾';
   if (type === 'TOKEN_GENERATED' || type === 'TOKEN_CALLED') headerIcon = '🎫';
@@ -319,10 +333,12 @@ export function formatTelegramNotification(options: {
     const deductions = metadata?.deductions ? `-₹${Number(metadata.deductions).toLocaleString('en-IN')}` : '₹0.00';
     const net = metadata?.amount ? `₹${Number(metadata.amount).toLocaleString('en-IN')}` : 'N/A';
     const acc = metadata?.accountNumberMasked || 'XXXXXX4021';
+    const resolvedFarmer = farmerName || metadata?.farmerName || 'Kisan Bhai';
 
     return `🧾 *OFFICIAL APMC MANDI WEIGHMENT SLIP*
 *तुलाई पर्ची एवं गुणवत्ता रिपोर्ट*
 ━━━━━━━━━━━━━━━━━━━━
+👨‍🌾 *Farmer / किसान:* *${resolvedFarmer}*
 🏛️ *Centre:* ${centreName}
 📋 *Slip No:* \`${slipNo}\`
 🎫 *Token:* \`${tokenNo}\`
@@ -363,7 +379,9 @@ export function formatTelegramNotification(options: {
     }
   }
 
-  return `${headerIcon} *Kisan Vyom | किसान व्योम*\n━━━━━━━━━━━━━━━━━━━━\n📌 *${title}*\n\n${message}${extraLines}\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _APMC Mandi Procurement Portal_\n⏰ _${timeStr}_`;
+  const farmerHeader = farmerName ? `👨‍🌾 *Farmer / किसान:* *${farmerName}*\n` : '';
+
+  return `${headerIcon} *Kisan Vyom | किसान व्योम*\n━━━━━━━━━━━━━━━━━━━━\n${farmerHeader}📌 *${title}*\n\n${message}${extraLines}\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _APMC Mandi Procurement Portal_\n⏰ _${timeStr}_`;
 }
 
 /**
@@ -381,7 +399,6 @@ export async function sendTelegramNotificationToFarmer(
   }
 
   const clean = cleanMobileNumber(mobile);
-  const formattedText = formatTelegramNotification({ title, message, type, metadata });
 
   // Resolve active chat link by mobile or user id
   let link: TelegramLinkRecord | null = null;
@@ -392,6 +409,31 @@ export async function sendTelegramNotificationToFarmer(
     link = await getTelegramLinkByUserId(userId);
   }
 
+  // Always resolve latest profile username/fullName from database
+  let resolvedFarmerName = metadata?.farmerName || link?.firstName;
+  try {
+    const dbUser = await (prisma as any).user.findFirst({
+      where: {
+        OR: [
+          ...(userId ? [{ id: userId }] : []),
+          ...(clean ? [{ mobile: clean }, { mobile: `+91${clean}` }] : []),
+        ],
+      },
+      select: { fullName: true },
+    });
+    if (dbUser?.fullName) {
+      resolvedFarmerName = dbUser.fullName;
+    }
+  } catch (e) {}
+
+  const formattedText = formatTelegramNotification({
+    title,
+    message,
+    type,
+    metadata,
+    farmerName: resolvedFarmerName,
+  });
+
   // Direct bot dispatch to linked farmer
   if (link && link.chatId) {
     // Generate and attach PDF weighment slip on procurement completion
@@ -401,7 +443,7 @@ export async function sendTelegramNotificationToFarmer(
           tokenNumber: metadata.tokenNumber || 'TK-REC',
           paymentNumber: metadata.paymentNumber || `PAY-${(metadata.tokenNumber || '').slice(-4)}`,
           centreName: metadata.centreName || 'APMC Procurement Yard',
-          farmerName: link.firstName || metadata.farmerName || 'Kisan Bhai',
+          farmerName: resolvedFarmerName || link.firstName || metadata.farmerName || 'Kisan Bhai',
           farmerMobile: clean || link.mobile,
           farmerVillage: metadata.farmerVillage,
           vehicleNumber: metadata.vehicleNumber || 'Registered Vehicle',
@@ -572,6 +614,33 @@ export function startTelegramBotListener() {
           const fromUser = msg.from || {};
           const text = (msg.text || '').trim();
 
+          // Look up if this chat ID is already associated with a registered farmer profile
+          let linkedUser: { fullName: string; mobile: string } | null = null;
+          try {
+            const existingLinks = await (prisma as any).$queryRawUnsafe(
+              `SELECT * FROM "FarmerTelegramLink" WHERE "chatId" = ? AND "isActive" = 1 LIMIT 1`,
+              chatId.toString()
+            );
+            if (Array.isArray(existingLinks) && existingLinks.length > 0) {
+              const el = existingLinks[0];
+              const dbUser = await (prisma as any).user.findFirst({
+                where: {
+                  OR: [
+                    ...(el.userId ? [{ id: el.userId }] : []),
+                    { mobile: el.mobile },
+                    { mobile: `+91${el.mobile}` },
+                  ],
+                },
+                select: { fullName: true, mobile: true },
+              });
+              if (dbUser) {
+                linkedUser = dbUser;
+              } else if (el.firstName) {
+                linkedUser = { fullName: el.firstName, mobile: el.mobile };
+              }
+            }
+          } catch (e) {}
+
           // Farmer shared contact card
           if (msg.contact && msg.contact.phone_number) {
             const rawPhone = msg.contact.phone_number;
@@ -583,9 +652,11 @@ export function startTelegramBotListener() {
               firstName: fromUser.first_name || msg.contact.first_name,
             });
 
+            const farmerDisplayName = saved?.firstName || fromUser.first_name || 'Kisan Bhai';
+
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Aapka mobile number +91 ${cleanPhone} Kisan Vyom Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n• 🎫 Gate Pass & Queue Tokens\n• 🔔 Turn Approaching Callouts\n• ⚖️ Weighbridge & Bay Instructions\n• 💰 Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n🏛️ _Kisan Vyom - Digital APMC Mandi Assistance_`,
+              `🌾 *Namaste ${farmerDisplayName}!* 🌾\n\n✅ *Aapka mobile number +91 ${cleanPhone} Kisan Vyom Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n• 🎫 Gate Pass & Queue Tokens\n• 🔔 Turn Approaching Callouts\n• ⚖️ Weighbridge & Bay Instructions\n• 💰 Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n🏛️ _Kisan Vyom - Digital APMC Mandi Assistance_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -597,16 +668,18 @@ export function startTelegramBotListener() {
           const startWithPhoneMatch = text.match(/^\/start\s+(\+?91)?([6-9]\d{9})/i);
           if (startWithPhoneMatch) {
             const phone = startWithPhoneMatch[2];
-            await saveTelegramLink({
+            const saved = await saveTelegramLink({
               mobile: phone,
               chatId,
               username: fromUser.username,
               firstName: fromUser.first_name,
             });
 
+            const farmerDisplayName = saved?.firstName || fromUser.first_name || 'Kisan Bhai';
+
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${fromUser.first_name || 'Kisan Bhai'}!* 🌾\n\n✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n🏛️ _Kisan Vyom Digital Mandi Portal_`,
+              `🌾 *Namaste ${farmerDisplayName}!* 🌾\n\n✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n🏛️ _Kisan Vyom Digital Mandi Portal_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -618,16 +691,18 @@ export function startTelegramBotListener() {
           const rawPhoneMatch = text.match(/\b([6-9]\d{9})\b/);
           if (rawPhoneMatch) {
             const phone = rawPhoneMatch[1];
-            await saveTelegramLink({
+            const saved = await saveTelegramLink({
               mobile: phone,
               chatId,
               username: fromUser.username,
               firstName: fromUser.first_name,
             });
 
+            const farmerDisplayName = saved?.firstName || fromUser.first_name || 'Kisan Bhai';
+
             await sendTelegramMessage(
               chatId,
-              `✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nKisan Vyom portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n🏛️ _Kisan Vyom Support_`,
+              `✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai, ${farmerDisplayName}!* 🌾\n\nKisan Vyom portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n🏛️ _Kisan Vyom Support_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -637,6 +712,14 @@ export function startTelegramBotListener() {
 
           // Default welcome prompt
           if (text === '/start' || text.startsWith('/start')) {
+            if (linkedUser) {
+              await sendTelegramMessage(
+                chatId,
+                `🌾 *Namaste ${linkedUser.fullName}!* 🌾\n\n✅ *Aapka Kisan Vyom Account Pehle Se Linked Hai.*\n📱 *Registered Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n\nAapko Mandi queue tokens, bay calls, weighment slips, aur DBT payments ke live alerts automatically yahan milte rahenge.\n\n🏛️ _Kisan Vyom — Digital Mandi Assistance_`
+              );
+              continue;
+            }
+
             await sendTelegramMessage(
               chatId,
               `🌾 *Namaste, Kisan Vyom mein aapka swaagat hai!* 🌾\n\nApna Mandi account connect karne ke liye:\n1️⃣ Niche दिए gaye button par click karke apna *Mobile Number Share* karein, ya\n2️⃣ Apna 10-digit registered mobile number yahan type karke send karein.\n\n_Ek baar judte hi aapko Gate Token, Bay Calling, aur DBT Payment ke live notifications milenge._`,
@@ -660,9 +743,14 @@ export function startTelegramBotListener() {
 
           // Help and fallback query
           if (text === '/help' || text.startsWith('/help')) {
+            const greeting = linkedUser?.fullName ? `Namaste ${linkedUser.fullName}!` : 'Kisan Vyom Bot Help';
+            const accountInfo = linkedUser
+              ? `👤 *Farmer Profile:* *${linkedUser.fullName}*\n📱 *Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n✅ Status: Linked & Active\n━━━━━━━━━━━━━━━━━━━━\n`
+              : '• Apna 10-digit phone number bhejein apna account link karne ke liye.\n';
+
             await sendTelegramMessage(
               chatId,
-              `🌾 *Kisan Vyom Bot Help*\n━━━━━━━━━━━━━━━━━━━━\n• Apna 10-digit phone number bhejein apna account link karne ke liye.\n• Account link hone par sabhi Mandi alerts yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _Digital APMC Mandi Support_`
+              `🌾 *${greeting}*\n━━━━━━━━━━━━━━━━━━━━\n${accountInfo}• Sabhi Mandi alerts (Tokens, Bay Calling, Tulai Parchi) yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _Digital APMC Mandi Support_`
             );
           }
         }

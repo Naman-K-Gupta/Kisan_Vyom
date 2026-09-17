@@ -62,6 +62,22 @@ export class FarmerController {
       },
     });
 
+    // Automatically sync updated profile username/fullName to Telegram bot link
+    try {
+      const { cleanMobileNumber } = require('../services/telegram.service');
+      const clean = cleanMobileNumber(updatedUser.mobile);
+      await (prisma as any).$executeRawUnsafe(
+        `UPDATE "FarmerTelegramLink" SET "firstName" = ?, "updatedAt" = ? WHERE "userId" = ? OR "mobile" = ? OR "mobile" = ?`,
+        validated.fullName,
+        new Date().toISOString(),
+        req.user.id,
+        clean,
+        `+91${clean}`
+      );
+    } catch (tgSyncErr: any) {
+      // ignore if table not initialized
+    }
+
     res.json({
       success: true,
       message: 'Profile updated successfully.',
