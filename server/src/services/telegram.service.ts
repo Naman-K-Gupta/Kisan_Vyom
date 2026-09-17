@@ -84,6 +84,22 @@ export async function getTelegramLinkByMobile(mobile: string): Promise<TelegramL
   if (!clean || clean.length < 10) return null;
 
   try {
+    if ((prisma as any).farmerTelegramLink) {
+      const record = await (prisma as any).farmerTelegramLink.findFirst({
+        where: {
+          OR: [{ mobile: clean }, { mobile: `+91${clean}` }],
+          isActive: 1,
+        },
+        orderBy: { updatedAt: 'desc' },
+      });
+      if (record) return record as TelegramLinkRecord;
+    }
+  } catch (err: any) {
+    logger.warn('Failed to query FarmerTelegramLink by mobile via Prisma:', err.message);
+  }
+
+  // Raw query fallback
+  try {
     await ensureFarmerTelegramLinkTable();
     const records = await (prisma as any).$queryRawUnsafe(
       `SELECT * FROM "FarmerTelegramLink" WHERE ("mobile" = ? OR "mobile" = ?) AND "isActive" = 1 ORDER BY "updatedAt" DESC LIMIT 1`,
@@ -94,7 +110,7 @@ export async function getTelegramLinkByMobile(mobile: string): Promise<TelegramL
       return records[0] as TelegramLinkRecord;
     }
   } catch (err: any) {
-    logger.warn('Failed to query FarmerTelegramLink by mobile:', err.message);
+    logger.warn('Fallback query FarmerTelegramLink failed:', err.message);
   }
   return null;
 }
@@ -106,6 +122,22 @@ export async function getTelegramLinkByUserId(userId: string): Promise<TelegramL
   if (!userId) return null;
 
   try {
+    if ((prisma as any).farmerTelegramLink) {
+      const record = await (prisma as any).farmerTelegramLink.findFirst({
+        where: {
+          userId,
+          isActive: 1,
+        },
+        orderBy: { updatedAt: 'desc' },
+      });
+      if (record) return record as TelegramLinkRecord;
+    }
+  } catch (err: any) {
+    logger.warn('Failed to query FarmerTelegramLink by userId via Prisma:', err.message);
+  }
+
+  // Raw query fallback
+  try {
     await ensureFarmerTelegramLinkTable();
     const records = await (prisma as any).$queryRawUnsafe(
       `SELECT * FROM "FarmerTelegramLink" WHERE "userId" = ? AND "isActive" = 1 ORDER BY "updatedAt" DESC LIMIT 1`,
@@ -115,7 +147,7 @@ export async function getTelegramLinkByUserId(userId: string): Promise<TelegramL
       return records[0] as TelegramLinkRecord;
     }
   } catch (err: any) {
-    logger.warn('Failed to query FarmerTelegramLink by userId:', err.message);
+    logger.warn('Fallback query FarmerTelegramLink by userId failed:', err.message);
   }
   return null;
 }
@@ -135,7 +167,6 @@ export async function saveTelegramLink(params: {
   const chatIdStr = params.chatId.toString().trim().replace(/^[#@]/, '');
 
   try {
-    await ensureFarmerTelegramLinkTable();
     let resolvedUserId = params.userId;
     let farmerName = params.firstName;
 
@@ -172,7 +203,50 @@ export async function saveTelegramLink(params: {
       farmerName = dbUser.fullName;
     }
 
-    // Check if a link already exists for this mobile number
+    if ((prisma as any).farmerTelegramLink) {
+      // Check if a link already exists for this mobile number or chatId
+      const existing = await (prisma as any).farmerTelegramLink.findFirst({
+        where: {
+          OR: [
+            { mobile: clean },
+            { mobile: `+91${clean}` },
+            { chatId: chatIdStr },
+          ],
+        },
+      });
+
+      if (existing) {
+        const updated = await (prisma as any).farmerTelegramLink.update({
+          where: { id: existing.id },
+          data: {
+            mobile: clean,
+            chatId: chatIdStr,
+            username: params.username || existing.username || null,
+            firstName: farmerName || existing.firstName || null,
+            userId: resolvedUserId || existing.userId || null,
+            isActive: 1,
+          },
+        });
+        logger.success(`🔗 [Telegram] Updated farmer link: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
+        return updated as TelegramLinkRecord;
+      } else {
+        const created = await (prisma as any).farmerTelegramLink.create({
+          data: {
+            mobile: clean,
+            userId: resolvedUserId || null,
+            chatId: chatIdStr,
+            username: params.username || null,
+            firstName: farmerName || null,
+            isActive: 1,
+          },
+        });
+        logger.success(`🔗 [Telegram] New farmer link established: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
+        return created as TelegramLinkRecord;
+      }
+    }
+
+    // Fallback if ORM model not mapped
+    await ensureFarmerTelegramLinkTable();
     const existing = await (prisma as any).$queryRawUnsafe(
       `SELECT * FROM "FarmerTelegramLink" WHERE "mobile" = ? OR "mobile" = ? LIMIT 1`,
       clean,
@@ -192,7 +266,6 @@ export async function saveTelegramLink(params: {
         now,
         rec.id
       );
-      logger.success(`🔗 [Telegram] Updated farmer link: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
       return {
         id: rec.id,
         mobile: clean,
@@ -215,7 +288,6 @@ export async function saveTelegramLink(params: {
         now,
         now
       );
-      logger.success(`🔗 [Telegram] New farmer link established: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
       return {
         id: newId,
         mobile: clean,
@@ -658,12 +730,20 @@ export function startTelegramBotListener() {
           // Look up if this chat ID is already associated with a registered farmer profile
           let linkedUser: { fullName: string; mobile: string } | null = null;
           try {
-            const existingLinks = await (prisma as any).$queryRawUnsafe(
-              `SELECT * FROM "FarmerTelegramLink" WHERE "chatId" = ? AND "isActive" = 1 LIMIT 1`,
-              chatId.toString()
-            );
-            if (Array.isArray(existingLinks) && existingLinks.length > 0) {
-              const el = existingLinks[0];
+            let el: any = null;
+            if ((prisma as any).farmerTelegramLink) {
+              el = await (prisma as any).farmerTelegramLink.findFirst({
+                where: { chatId: chatId.toString(), isActive: 1 },
+              });
+            } else {
+              const existingLinks = await (prisma as any).$queryRawUnsafe(
+                `SELECT * FROM "FarmerTelegramLink" WHERE "chatId" = ? AND "isActive" = 1 LIMIT 1`,
+                chatId.toString()
+              );
+              if (Array.isArray(existingLinks) && existingLinks.length > 0) el = existingLinks[0];
+            }
+
+            if (el) {
               const dbUser = await (prisma as any).user.findFirst({
                 where: {
                   OR: [

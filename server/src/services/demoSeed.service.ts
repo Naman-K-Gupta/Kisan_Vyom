@@ -6,10 +6,18 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
   try {
     if (!force) {
       const adminUser = await prisma.user.findUnique({ where: { email: 'admin@smartfarmer.gov.in' } });
-      const managerUser = await prisma.user.findUnique({ where: { email: 'manager@smartfarmer.gov.in' } });
-      const farmerUser = await prisma.user.findUnique({ where: { email: 'farmer@smartfarmer.gov.in' } });
+      const managerUser = await prisma.user.findFirst({
+        where: {
+          OR: [
+            { email: 'manager.karnal@smartfarmer.gov.in' },
+            { email: 'manager@smartfarmer.gov.in' },
+          ],
+        },
+      });
+      const farmerJaskirat = await prisma.user.findUnique({ where: { mobile: '9464204021' } });
+      const cropCount = await prisma.crop.count().catch(() => 0);
 
-      if (adminUser && managerUser && farmerUser) {
+      if (adminUser && managerUser && farmerJaskirat && cropCount > 5) {
         return;
       }
     }
@@ -17,11 +25,11 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
     logger.info('🌱 Seeding comprehensive demo data for Farmer, Manager, and Admin portals...');
 
     // ----------------------------------------------------
-    // 1. Password Hashes
+    // 1. Password Hashes (Harmonized for Portal Demo Logins)
     // ----------------------------------------------------
     const adminPassword = await bcrypt.hash('Admin@123', 10);
-    const managerPassword = await bcrypt.hash('Manager@123', 10);
-    const farmerPassword = await bcrypt.hash('Farmer@123', 10);
+    const managerPassword = await bcrypt.hash('Manager@12345', 10);
+    const farmerPassword = await bcrypt.hash('Password@123', 10);
 
     // ----------------------------------------------------
     // 2. Admin User
@@ -203,18 +211,23 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
     // ----------------------------------------------------
     // 6. Manager User (Karnal Mandi Superintendent)
     // ----------------------------------------------------
-    await prisma.centreManager.deleteMany({
-      where: { user: { email: 'manager.karnal@smartfarmer.gov.in' } },
-    }).catch(() => {});
     await prisma.user.deleteMany({
-      where: { email: 'manager.karnal@smartfarmer.gov.in' },
+      where: {
+        email: 'manager@smartfarmer.gov.in',
+        mobile: '9876543211',
+      },
     }).catch(() => {});
 
     const manager = await prisma.user.upsert({
-      where: { email: 'manager@smartfarmer.gov.in' },
-      update: { passwordHash: managerPassword },
+      where: { email: 'manager.karnal@smartfarmer.gov.in' },
+      update: {
+        mobile: '9876543211',
+        passwordHash: managerPassword,
+        fullName: 'Suresh Chandra (Centre Superintendent)',
+        role: 'PROCUREMENT_CENTRE_MANAGER',
+      },
       create: {
-        email: 'manager@smartfarmer.gov.in',
+        email: 'manager.karnal@smartfarmer.gov.in',
         mobile: '9876543211',
         passwordHash: managerPassword,
         fullName: 'Suresh Chandra (Centre Superintendent)',
@@ -331,6 +344,98 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
           expectedProduction: 22,
           unit: 'Quintal',
           status: 'GROWING',
+        },
+      }).catch(() => {});
+    }
+
+    // ----------------------------------------------------
+    // Seed Primary Test Farmer: Jaskirat Singh (9464204021)
+    // ----------------------------------------------------
+    const jaskirat = await prisma.user.upsert({
+      where: { mobile: '9464204021' },
+      update: {
+        passwordHash: farmerPassword,
+        fullName: 'Jaskirat Singh',
+      },
+      create: {
+        email: 'namankgupta2008@gmail.com',
+        mobile: '9464204021',
+        passwordHash: farmerPassword,
+        fullName: 'Jaskirat Singh',
+        role: 'FARMER',
+        state: 'Punjab',
+        district: 'Amritsar',
+        village: 'Attari',
+        address: 'Attari Border Road, Amritsar',
+        preferredLanguage: 'pa',
+        isActive: true,
+      },
+    });
+
+    const jaskiratProfile = await prisma.farmerProfile.upsert({
+      where: { userId: jaskirat.id },
+      update: {},
+      create: {
+        userId: jaskirat.id,
+        landAreaTotal: 15.0,
+        bio: 'Progressive wheat and paddy grower from Punjab.',
+      },
+    });
+
+    if (wheatCrop && jaskiratProfile) {
+      await prisma.farmerCrop.upsert({
+        where: { id: `fc-wheat-${jaskirat.id}` },
+        update: {},
+        create: {
+          id: `fc-wheat-${jaskirat.id}`,
+          farmerProfileId: jaskiratProfile.id,
+          cropId: wheatCrop.id,
+          variety: 'PBW-725 (Kanak)',
+          landArea: 8.0,
+          sowingDate: new Date('2025-11-12'),
+          expectedHarvestDate: new Date('2026-04-18'),
+          expectedProduction: 160,
+          unit: 'Quintal',
+          status: 'SOWN',
+        },
+      }).catch(() => {});
+    }
+
+    if (mustardCrop && jaskiratProfile) {
+      await prisma.farmerCrop.upsert({
+        where: { id: `fc-mustard-${jaskirat.id}` },
+        update: {},
+        create: {
+          id: `fc-mustard-${jaskirat.id}`,
+          farmerProfileId: jaskiratProfile.id,
+          cropId: mustardCrop.id,
+          variety: 'Pusa Bold (Sarson)',
+          landArea: 5.0,
+          sowingDate: new Date('2025-10-28'),
+          expectedHarvestDate: new Date('2026-03-25'),
+          expectedProduction: 45,
+          unit: 'Quintal',
+          status: 'SOWN',
+        },
+      }).catch(() => {});
+    }
+
+    // Pre-link Jaskirat Singh's Telegram to Chat ID 8365953425
+    if ((prisma as any).farmerTelegramLink) {
+      await (prisma as any).farmerTelegramLink.upsert({
+        where: { mobile: '9464204021' },
+        update: {
+          chatId: '8365953425',
+          userId: jaskirat.id,
+          firstName: 'Jaskirat Singh',
+          isActive: 1,
+        },
+        create: {
+          mobile: '9464204021',
+          chatId: '8365953425',
+          userId: jaskirat.id,
+          firstName: 'Jaskirat Singh',
+          isActive: 1,
         },
       }).catch(() => {});
     }
@@ -542,7 +647,6 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
         deadlineDate: new Date('2026-08-31'),
         status: 'ACTIVE',
         isFeatured: true,
-        createdById: admin.id,
       },
       {
         id: 'scheme-kisan-002',
@@ -560,7 +664,6 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
         deadlineDate: null,
         status: 'ACTIVE',
         isFeatured: true,
-        createdById: admin.id,
       },
       {
         id: 'scheme-pmfby-003',
@@ -578,7 +681,6 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
         deadlineDate: new Date('2026-07-31'),
         status: 'ACTIVE',
         isFeatured: true,
-        createdById: admin.id,
       },
       {
         id: 'scheme-smam-004',
@@ -596,7 +698,6 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
         deadlineDate: new Date('2026-06-30'),
         status: 'NEW_AMENDMENT',
         isFeatured: false,
-        createdById: admin.id,
       },
       {
         id: 'scheme-drip-005',
@@ -614,7 +715,6 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
         deadlineDate: new Date('2026-09-30'),
         status: 'CLOSING_SOON',
         isFeatured: false,
-        createdById: admin.id,
       },
     ];
 

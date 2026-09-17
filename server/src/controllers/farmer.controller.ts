@@ -66,14 +66,29 @@ export class FarmerController {
     try {
       const { cleanMobileNumber } = require('../services/telegram.service');
       const clean = cleanMobileNumber(updatedUser.mobile);
-      await (prisma as any).$executeRawUnsafe(
-        `UPDATE "FarmerTelegramLink" SET "firstName" = ?, "updatedAt" = ? WHERE "userId" = ? OR "mobile" = ? OR "mobile" = ?`,
-        validated.fullName,
-        new Date().toISOString(),
-        req.user.id,
-        clean,
-        `+91${clean}`
-      );
+      if ((prisma as any).farmerTelegramLink?.updateMany) {
+        await (prisma as any).farmerTelegramLink.updateMany({
+          where: {
+            OR: [
+              { userId: req.user.id },
+              { mobile: clean },
+              { mobile: `+91${clean}` },
+            ],
+          },
+          data: {
+            firstName: validated.fullName,
+          },
+        });
+      } else {
+        await (prisma as any).$executeRawUnsafe(
+          `UPDATE "FarmerTelegramLink" SET "firstName" = ?, "updatedAt" = ? WHERE "userId" = ? OR "mobile" = ? OR "mobile" = ?`,
+          validated.fullName,
+          new Date().toISOString(),
+          req.user.id,
+          clean,
+          `+91${clean}`
+        );
+      }
     } catch (tgSyncErr: any) {
       // ignore if table not initialized
     }
@@ -160,20 +175,35 @@ export class FarmerController {
     if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
     try {
-      const records: any = await (prisma as any).$queryRawUnsafe(
-        `SELECT * FROM "FarmerBankRecord" WHERE "userId" = ? LIMIT 1`,
-        req.user.id
-      );
-
-      if (records && records.length > 0) {
-        const r = records[0];
-        return res.json({
-          success: true,
-          bankDetails: {
-            ...r,
-            aadhaarLinked: Boolean(r.aadhaarLinked),
-          },
+      if ((prisma as any).farmerBankRecord) {
+        const r = await (prisma as any).farmerBankRecord.findUnique({
+          where: { userId: req.user.id },
         });
+        if (r) {
+          return res.json({
+            success: true,
+            bankDetails: {
+              ...r,
+              aadhaarLinked: Boolean(r.aadhaarLinked),
+            },
+          });
+        }
+      } else {
+        const records: any = await (prisma as any).$queryRawUnsafe(
+          `SELECT * FROM "FarmerBankRecord" WHERE "userId" = ? LIMIT 1`,
+          req.user.id
+        );
+
+        if (records && records.length > 0) {
+          const r = records[0];
+          return res.json({
+            success: true,
+            bankDetails: {
+              ...r,
+              aadhaarLinked: Boolean(r.aadhaarLinked),
+            },
+          });
+        }
       }
     } catch (err) {
       // Table may not have records yet
@@ -213,73 +243,104 @@ export class FarmerController {
     const isAadhaar = aadhaarLinked !== false;
 
     try {
-      await (prisma as any).$executeRawUnsafe(
-        `INSERT INTO "FarmerBankRecord" ("id", "userId", "accountHolderName", "bankName", "accountNumber", "accountNumberMasked", "ifscCode", "branchName", "aadhaarLinked", "pfmsStatus", "upiId", "updatedAt")
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, CURRENT_TIMESTAMP)
-         ON CONFLICT("userId") DO UPDATE SET
-           "accountHolderName" = excluded."accountHolderName",
-           "bankName" = excluded."bankName",
-           "accountNumber" = excluded."accountNumber",
-           "accountNumberMasked" = excluded."accountNumberMasked",
-           "ifscCode" = excluded."ifscCode",
-           "branchName" = excluded."branchName",
-           "aadhaarLinked" = excluded."aadhaarLinked",
-           "upiId" = excluded."upiId",
-           "updatedAt" = CURRENT_TIMESTAMP`,
-        req.user.id,
-        req.user.id,
-        accountHolderName.trim(),
-        bankName.trim(),
-        cleanAcc,
-        masked,
-        cleanIfsc,
-        branch,
-        isAadhaar ? 1 : 0,
-        upiId ? String(upiId).trim() : null
-      );
-    } catch (err) {
-      // Create table and retry if not exists
-      await (prisma as any).$executeRawUnsafe(`
-        CREATE TABLE IF NOT EXISTS "FarmerBankRecord" (
-          "id" TEXT NOT NULL PRIMARY KEY,
-          "userId" TEXT NOT NULL UNIQUE,
-          "accountHolderName" TEXT NOT NULL,
-          "bankName" TEXT NOT NULL,
-          "accountNumber" TEXT NOT NULL,
-          "accountNumberMasked" TEXT NOT NULL,
-          "ifscCode" TEXT NOT NULL,
-          "branchName" TEXT NOT NULL,
-          "aadhaarLinked" BOOLEAN NOT NULL DEFAULT 1,
-          "pfmsStatus" TEXT NOT NULL DEFAULT 'ACTIVE',
-          "upiId" TEXT,
-          "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+      if ((prisma as any).farmerBankRecord) {
+        await (prisma as any).farmerBankRecord.upsert({
+          where: { userId: req.user.id },
+          update: {
+            accountHolderName: accountHolderName.trim(),
+            bankName: bankName.trim(),
+            accountNumber: cleanAcc,
+            accountNumberMasked: masked,
+            ifscCode: cleanIfsc,
+            branchName: branch,
+            aadhaarLinked: isAadhaar,
+            pfmsStatus: 'ACTIVE',
+            upiId: upiId ? String(upiId).trim() : null,
+          },
+          create: {
+            userId: req.user.id,
+            accountHolderName: accountHolderName.trim(),
+            bankName: bankName.trim(),
+            accountNumber: cleanAcc,
+            accountNumberMasked: masked,
+            ifscCode: cleanIfsc,
+            branchName: branch,
+            aadhaarLinked: isAadhaar,
+            pfmsStatus: 'ACTIVE',
+            upiId: upiId ? String(upiId).trim() : null,
+          },
+        });
+      } else {
+        await (prisma as any).$executeRawUnsafe(
+          `INSERT INTO "FarmerBankRecord" ("id", "userId", "accountHolderName", "bankName", "accountNumber", "accountNumberMasked", "ifscCode", "branchName", "aadhaarLinked", "pfmsStatus", "upiId", "updatedAt")
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, CURRENT_TIMESTAMP)
+           ON CONFLICT("userId") DO UPDATE SET
+             "accountHolderName" = excluded."accountHolderName",
+             "bankName" = excluded."bankName",
+             "accountNumber" = excluded."accountNumber",
+             "accountNumberMasked" = excluded."accountNumberMasked",
+             "ifscCode" = excluded."ifscCode",
+             "branchName" = excluded."branchName",
+             "aadhaarLinked" = excluded."aadhaarLinked",
+             "upiId" = excluded."upiId",
+             "updatedAt" = CURRENT_TIMESTAMP`,
+          req.user.id,
+          req.user.id,
+          accountHolderName.trim(),
+          bankName.trim(),
+          cleanAcc,
+          masked,
+          cleanIfsc,
+          branch,
+          isAadhaar ? 1 : 0,
+          upiId ? String(upiId).trim() : null
         );
-      `);
+      }
+    } catch (err) {
+      // Fallback table creation and insert
+      try {
+        await (prisma as any).$executeRawUnsafe(`
+          CREATE TABLE IF NOT EXISTS "FarmerBankRecord" (
+            "id" TEXT NOT NULL PRIMARY KEY,
+            "userId" TEXT NOT NULL UNIQUE,
+            "accountHolderName" TEXT NOT NULL,
+            "bankName" TEXT NOT NULL,
+            "accountNumber" TEXT NOT NULL,
+            "accountNumberMasked" TEXT NOT NULL,
+            "ifscCode" TEXT NOT NULL,
+            "branchName" TEXT NOT NULL,
+            "aadhaarLinked" BOOLEAN NOT NULL DEFAULT 1,
+            "pfmsStatus" TEXT NOT NULL DEFAULT 'ACTIVE',
+            "upiId" TEXT,
+            "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+          );
+        `);
 
-      await (prisma as any).$executeRawUnsafe(
-        `INSERT INTO "FarmerBankRecord" ("id", "userId", "accountHolderName", "bankName", "accountNumber", "accountNumberMasked", "ifscCode", "branchName", "aadhaarLinked", "pfmsStatus", "upiId", "updatedAt")
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, CURRENT_TIMESTAMP)
-         ON CONFLICT("userId") DO UPDATE SET
-           "accountHolderName" = excluded."accountHolderName",
-           "bankName" = excluded."bankName",
-           "accountNumber" = excluded."accountNumber",
-           "accountNumberMasked" = excluded."accountNumberMasked",
-           "ifscCode" = excluded."ifscCode",
-           "branchName" = excluded."branchName",
-           "aadhaarLinked" = excluded."aadhaarLinked",
-           "upiId" = excluded."upiId",
-           "updatedAt" = CURRENT_TIMESTAMP`,
-        req.user.id,
-        req.user.id,
-        accountHolderName.trim(),
-        bankName.trim(),
-        cleanAcc,
-        masked,
-        cleanIfsc,
-        branch,
-        isAadhaar ? 1 : 0,
-        upiId ? String(upiId).trim() : null
-      );
+        await (prisma as any).$executeRawUnsafe(
+          `INSERT INTO "FarmerBankRecord" ("id", "userId", "accountHolderName", "bankName", "accountNumber", "accountNumberMasked", "ifscCode", "branchName", "aadhaarLinked", "pfmsStatus", "upiId", "updatedAt")
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ACTIVE', ?, CURRENT_TIMESTAMP)
+           ON CONFLICT("userId") DO UPDATE SET
+             "accountHolderName" = excluded."accountHolderName",
+             "bankName" = excluded."bankName",
+             "accountNumber" = excluded."accountNumber",
+             "accountNumberMasked" = excluded."accountNumberMasked",
+             "ifscCode" = excluded."ifscCode",
+             "branchName" = excluded."branchName",
+             "aadhaarLinked" = excluded."aadhaarLinked",
+             "upiId" = excluded."upiId",
+             "updatedAt" = CURRENT_TIMESTAMP`,
+          req.user.id,
+          req.user.id,
+          accountHolderName.trim(),
+          bankName.trim(),
+          cleanAcc,
+          masked,
+          cleanIfsc,
+          branch,
+          isAadhaar ? 1 : 0,
+          upiId ? String(upiId).trim() : null
+        );
+      } catch (innerErr) {}
     }
 
     await logAudit({

@@ -103,6 +103,21 @@ export type PushSubscription = $Result.DefaultSelection<Prisma.$PushSubscription
  * 
  */
 export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+/**
+ * Model GovernmentScheme
+ * 
+ */
+export type GovernmentScheme = $Result.DefaultSelection<Prisma.$GovernmentSchemePayload>
+/**
+ * Model FarmerTelegramLink
+ * 
+ */
+export type FarmerTelegramLink = $Result.DefaultSelection<Prisma.$FarmerTelegramLinkPayload>
+/**
+ * Model FarmerBankRecord
+ * 
+ */
+export type FarmerBankRecord = $Result.DefaultSelection<Prisma.$FarmerBankRecordPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -406,6 +421,36 @@ export class PrismaClient<
     * ```
     */
   get payment(): Prisma.PaymentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.governmentScheme`: Exposes CRUD operations for the **GovernmentScheme** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GovernmentSchemes
+    * const governmentSchemes = await prisma.governmentScheme.findMany()
+    * ```
+    */
+  get governmentScheme(): Prisma.GovernmentSchemeDelegate<ExtArgs>;
+
+  /**
+   * `prisma.farmerTelegramLink`: Exposes CRUD operations for the **FarmerTelegramLink** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FarmerTelegramLinks
+    * const farmerTelegramLinks = await prisma.farmerTelegramLink.findMany()
+    * ```
+    */
+  get farmerTelegramLink(): Prisma.FarmerTelegramLinkDelegate<ExtArgs>;
+
+  /**
+   * `prisma.farmerBankRecord`: Exposes CRUD operations for the **FarmerBankRecord** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FarmerBankRecords
+    * const farmerBankRecords = await prisma.farmerBankRecord.findMany()
+    * ```
+    */
+  get farmerBankRecord(): Prisma.FarmerBankRecordDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -864,7 +909,10 @@ export namespace Prisma {
     Alert: 'Alert',
     AuditLog: 'AuditLog',
     PushSubscription: 'PushSubscription',
-    Payment: 'Payment'
+    Payment: 'Payment',
+    GovernmentScheme: 'GovernmentScheme',
+    FarmerTelegramLink: 'FarmerTelegramLink',
+    FarmerBankRecord: 'FarmerBankRecord'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -880,7 +928,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "farmerProfile" | "crop" | "farmerCrop" | "procurementCentre" | "centreCrop" | "centreManager" | "procurementRequest" | "queueToken" | "notification" | "notificationPreference" | "governmentCropPrice" | "marketPrice" | "weatherRecord" | "alert" | "auditLog" | "pushSubscription" | "payment"
+      modelProps: "user" | "farmerProfile" | "crop" | "farmerCrop" | "procurementCentre" | "centreCrop" | "centreManager" | "procurementRequest" | "queueToken" | "notification" | "notificationPreference" | "governmentCropPrice" | "marketPrice" | "weatherRecord" | "alert" | "auditLog" | "pushSubscription" | "payment" | "governmentScheme" | "farmerTelegramLink" | "farmerBankRecord"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2141,6 +2189,216 @@ export namespace Prisma {
           count: {
             args: Prisma.PaymentCountArgs<ExtArgs>
             result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+          }
+        }
+      }
+      GovernmentScheme: {
+        payload: Prisma.$GovernmentSchemePayload<ExtArgs>
+        fields: Prisma.GovernmentSchemeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GovernmentSchemeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GovernmentSchemeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          findFirst: {
+            args: Prisma.GovernmentSchemeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GovernmentSchemeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          findMany: {
+            args: Prisma.GovernmentSchemeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>[]
+          }
+          create: {
+            args: Prisma.GovernmentSchemeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          createMany: {
+            args: Prisma.GovernmentSchemeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GovernmentSchemeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>[]
+          }
+          delete: {
+            args: Prisma.GovernmentSchemeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          update: {
+            args: Prisma.GovernmentSchemeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          deleteMany: {
+            args: Prisma.GovernmentSchemeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GovernmentSchemeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GovernmentSchemeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GovernmentSchemePayload>
+          }
+          aggregate: {
+            args: Prisma.GovernmentSchemeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGovernmentScheme>
+          }
+          groupBy: {
+            args: Prisma.GovernmentSchemeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GovernmentSchemeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GovernmentSchemeCountArgs<ExtArgs>
+            result: $Utils.Optional<GovernmentSchemeCountAggregateOutputType> | number
+          }
+        }
+      }
+      FarmerTelegramLink: {
+        payload: Prisma.$FarmerTelegramLinkPayload<ExtArgs>
+        fields: Prisma.FarmerTelegramLinkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FarmerTelegramLinkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FarmerTelegramLinkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          findFirst: {
+            args: Prisma.FarmerTelegramLinkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FarmerTelegramLinkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          findMany: {
+            args: Prisma.FarmerTelegramLinkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>[]
+          }
+          create: {
+            args: Prisma.FarmerTelegramLinkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          createMany: {
+            args: Prisma.FarmerTelegramLinkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FarmerTelegramLinkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>[]
+          }
+          delete: {
+            args: Prisma.FarmerTelegramLinkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          update: {
+            args: Prisma.FarmerTelegramLinkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          deleteMany: {
+            args: Prisma.FarmerTelegramLinkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FarmerTelegramLinkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FarmerTelegramLinkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerTelegramLinkPayload>
+          }
+          aggregate: {
+            args: Prisma.FarmerTelegramLinkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFarmerTelegramLink>
+          }
+          groupBy: {
+            args: Prisma.FarmerTelegramLinkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FarmerTelegramLinkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FarmerTelegramLinkCountArgs<ExtArgs>
+            result: $Utils.Optional<FarmerTelegramLinkCountAggregateOutputType> | number
+          }
+        }
+      }
+      FarmerBankRecord: {
+        payload: Prisma.$FarmerBankRecordPayload<ExtArgs>
+        fields: Prisma.FarmerBankRecordFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FarmerBankRecordFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FarmerBankRecordFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          findFirst: {
+            args: Prisma.FarmerBankRecordFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FarmerBankRecordFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          findMany: {
+            args: Prisma.FarmerBankRecordFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>[]
+          }
+          create: {
+            args: Prisma.FarmerBankRecordCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          createMany: {
+            args: Prisma.FarmerBankRecordCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FarmerBankRecordCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>[]
+          }
+          delete: {
+            args: Prisma.FarmerBankRecordDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          update: {
+            args: Prisma.FarmerBankRecordUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          deleteMany: {
+            args: Prisma.FarmerBankRecordDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FarmerBankRecordUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.FarmerBankRecordUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FarmerBankRecordPayload>
+          }
+          aggregate: {
+            args: Prisma.FarmerBankRecordAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFarmerBankRecord>
+          }
+          groupBy: {
+            args: Prisma.FarmerBankRecordGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FarmerBankRecordGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FarmerBankRecordCountArgs<ExtArgs>
+            result: $Utils.Optional<FarmerBankRecordCountAggregateOutputType> | number
           }
         }
       }
@@ -21672,6 +21930,2978 @@ export namespace Prisma {
 
 
   /**
+   * Model GovernmentScheme
+   */
+
+  export type AggregateGovernmentScheme = {
+    _count: GovernmentSchemeCountAggregateOutputType | null
+    _avg: GovernmentSchemeAvgAggregateOutputType | null
+    _sum: GovernmentSchemeSumAggregateOutputType | null
+    _min: GovernmentSchemeMinAggregateOutputType | null
+    _max: GovernmentSchemeMaxAggregateOutputType | null
+  }
+
+  export type GovernmentSchemeAvgAggregateOutputType = {
+    maxLandAcreage: number | null
+  }
+
+  export type GovernmentSchemeSumAggregateOutputType = {
+    maxLandAcreage: number | null
+  }
+
+  export type GovernmentSchemeMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    category: string | null
+    ministry: string | null
+    benefitAmount: string | null
+    summary: string | null
+    details: string | null
+    eligibilityCriteria: string | null
+    maxLandAcreage: number | null
+    applicableStates: string | null
+    applicationUrl: string | null
+    officialCircularUrl: string | null
+    deadlineDate: Date | null
+    status: string | null
+    isFeatured: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GovernmentSchemeMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    category: string | null
+    ministry: string | null
+    benefitAmount: string | null
+    summary: string | null
+    details: string | null
+    eligibilityCriteria: string | null
+    maxLandAcreage: number | null
+    applicableStates: string | null
+    applicationUrl: string | null
+    officialCircularUrl: string | null
+    deadlineDate: Date | null
+    status: string | null
+    isFeatured: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GovernmentSchemeCountAggregateOutputType = {
+    id: number
+    title: number
+    category: number
+    ministry: number
+    benefitAmount: number
+    summary: number
+    details: number
+    eligibilityCriteria: number
+    maxLandAcreage: number
+    applicableStates: number
+    applicationUrl: number
+    officialCircularUrl: number
+    deadlineDate: number
+    status: number
+    isFeatured: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GovernmentSchemeAvgAggregateInputType = {
+    maxLandAcreage?: true
+  }
+
+  export type GovernmentSchemeSumAggregateInputType = {
+    maxLandAcreage?: true
+  }
+
+  export type GovernmentSchemeMinAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    ministry?: true
+    benefitAmount?: true
+    summary?: true
+    details?: true
+    eligibilityCriteria?: true
+    maxLandAcreage?: true
+    applicableStates?: true
+    applicationUrl?: true
+    officialCircularUrl?: true
+    deadlineDate?: true
+    status?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GovernmentSchemeMaxAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    ministry?: true
+    benefitAmount?: true
+    summary?: true
+    details?: true
+    eligibilityCriteria?: true
+    maxLandAcreage?: true
+    applicableStates?: true
+    applicationUrl?: true
+    officialCircularUrl?: true
+    deadlineDate?: true
+    status?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GovernmentSchemeCountAggregateInputType = {
+    id?: true
+    title?: true
+    category?: true
+    ministry?: true
+    benefitAmount?: true
+    summary?: true
+    details?: true
+    eligibilityCriteria?: true
+    maxLandAcreage?: true
+    applicableStates?: true
+    applicationUrl?: true
+    officialCircularUrl?: true
+    deadlineDate?: true
+    status?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GovernmentSchemeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GovernmentScheme to aggregate.
+     */
+    where?: GovernmentSchemeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GovernmentSchemes to fetch.
+     */
+    orderBy?: GovernmentSchemeOrderByWithRelationInput | GovernmentSchemeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GovernmentSchemeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GovernmentSchemes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GovernmentSchemes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GovernmentSchemes
+    **/
+    _count?: true | GovernmentSchemeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GovernmentSchemeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GovernmentSchemeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GovernmentSchemeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GovernmentSchemeMaxAggregateInputType
+  }
+
+  export type GetGovernmentSchemeAggregateType<T extends GovernmentSchemeAggregateArgs> = {
+        [P in keyof T & keyof AggregateGovernmentScheme]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGovernmentScheme[P]>
+      : GetScalarType<T[P], AggregateGovernmentScheme[P]>
+  }
+
+
+
+
+  export type GovernmentSchemeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GovernmentSchemeWhereInput
+    orderBy?: GovernmentSchemeOrderByWithAggregationInput | GovernmentSchemeOrderByWithAggregationInput[]
+    by: GovernmentSchemeScalarFieldEnum[] | GovernmentSchemeScalarFieldEnum
+    having?: GovernmentSchemeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GovernmentSchemeCountAggregateInputType | true
+    _avg?: GovernmentSchemeAvgAggregateInputType
+    _sum?: GovernmentSchemeSumAggregateInputType
+    _min?: GovernmentSchemeMinAggregateInputType
+    _max?: GovernmentSchemeMaxAggregateInputType
+  }
+
+  export type GovernmentSchemeGroupByOutputType = {
+    id: string
+    title: string
+    category: string
+    ministry: string
+    benefitAmount: string
+    summary: string
+    details: string | null
+    eligibilityCriteria: string
+    maxLandAcreage: number | null
+    applicableStates: string
+    applicationUrl: string
+    officialCircularUrl: string | null
+    deadlineDate: Date | null
+    status: string
+    isFeatured: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: GovernmentSchemeCountAggregateOutputType | null
+    _avg: GovernmentSchemeAvgAggregateOutputType | null
+    _sum: GovernmentSchemeSumAggregateOutputType | null
+    _min: GovernmentSchemeMinAggregateOutputType | null
+    _max: GovernmentSchemeMaxAggregateOutputType | null
+  }
+
+  type GetGovernmentSchemeGroupByPayload<T extends GovernmentSchemeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GovernmentSchemeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GovernmentSchemeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GovernmentSchemeGroupByOutputType[P]>
+            : GetScalarType<T[P], GovernmentSchemeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GovernmentSchemeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    ministry?: boolean
+    benefitAmount?: boolean
+    summary?: boolean
+    details?: boolean
+    eligibilityCriteria?: boolean
+    maxLandAcreage?: boolean
+    applicableStates?: boolean
+    applicationUrl?: boolean
+    officialCircularUrl?: boolean
+    deadlineDate?: boolean
+    status?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["governmentScheme"]>
+
+  export type GovernmentSchemeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    ministry?: boolean
+    benefitAmount?: boolean
+    summary?: boolean
+    details?: boolean
+    eligibilityCriteria?: boolean
+    maxLandAcreage?: boolean
+    applicableStates?: boolean
+    applicationUrl?: boolean
+    officialCircularUrl?: boolean
+    deadlineDate?: boolean
+    status?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["governmentScheme"]>
+
+  export type GovernmentSchemeSelectScalar = {
+    id?: boolean
+    title?: boolean
+    category?: boolean
+    ministry?: boolean
+    benefitAmount?: boolean
+    summary?: boolean
+    details?: boolean
+    eligibilityCriteria?: boolean
+    maxLandAcreage?: boolean
+    applicableStates?: boolean
+    applicationUrl?: boolean
+    officialCircularUrl?: boolean
+    deadlineDate?: boolean
+    status?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $GovernmentSchemePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GovernmentScheme"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      category: string
+      ministry: string
+      benefitAmount: string
+      summary: string
+      details: string | null
+      eligibilityCriteria: string
+      maxLandAcreage: number | null
+      applicableStates: string
+      applicationUrl: string
+      officialCircularUrl: string | null
+      deadlineDate: Date | null
+      status: string
+      isFeatured: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["governmentScheme"]>
+    composites: {}
+  }
+
+  type GovernmentSchemeGetPayload<S extends boolean | null | undefined | GovernmentSchemeDefaultArgs> = $Result.GetResult<Prisma.$GovernmentSchemePayload, S>
+
+  type GovernmentSchemeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GovernmentSchemeFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GovernmentSchemeCountAggregateInputType | true
+    }
+
+  export interface GovernmentSchemeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GovernmentScheme'], meta: { name: 'GovernmentScheme' } }
+    /**
+     * Find zero or one GovernmentScheme that matches the filter.
+     * @param {GovernmentSchemeFindUniqueArgs} args - Arguments to find a GovernmentScheme
+     * @example
+     * // Get one GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GovernmentSchemeFindUniqueArgs>(args: SelectSubset<T, GovernmentSchemeFindUniqueArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GovernmentScheme that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GovernmentSchemeFindUniqueOrThrowArgs} args - Arguments to find a GovernmentScheme
+     * @example
+     * // Get one GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GovernmentSchemeFindUniqueOrThrowArgs>(args: SelectSubset<T, GovernmentSchemeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GovernmentScheme that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeFindFirstArgs} args - Arguments to find a GovernmentScheme
+     * @example
+     * // Get one GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GovernmentSchemeFindFirstArgs>(args?: SelectSubset<T, GovernmentSchemeFindFirstArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GovernmentScheme that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeFindFirstOrThrowArgs} args - Arguments to find a GovernmentScheme
+     * @example
+     * // Get one GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GovernmentSchemeFindFirstOrThrowArgs>(args?: SelectSubset<T, GovernmentSchemeFindFirstOrThrowArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GovernmentSchemes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GovernmentSchemes
+     * const governmentSchemes = await prisma.governmentScheme.findMany()
+     * 
+     * // Get first 10 GovernmentSchemes
+     * const governmentSchemes = await prisma.governmentScheme.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const governmentSchemeWithIdOnly = await prisma.governmentScheme.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GovernmentSchemeFindManyArgs>(args?: SelectSubset<T, GovernmentSchemeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GovernmentScheme.
+     * @param {GovernmentSchemeCreateArgs} args - Arguments to create a GovernmentScheme.
+     * @example
+     * // Create one GovernmentScheme
+     * const GovernmentScheme = await prisma.governmentScheme.create({
+     *   data: {
+     *     // ... data to create a GovernmentScheme
+     *   }
+     * })
+     * 
+     */
+    create<T extends GovernmentSchemeCreateArgs>(args: SelectSubset<T, GovernmentSchemeCreateArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GovernmentSchemes.
+     * @param {GovernmentSchemeCreateManyArgs} args - Arguments to create many GovernmentSchemes.
+     * @example
+     * // Create many GovernmentSchemes
+     * const governmentScheme = await prisma.governmentScheme.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GovernmentSchemeCreateManyArgs>(args?: SelectSubset<T, GovernmentSchemeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GovernmentSchemes and returns the data saved in the database.
+     * @param {GovernmentSchemeCreateManyAndReturnArgs} args - Arguments to create many GovernmentSchemes.
+     * @example
+     * // Create many GovernmentSchemes
+     * const governmentScheme = await prisma.governmentScheme.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GovernmentSchemes and only return the `id`
+     * const governmentSchemeWithIdOnly = await prisma.governmentScheme.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GovernmentSchemeCreateManyAndReturnArgs>(args?: SelectSubset<T, GovernmentSchemeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GovernmentScheme.
+     * @param {GovernmentSchemeDeleteArgs} args - Arguments to delete one GovernmentScheme.
+     * @example
+     * // Delete one GovernmentScheme
+     * const GovernmentScheme = await prisma.governmentScheme.delete({
+     *   where: {
+     *     // ... filter to delete one GovernmentScheme
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GovernmentSchemeDeleteArgs>(args: SelectSubset<T, GovernmentSchemeDeleteArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GovernmentScheme.
+     * @param {GovernmentSchemeUpdateArgs} args - Arguments to update one GovernmentScheme.
+     * @example
+     * // Update one GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GovernmentSchemeUpdateArgs>(args: SelectSubset<T, GovernmentSchemeUpdateArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GovernmentSchemes.
+     * @param {GovernmentSchemeDeleteManyArgs} args - Arguments to filter GovernmentSchemes to delete.
+     * @example
+     * // Delete a few GovernmentSchemes
+     * const { count } = await prisma.governmentScheme.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GovernmentSchemeDeleteManyArgs>(args?: SelectSubset<T, GovernmentSchemeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GovernmentSchemes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GovernmentSchemes
+     * const governmentScheme = await prisma.governmentScheme.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GovernmentSchemeUpdateManyArgs>(args: SelectSubset<T, GovernmentSchemeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GovernmentScheme.
+     * @param {GovernmentSchemeUpsertArgs} args - Arguments to update or create a GovernmentScheme.
+     * @example
+     * // Update or create a GovernmentScheme
+     * const governmentScheme = await prisma.governmentScheme.upsert({
+     *   create: {
+     *     // ... data to create a GovernmentScheme
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GovernmentScheme we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GovernmentSchemeUpsertArgs>(args: SelectSubset<T, GovernmentSchemeUpsertArgs<ExtArgs>>): Prisma__GovernmentSchemeClient<$Result.GetResult<Prisma.$GovernmentSchemePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GovernmentSchemes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeCountArgs} args - Arguments to filter GovernmentSchemes to count.
+     * @example
+     * // Count the number of GovernmentSchemes
+     * const count = await prisma.governmentScheme.count({
+     *   where: {
+     *     // ... the filter for the GovernmentSchemes we want to count
+     *   }
+     * })
+    **/
+    count<T extends GovernmentSchemeCountArgs>(
+      args?: Subset<T, GovernmentSchemeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GovernmentSchemeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GovernmentScheme.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GovernmentSchemeAggregateArgs>(args: Subset<T, GovernmentSchemeAggregateArgs>): Prisma.PrismaPromise<GetGovernmentSchemeAggregateType<T>>
+
+    /**
+     * Group by GovernmentScheme.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GovernmentSchemeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GovernmentSchemeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GovernmentSchemeGroupByArgs['orderBy'] }
+        : { orderBy?: GovernmentSchemeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GovernmentSchemeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGovernmentSchemeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GovernmentScheme model
+   */
+  readonly fields: GovernmentSchemeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GovernmentScheme.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GovernmentSchemeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GovernmentScheme model
+   */ 
+  interface GovernmentSchemeFieldRefs {
+    readonly id: FieldRef<"GovernmentScheme", 'String'>
+    readonly title: FieldRef<"GovernmentScheme", 'String'>
+    readonly category: FieldRef<"GovernmentScheme", 'String'>
+    readonly ministry: FieldRef<"GovernmentScheme", 'String'>
+    readonly benefitAmount: FieldRef<"GovernmentScheme", 'String'>
+    readonly summary: FieldRef<"GovernmentScheme", 'String'>
+    readonly details: FieldRef<"GovernmentScheme", 'String'>
+    readonly eligibilityCriteria: FieldRef<"GovernmentScheme", 'String'>
+    readonly maxLandAcreage: FieldRef<"GovernmentScheme", 'Float'>
+    readonly applicableStates: FieldRef<"GovernmentScheme", 'String'>
+    readonly applicationUrl: FieldRef<"GovernmentScheme", 'String'>
+    readonly officialCircularUrl: FieldRef<"GovernmentScheme", 'String'>
+    readonly deadlineDate: FieldRef<"GovernmentScheme", 'DateTime'>
+    readonly status: FieldRef<"GovernmentScheme", 'String'>
+    readonly isFeatured: FieldRef<"GovernmentScheme", 'Boolean'>
+    readonly createdAt: FieldRef<"GovernmentScheme", 'DateTime'>
+    readonly updatedAt: FieldRef<"GovernmentScheme", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GovernmentScheme findUnique
+   */
+  export type GovernmentSchemeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter, which GovernmentScheme to fetch.
+     */
+    where: GovernmentSchemeWhereUniqueInput
+  }
+
+  /**
+   * GovernmentScheme findUniqueOrThrow
+   */
+  export type GovernmentSchemeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter, which GovernmentScheme to fetch.
+     */
+    where: GovernmentSchemeWhereUniqueInput
+  }
+
+  /**
+   * GovernmentScheme findFirst
+   */
+  export type GovernmentSchemeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter, which GovernmentScheme to fetch.
+     */
+    where?: GovernmentSchemeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GovernmentSchemes to fetch.
+     */
+    orderBy?: GovernmentSchemeOrderByWithRelationInput | GovernmentSchemeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GovernmentSchemes.
+     */
+    cursor?: GovernmentSchemeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GovernmentSchemes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GovernmentSchemes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GovernmentSchemes.
+     */
+    distinct?: GovernmentSchemeScalarFieldEnum | GovernmentSchemeScalarFieldEnum[]
+  }
+
+  /**
+   * GovernmentScheme findFirstOrThrow
+   */
+  export type GovernmentSchemeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter, which GovernmentScheme to fetch.
+     */
+    where?: GovernmentSchemeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GovernmentSchemes to fetch.
+     */
+    orderBy?: GovernmentSchemeOrderByWithRelationInput | GovernmentSchemeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GovernmentSchemes.
+     */
+    cursor?: GovernmentSchemeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GovernmentSchemes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GovernmentSchemes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GovernmentSchemes.
+     */
+    distinct?: GovernmentSchemeScalarFieldEnum | GovernmentSchemeScalarFieldEnum[]
+  }
+
+  /**
+   * GovernmentScheme findMany
+   */
+  export type GovernmentSchemeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter, which GovernmentSchemes to fetch.
+     */
+    where?: GovernmentSchemeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GovernmentSchemes to fetch.
+     */
+    orderBy?: GovernmentSchemeOrderByWithRelationInput | GovernmentSchemeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GovernmentSchemes.
+     */
+    cursor?: GovernmentSchemeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GovernmentSchemes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GovernmentSchemes.
+     */
+    skip?: number
+    distinct?: GovernmentSchemeScalarFieldEnum | GovernmentSchemeScalarFieldEnum[]
+  }
+
+  /**
+   * GovernmentScheme create
+   */
+  export type GovernmentSchemeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * The data needed to create a GovernmentScheme.
+     */
+    data: XOR<GovernmentSchemeCreateInput, GovernmentSchemeUncheckedCreateInput>
+  }
+
+  /**
+   * GovernmentScheme createMany
+   */
+  export type GovernmentSchemeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GovernmentSchemes.
+     */
+    data: GovernmentSchemeCreateManyInput | GovernmentSchemeCreateManyInput[]
+  }
+
+  /**
+   * GovernmentScheme createManyAndReturn
+   */
+  export type GovernmentSchemeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GovernmentSchemes.
+     */
+    data: GovernmentSchemeCreateManyInput | GovernmentSchemeCreateManyInput[]
+  }
+
+  /**
+   * GovernmentScheme update
+   */
+  export type GovernmentSchemeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * The data needed to update a GovernmentScheme.
+     */
+    data: XOR<GovernmentSchemeUpdateInput, GovernmentSchemeUncheckedUpdateInput>
+    /**
+     * Choose, which GovernmentScheme to update.
+     */
+    where: GovernmentSchemeWhereUniqueInput
+  }
+
+  /**
+   * GovernmentScheme updateMany
+   */
+  export type GovernmentSchemeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GovernmentSchemes.
+     */
+    data: XOR<GovernmentSchemeUpdateManyMutationInput, GovernmentSchemeUncheckedUpdateManyInput>
+    /**
+     * Filter which GovernmentSchemes to update
+     */
+    where?: GovernmentSchemeWhereInput
+  }
+
+  /**
+   * GovernmentScheme upsert
+   */
+  export type GovernmentSchemeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * The filter to search for the GovernmentScheme to update in case it exists.
+     */
+    where: GovernmentSchemeWhereUniqueInput
+    /**
+     * In case the GovernmentScheme found by the `where` argument doesn't exist, create a new GovernmentScheme with this data.
+     */
+    create: XOR<GovernmentSchemeCreateInput, GovernmentSchemeUncheckedCreateInput>
+    /**
+     * In case the GovernmentScheme was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GovernmentSchemeUpdateInput, GovernmentSchemeUncheckedUpdateInput>
+  }
+
+  /**
+   * GovernmentScheme delete
+   */
+  export type GovernmentSchemeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+    /**
+     * Filter which GovernmentScheme to delete.
+     */
+    where: GovernmentSchemeWhereUniqueInput
+  }
+
+  /**
+   * GovernmentScheme deleteMany
+   */
+  export type GovernmentSchemeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GovernmentSchemes to delete
+     */
+    where?: GovernmentSchemeWhereInput
+  }
+
+  /**
+   * GovernmentScheme without action
+   */
+  export type GovernmentSchemeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GovernmentScheme
+     */
+    select?: GovernmentSchemeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FarmerTelegramLink
+   */
+
+  export type AggregateFarmerTelegramLink = {
+    _count: FarmerTelegramLinkCountAggregateOutputType | null
+    _avg: FarmerTelegramLinkAvgAggregateOutputType | null
+    _sum: FarmerTelegramLinkSumAggregateOutputType | null
+    _min: FarmerTelegramLinkMinAggregateOutputType | null
+    _max: FarmerTelegramLinkMaxAggregateOutputType | null
+  }
+
+  export type FarmerTelegramLinkAvgAggregateOutputType = {
+    isActive: number | null
+  }
+
+  export type FarmerTelegramLinkSumAggregateOutputType = {
+    isActive: number | null
+  }
+
+  export type FarmerTelegramLinkMinAggregateOutputType = {
+    id: string | null
+    mobile: string | null
+    userId: string | null
+    chatId: string | null
+    username: string | null
+    firstName: string | null
+    isActive: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FarmerTelegramLinkMaxAggregateOutputType = {
+    id: string | null
+    mobile: string | null
+    userId: string | null
+    chatId: string | null
+    username: string | null
+    firstName: string | null
+    isActive: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type FarmerTelegramLinkCountAggregateOutputType = {
+    id: number
+    mobile: number
+    userId: number
+    chatId: number
+    username: number
+    firstName: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FarmerTelegramLinkAvgAggregateInputType = {
+    isActive?: true
+  }
+
+  export type FarmerTelegramLinkSumAggregateInputType = {
+    isActive?: true
+  }
+
+  export type FarmerTelegramLinkMinAggregateInputType = {
+    id?: true
+    mobile?: true
+    userId?: true
+    chatId?: true
+    username?: true
+    firstName?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FarmerTelegramLinkMaxAggregateInputType = {
+    id?: true
+    mobile?: true
+    userId?: true
+    chatId?: true
+    username?: true
+    firstName?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type FarmerTelegramLinkCountAggregateInputType = {
+    id?: true
+    mobile?: true
+    userId?: true
+    chatId?: true
+    username?: true
+    firstName?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FarmerTelegramLinkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FarmerTelegramLink to aggregate.
+     */
+    where?: FarmerTelegramLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerTelegramLinks to fetch.
+     */
+    orderBy?: FarmerTelegramLinkOrderByWithRelationInput | FarmerTelegramLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FarmerTelegramLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerTelegramLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerTelegramLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FarmerTelegramLinks
+    **/
+    _count?: true | FarmerTelegramLinkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FarmerTelegramLinkAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FarmerTelegramLinkSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FarmerTelegramLinkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FarmerTelegramLinkMaxAggregateInputType
+  }
+
+  export type GetFarmerTelegramLinkAggregateType<T extends FarmerTelegramLinkAggregateArgs> = {
+        [P in keyof T & keyof AggregateFarmerTelegramLink]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFarmerTelegramLink[P]>
+      : GetScalarType<T[P], AggregateFarmerTelegramLink[P]>
+  }
+
+
+
+
+  export type FarmerTelegramLinkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FarmerTelegramLinkWhereInput
+    orderBy?: FarmerTelegramLinkOrderByWithAggregationInput | FarmerTelegramLinkOrderByWithAggregationInput[]
+    by: FarmerTelegramLinkScalarFieldEnum[] | FarmerTelegramLinkScalarFieldEnum
+    having?: FarmerTelegramLinkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FarmerTelegramLinkCountAggregateInputType | true
+    _avg?: FarmerTelegramLinkAvgAggregateInputType
+    _sum?: FarmerTelegramLinkSumAggregateInputType
+    _min?: FarmerTelegramLinkMinAggregateInputType
+    _max?: FarmerTelegramLinkMaxAggregateInputType
+  }
+
+  export type FarmerTelegramLinkGroupByOutputType = {
+    id: string
+    mobile: string
+    userId: string | null
+    chatId: string
+    username: string | null
+    firstName: string | null
+    isActive: number
+    createdAt: Date
+    updatedAt: Date
+    _count: FarmerTelegramLinkCountAggregateOutputType | null
+    _avg: FarmerTelegramLinkAvgAggregateOutputType | null
+    _sum: FarmerTelegramLinkSumAggregateOutputType | null
+    _min: FarmerTelegramLinkMinAggregateOutputType | null
+    _max: FarmerTelegramLinkMaxAggregateOutputType | null
+  }
+
+  type GetFarmerTelegramLinkGroupByPayload<T extends FarmerTelegramLinkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FarmerTelegramLinkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FarmerTelegramLinkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FarmerTelegramLinkGroupByOutputType[P]>
+            : GetScalarType<T[P], FarmerTelegramLinkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FarmerTelegramLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mobile?: boolean
+    userId?: boolean
+    chatId?: boolean
+    username?: boolean
+    firstName?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["farmerTelegramLink"]>
+
+  export type FarmerTelegramLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mobile?: boolean
+    userId?: boolean
+    chatId?: boolean
+    username?: boolean
+    firstName?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["farmerTelegramLink"]>
+
+  export type FarmerTelegramLinkSelectScalar = {
+    id?: boolean
+    mobile?: boolean
+    userId?: boolean
+    chatId?: boolean
+    username?: boolean
+    firstName?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $FarmerTelegramLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FarmerTelegramLink"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      mobile: string
+      userId: string | null
+      chatId: string
+      username: string | null
+      firstName: string | null
+      isActive: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["farmerTelegramLink"]>
+    composites: {}
+  }
+
+  type FarmerTelegramLinkGetPayload<S extends boolean | null | undefined | FarmerTelegramLinkDefaultArgs> = $Result.GetResult<Prisma.$FarmerTelegramLinkPayload, S>
+
+  type FarmerTelegramLinkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<FarmerTelegramLinkFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: FarmerTelegramLinkCountAggregateInputType | true
+    }
+
+  export interface FarmerTelegramLinkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FarmerTelegramLink'], meta: { name: 'FarmerTelegramLink' } }
+    /**
+     * Find zero or one FarmerTelegramLink that matches the filter.
+     * @param {FarmerTelegramLinkFindUniqueArgs} args - Arguments to find a FarmerTelegramLink
+     * @example
+     * // Get one FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FarmerTelegramLinkFindUniqueArgs>(args: SelectSubset<T, FarmerTelegramLinkFindUniqueArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one FarmerTelegramLink that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {FarmerTelegramLinkFindUniqueOrThrowArgs} args - Arguments to find a FarmerTelegramLink
+     * @example
+     * // Get one FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FarmerTelegramLinkFindUniqueOrThrowArgs>(args: SelectSubset<T, FarmerTelegramLinkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first FarmerTelegramLink that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkFindFirstArgs} args - Arguments to find a FarmerTelegramLink
+     * @example
+     * // Get one FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FarmerTelegramLinkFindFirstArgs>(args?: SelectSubset<T, FarmerTelegramLinkFindFirstArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first FarmerTelegramLink that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkFindFirstOrThrowArgs} args - Arguments to find a FarmerTelegramLink
+     * @example
+     * // Get one FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FarmerTelegramLinkFindFirstOrThrowArgs>(args?: SelectSubset<T, FarmerTelegramLinkFindFirstOrThrowArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more FarmerTelegramLinks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FarmerTelegramLinks
+     * const farmerTelegramLinks = await prisma.farmerTelegramLink.findMany()
+     * 
+     * // Get first 10 FarmerTelegramLinks
+     * const farmerTelegramLinks = await prisma.farmerTelegramLink.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const farmerTelegramLinkWithIdOnly = await prisma.farmerTelegramLink.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FarmerTelegramLinkFindManyArgs>(args?: SelectSubset<T, FarmerTelegramLinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a FarmerTelegramLink.
+     * @param {FarmerTelegramLinkCreateArgs} args - Arguments to create a FarmerTelegramLink.
+     * @example
+     * // Create one FarmerTelegramLink
+     * const FarmerTelegramLink = await prisma.farmerTelegramLink.create({
+     *   data: {
+     *     // ... data to create a FarmerTelegramLink
+     *   }
+     * })
+     * 
+     */
+    create<T extends FarmerTelegramLinkCreateArgs>(args: SelectSubset<T, FarmerTelegramLinkCreateArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many FarmerTelegramLinks.
+     * @param {FarmerTelegramLinkCreateManyArgs} args - Arguments to create many FarmerTelegramLinks.
+     * @example
+     * // Create many FarmerTelegramLinks
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FarmerTelegramLinkCreateManyArgs>(args?: SelectSubset<T, FarmerTelegramLinkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FarmerTelegramLinks and returns the data saved in the database.
+     * @param {FarmerTelegramLinkCreateManyAndReturnArgs} args - Arguments to create many FarmerTelegramLinks.
+     * @example
+     * // Create many FarmerTelegramLinks
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FarmerTelegramLinks and only return the `id`
+     * const farmerTelegramLinkWithIdOnly = await prisma.farmerTelegramLink.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FarmerTelegramLinkCreateManyAndReturnArgs>(args?: SelectSubset<T, FarmerTelegramLinkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a FarmerTelegramLink.
+     * @param {FarmerTelegramLinkDeleteArgs} args - Arguments to delete one FarmerTelegramLink.
+     * @example
+     * // Delete one FarmerTelegramLink
+     * const FarmerTelegramLink = await prisma.farmerTelegramLink.delete({
+     *   where: {
+     *     // ... filter to delete one FarmerTelegramLink
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FarmerTelegramLinkDeleteArgs>(args: SelectSubset<T, FarmerTelegramLinkDeleteArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one FarmerTelegramLink.
+     * @param {FarmerTelegramLinkUpdateArgs} args - Arguments to update one FarmerTelegramLink.
+     * @example
+     * // Update one FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FarmerTelegramLinkUpdateArgs>(args: SelectSubset<T, FarmerTelegramLinkUpdateArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more FarmerTelegramLinks.
+     * @param {FarmerTelegramLinkDeleteManyArgs} args - Arguments to filter FarmerTelegramLinks to delete.
+     * @example
+     * // Delete a few FarmerTelegramLinks
+     * const { count } = await prisma.farmerTelegramLink.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FarmerTelegramLinkDeleteManyArgs>(args?: SelectSubset<T, FarmerTelegramLinkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FarmerTelegramLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FarmerTelegramLinks
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FarmerTelegramLinkUpdateManyArgs>(args: SelectSubset<T, FarmerTelegramLinkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FarmerTelegramLink.
+     * @param {FarmerTelegramLinkUpsertArgs} args - Arguments to update or create a FarmerTelegramLink.
+     * @example
+     * // Update or create a FarmerTelegramLink
+     * const farmerTelegramLink = await prisma.farmerTelegramLink.upsert({
+     *   create: {
+     *     // ... data to create a FarmerTelegramLink
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FarmerTelegramLink we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FarmerTelegramLinkUpsertArgs>(args: SelectSubset<T, FarmerTelegramLinkUpsertArgs<ExtArgs>>): Prisma__FarmerTelegramLinkClient<$Result.GetResult<Prisma.$FarmerTelegramLinkPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of FarmerTelegramLinks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkCountArgs} args - Arguments to filter FarmerTelegramLinks to count.
+     * @example
+     * // Count the number of FarmerTelegramLinks
+     * const count = await prisma.farmerTelegramLink.count({
+     *   where: {
+     *     // ... the filter for the FarmerTelegramLinks we want to count
+     *   }
+     * })
+    **/
+    count<T extends FarmerTelegramLinkCountArgs>(
+      args?: Subset<T, FarmerTelegramLinkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FarmerTelegramLinkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FarmerTelegramLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FarmerTelegramLinkAggregateArgs>(args: Subset<T, FarmerTelegramLinkAggregateArgs>): Prisma.PrismaPromise<GetFarmerTelegramLinkAggregateType<T>>
+
+    /**
+     * Group by FarmerTelegramLink.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerTelegramLinkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FarmerTelegramLinkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FarmerTelegramLinkGroupByArgs['orderBy'] }
+        : { orderBy?: FarmerTelegramLinkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FarmerTelegramLinkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFarmerTelegramLinkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FarmerTelegramLink model
+   */
+  readonly fields: FarmerTelegramLinkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FarmerTelegramLink.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FarmerTelegramLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FarmerTelegramLink model
+   */ 
+  interface FarmerTelegramLinkFieldRefs {
+    readonly id: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly mobile: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly userId: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly chatId: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly username: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly firstName: FieldRef<"FarmerTelegramLink", 'String'>
+    readonly isActive: FieldRef<"FarmerTelegramLink", 'Int'>
+    readonly createdAt: FieldRef<"FarmerTelegramLink", 'DateTime'>
+    readonly updatedAt: FieldRef<"FarmerTelegramLink", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FarmerTelegramLink findUnique
+   */
+  export type FarmerTelegramLinkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerTelegramLink to fetch.
+     */
+    where: FarmerTelegramLinkWhereUniqueInput
+  }
+
+  /**
+   * FarmerTelegramLink findUniqueOrThrow
+   */
+  export type FarmerTelegramLinkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerTelegramLink to fetch.
+     */
+    where: FarmerTelegramLinkWhereUniqueInput
+  }
+
+  /**
+   * FarmerTelegramLink findFirst
+   */
+  export type FarmerTelegramLinkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerTelegramLink to fetch.
+     */
+    where?: FarmerTelegramLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerTelegramLinks to fetch.
+     */
+    orderBy?: FarmerTelegramLinkOrderByWithRelationInput | FarmerTelegramLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FarmerTelegramLinks.
+     */
+    cursor?: FarmerTelegramLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerTelegramLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerTelegramLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FarmerTelegramLinks.
+     */
+    distinct?: FarmerTelegramLinkScalarFieldEnum | FarmerTelegramLinkScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerTelegramLink findFirstOrThrow
+   */
+  export type FarmerTelegramLinkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerTelegramLink to fetch.
+     */
+    where?: FarmerTelegramLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerTelegramLinks to fetch.
+     */
+    orderBy?: FarmerTelegramLinkOrderByWithRelationInput | FarmerTelegramLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FarmerTelegramLinks.
+     */
+    cursor?: FarmerTelegramLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerTelegramLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerTelegramLinks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FarmerTelegramLinks.
+     */
+    distinct?: FarmerTelegramLinkScalarFieldEnum | FarmerTelegramLinkScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerTelegramLink findMany
+   */
+  export type FarmerTelegramLinkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerTelegramLinks to fetch.
+     */
+    where?: FarmerTelegramLinkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerTelegramLinks to fetch.
+     */
+    orderBy?: FarmerTelegramLinkOrderByWithRelationInput | FarmerTelegramLinkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FarmerTelegramLinks.
+     */
+    cursor?: FarmerTelegramLinkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerTelegramLinks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerTelegramLinks.
+     */
+    skip?: number
+    distinct?: FarmerTelegramLinkScalarFieldEnum | FarmerTelegramLinkScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerTelegramLink create
+   */
+  export type FarmerTelegramLinkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * The data needed to create a FarmerTelegramLink.
+     */
+    data: XOR<FarmerTelegramLinkCreateInput, FarmerTelegramLinkUncheckedCreateInput>
+  }
+
+  /**
+   * FarmerTelegramLink createMany
+   */
+  export type FarmerTelegramLinkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FarmerTelegramLinks.
+     */
+    data: FarmerTelegramLinkCreateManyInput | FarmerTelegramLinkCreateManyInput[]
+  }
+
+  /**
+   * FarmerTelegramLink createManyAndReturn
+   */
+  export type FarmerTelegramLinkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many FarmerTelegramLinks.
+     */
+    data: FarmerTelegramLinkCreateManyInput | FarmerTelegramLinkCreateManyInput[]
+  }
+
+  /**
+   * FarmerTelegramLink update
+   */
+  export type FarmerTelegramLinkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * The data needed to update a FarmerTelegramLink.
+     */
+    data: XOR<FarmerTelegramLinkUpdateInput, FarmerTelegramLinkUncheckedUpdateInput>
+    /**
+     * Choose, which FarmerTelegramLink to update.
+     */
+    where: FarmerTelegramLinkWhereUniqueInput
+  }
+
+  /**
+   * FarmerTelegramLink updateMany
+   */
+  export type FarmerTelegramLinkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FarmerTelegramLinks.
+     */
+    data: XOR<FarmerTelegramLinkUpdateManyMutationInput, FarmerTelegramLinkUncheckedUpdateManyInput>
+    /**
+     * Filter which FarmerTelegramLinks to update
+     */
+    where?: FarmerTelegramLinkWhereInput
+  }
+
+  /**
+   * FarmerTelegramLink upsert
+   */
+  export type FarmerTelegramLinkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * The filter to search for the FarmerTelegramLink to update in case it exists.
+     */
+    where: FarmerTelegramLinkWhereUniqueInput
+    /**
+     * In case the FarmerTelegramLink found by the `where` argument doesn't exist, create a new FarmerTelegramLink with this data.
+     */
+    create: XOR<FarmerTelegramLinkCreateInput, FarmerTelegramLinkUncheckedCreateInput>
+    /**
+     * In case the FarmerTelegramLink was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FarmerTelegramLinkUpdateInput, FarmerTelegramLinkUncheckedUpdateInput>
+  }
+
+  /**
+   * FarmerTelegramLink delete
+   */
+  export type FarmerTelegramLinkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+    /**
+     * Filter which FarmerTelegramLink to delete.
+     */
+    where: FarmerTelegramLinkWhereUniqueInput
+  }
+
+  /**
+   * FarmerTelegramLink deleteMany
+   */
+  export type FarmerTelegramLinkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FarmerTelegramLinks to delete
+     */
+    where?: FarmerTelegramLinkWhereInput
+  }
+
+  /**
+   * FarmerTelegramLink without action
+   */
+  export type FarmerTelegramLinkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerTelegramLink
+     */
+    select?: FarmerTelegramLinkSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model FarmerBankRecord
+   */
+
+  export type AggregateFarmerBankRecord = {
+    _count: FarmerBankRecordCountAggregateOutputType | null
+    _min: FarmerBankRecordMinAggregateOutputType | null
+    _max: FarmerBankRecordMaxAggregateOutputType | null
+  }
+
+  export type FarmerBankRecordMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    accountHolderName: string | null
+    bankName: string | null
+    accountNumber: string | null
+    accountNumberMasked: string | null
+    ifscCode: string | null
+    branchName: string | null
+    aadhaarLinked: boolean | null
+    pfmsStatus: string | null
+    upiId: string | null
+    updatedAt: Date | null
+  }
+
+  export type FarmerBankRecordMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    accountHolderName: string | null
+    bankName: string | null
+    accountNumber: string | null
+    accountNumberMasked: string | null
+    ifscCode: string | null
+    branchName: string | null
+    aadhaarLinked: boolean | null
+    pfmsStatus: string | null
+    upiId: string | null
+    updatedAt: Date | null
+  }
+
+  export type FarmerBankRecordCountAggregateOutputType = {
+    id: number
+    userId: number
+    accountHolderName: number
+    bankName: number
+    accountNumber: number
+    accountNumberMasked: number
+    ifscCode: number
+    branchName: number
+    aadhaarLinked: number
+    pfmsStatus: number
+    upiId: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type FarmerBankRecordMinAggregateInputType = {
+    id?: true
+    userId?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    branchName?: true
+    aadhaarLinked?: true
+    pfmsStatus?: true
+    upiId?: true
+    updatedAt?: true
+  }
+
+  export type FarmerBankRecordMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    branchName?: true
+    aadhaarLinked?: true
+    pfmsStatus?: true
+    upiId?: true
+    updatedAt?: true
+  }
+
+  export type FarmerBankRecordCountAggregateInputType = {
+    id?: true
+    userId?: true
+    accountHolderName?: true
+    bankName?: true
+    accountNumber?: true
+    accountNumberMasked?: true
+    ifscCode?: true
+    branchName?: true
+    aadhaarLinked?: true
+    pfmsStatus?: true
+    upiId?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type FarmerBankRecordAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FarmerBankRecord to aggregate.
+     */
+    where?: FarmerBankRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerBankRecords to fetch.
+     */
+    orderBy?: FarmerBankRecordOrderByWithRelationInput | FarmerBankRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FarmerBankRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerBankRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerBankRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FarmerBankRecords
+    **/
+    _count?: true | FarmerBankRecordCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FarmerBankRecordMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FarmerBankRecordMaxAggregateInputType
+  }
+
+  export type GetFarmerBankRecordAggregateType<T extends FarmerBankRecordAggregateArgs> = {
+        [P in keyof T & keyof AggregateFarmerBankRecord]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFarmerBankRecord[P]>
+      : GetScalarType<T[P], AggregateFarmerBankRecord[P]>
+  }
+
+
+
+
+  export type FarmerBankRecordGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FarmerBankRecordWhereInput
+    orderBy?: FarmerBankRecordOrderByWithAggregationInput | FarmerBankRecordOrderByWithAggregationInput[]
+    by: FarmerBankRecordScalarFieldEnum[] | FarmerBankRecordScalarFieldEnum
+    having?: FarmerBankRecordScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FarmerBankRecordCountAggregateInputType | true
+    _min?: FarmerBankRecordMinAggregateInputType
+    _max?: FarmerBankRecordMaxAggregateInputType
+  }
+
+  export type FarmerBankRecordGroupByOutputType = {
+    id: string
+    userId: string
+    accountHolderName: string
+    bankName: string
+    accountNumber: string
+    accountNumberMasked: string
+    ifscCode: string
+    branchName: string
+    aadhaarLinked: boolean
+    pfmsStatus: string
+    upiId: string | null
+    updatedAt: Date
+    _count: FarmerBankRecordCountAggregateOutputType | null
+    _min: FarmerBankRecordMinAggregateOutputType | null
+    _max: FarmerBankRecordMaxAggregateOutputType | null
+  }
+
+  type GetFarmerBankRecordGroupByPayload<T extends FarmerBankRecordGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FarmerBankRecordGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FarmerBankRecordGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FarmerBankRecordGroupByOutputType[P]>
+            : GetScalarType<T[P], FarmerBankRecordGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FarmerBankRecordSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    accountHolderName?: boolean
+    bankName?: boolean
+    accountNumber?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    branchName?: boolean
+    aadhaarLinked?: boolean
+    pfmsStatus?: boolean
+    upiId?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["farmerBankRecord"]>
+
+  export type FarmerBankRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    accountHolderName?: boolean
+    bankName?: boolean
+    accountNumber?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    branchName?: boolean
+    aadhaarLinked?: boolean
+    pfmsStatus?: boolean
+    upiId?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["farmerBankRecord"]>
+
+  export type FarmerBankRecordSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    accountHolderName?: boolean
+    bankName?: boolean
+    accountNumber?: boolean
+    accountNumberMasked?: boolean
+    ifscCode?: boolean
+    branchName?: boolean
+    aadhaarLinked?: boolean
+    pfmsStatus?: boolean
+    upiId?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $FarmerBankRecordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FarmerBankRecord"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      accountHolderName: string
+      bankName: string
+      accountNumber: string
+      accountNumberMasked: string
+      ifscCode: string
+      branchName: string
+      aadhaarLinked: boolean
+      pfmsStatus: string
+      upiId: string | null
+      updatedAt: Date
+    }, ExtArgs["result"]["farmerBankRecord"]>
+    composites: {}
+  }
+
+  type FarmerBankRecordGetPayload<S extends boolean | null | undefined | FarmerBankRecordDefaultArgs> = $Result.GetResult<Prisma.$FarmerBankRecordPayload, S>
+
+  type FarmerBankRecordCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<FarmerBankRecordFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: FarmerBankRecordCountAggregateInputType | true
+    }
+
+  export interface FarmerBankRecordDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FarmerBankRecord'], meta: { name: 'FarmerBankRecord' } }
+    /**
+     * Find zero or one FarmerBankRecord that matches the filter.
+     * @param {FarmerBankRecordFindUniqueArgs} args - Arguments to find a FarmerBankRecord
+     * @example
+     * // Get one FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FarmerBankRecordFindUniqueArgs>(args: SelectSubset<T, FarmerBankRecordFindUniqueArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one FarmerBankRecord that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {FarmerBankRecordFindUniqueOrThrowArgs} args - Arguments to find a FarmerBankRecord
+     * @example
+     * // Get one FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FarmerBankRecordFindUniqueOrThrowArgs>(args: SelectSubset<T, FarmerBankRecordFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first FarmerBankRecord that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordFindFirstArgs} args - Arguments to find a FarmerBankRecord
+     * @example
+     * // Get one FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FarmerBankRecordFindFirstArgs>(args?: SelectSubset<T, FarmerBankRecordFindFirstArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first FarmerBankRecord that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordFindFirstOrThrowArgs} args - Arguments to find a FarmerBankRecord
+     * @example
+     * // Get one FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FarmerBankRecordFindFirstOrThrowArgs>(args?: SelectSubset<T, FarmerBankRecordFindFirstOrThrowArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more FarmerBankRecords that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FarmerBankRecords
+     * const farmerBankRecords = await prisma.farmerBankRecord.findMany()
+     * 
+     * // Get first 10 FarmerBankRecords
+     * const farmerBankRecords = await prisma.farmerBankRecord.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const farmerBankRecordWithIdOnly = await prisma.farmerBankRecord.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FarmerBankRecordFindManyArgs>(args?: SelectSubset<T, FarmerBankRecordFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a FarmerBankRecord.
+     * @param {FarmerBankRecordCreateArgs} args - Arguments to create a FarmerBankRecord.
+     * @example
+     * // Create one FarmerBankRecord
+     * const FarmerBankRecord = await prisma.farmerBankRecord.create({
+     *   data: {
+     *     // ... data to create a FarmerBankRecord
+     *   }
+     * })
+     * 
+     */
+    create<T extends FarmerBankRecordCreateArgs>(args: SelectSubset<T, FarmerBankRecordCreateArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many FarmerBankRecords.
+     * @param {FarmerBankRecordCreateManyArgs} args - Arguments to create many FarmerBankRecords.
+     * @example
+     * // Create many FarmerBankRecords
+     * const farmerBankRecord = await prisma.farmerBankRecord.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FarmerBankRecordCreateManyArgs>(args?: SelectSubset<T, FarmerBankRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FarmerBankRecords and returns the data saved in the database.
+     * @param {FarmerBankRecordCreateManyAndReturnArgs} args - Arguments to create many FarmerBankRecords.
+     * @example
+     * // Create many FarmerBankRecords
+     * const farmerBankRecord = await prisma.farmerBankRecord.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FarmerBankRecords and only return the `id`
+     * const farmerBankRecordWithIdOnly = await prisma.farmerBankRecord.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FarmerBankRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, FarmerBankRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a FarmerBankRecord.
+     * @param {FarmerBankRecordDeleteArgs} args - Arguments to delete one FarmerBankRecord.
+     * @example
+     * // Delete one FarmerBankRecord
+     * const FarmerBankRecord = await prisma.farmerBankRecord.delete({
+     *   where: {
+     *     // ... filter to delete one FarmerBankRecord
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FarmerBankRecordDeleteArgs>(args: SelectSubset<T, FarmerBankRecordDeleteArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one FarmerBankRecord.
+     * @param {FarmerBankRecordUpdateArgs} args - Arguments to update one FarmerBankRecord.
+     * @example
+     * // Update one FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FarmerBankRecordUpdateArgs>(args: SelectSubset<T, FarmerBankRecordUpdateArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more FarmerBankRecords.
+     * @param {FarmerBankRecordDeleteManyArgs} args - Arguments to filter FarmerBankRecords to delete.
+     * @example
+     * // Delete a few FarmerBankRecords
+     * const { count } = await prisma.farmerBankRecord.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FarmerBankRecordDeleteManyArgs>(args?: SelectSubset<T, FarmerBankRecordDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FarmerBankRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FarmerBankRecords
+     * const farmerBankRecord = await prisma.farmerBankRecord.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FarmerBankRecordUpdateManyArgs>(args: SelectSubset<T, FarmerBankRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one FarmerBankRecord.
+     * @param {FarmerBankRecordUpsertArgs} args - Arguments to update or create a FarmerBankRecord.
+     * @example
+     * // Update or create a FarmerBankRecord
+     * const farmerBankRecord = await prisma.farmerBankRecord.upsert({
+     *   create: {
+     *     // ... data to create a FarmerBankRecord
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FarmerBankRecord we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FarmerBankRecordUpsertArgs>(args: SelectSubset<T, FarmerBankRecordUpsertArgs<ExtArgs>>): Prisma__FarmerBankRecordClient<$Result.GetResult<Prisma.$FarmerBankRecordPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of FarmerBankRecords.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordCountArgs} args - Arguments to filter FarmerBankRecords to count.
+     * @example
+     * // Count the number of FarmerBankRecords
+     * const count = await prisma.farmerBankRecord.count({
+     *   where: {
+     *     // ... the filter for the FarmerBankRecords we want to count
+     *   }
+     * })
+    **/
+    count<T extends FarmerBankRecordCountArgs>(
+      args?: Subset<T, FarmerBankRecordCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FarmerBankRecordCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FarmerBankRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FarmerBankRecordAggregateArgs>(args: Subset<T, FarmerBankRecordAggregateArgs>): Prisma.PrismaPromise<GetFarmerBankRecordAggregateType<T>>
+
+    /**
+     * Group by FarmerBankRecord.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FarmerBankRecordGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FarmerBankRecordGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FarmerBankRecordGroupByArgs['orderBy'] }
+        : { orderBy?: FarmerBankRecordGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FarmerBankRecordGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFarmerBankRecordGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FarmerBankRecord model
+   */
+  readonly fields: FarmerBankRecordFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FarmerBankRecord.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FarmerBankRecordClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FarmerBankRecord model
+   */ 
+  interface FarmerBankRecordFieldRefs {
+    readonly id: FieldRef<"FarmerBankRecord", 'String'>
+    readonly userId: FieldRef<"FarmerBankRecord", 'String'>
+    readonly accountHolderName: FieldRef<"FarmerBankRecord", 'String'>
+    readonly bankName: FieldRef<"FarmerBankRecord", 'String'>
+    readonly accountNumber: FieldRef<"FarmerBankRecord", 'String'>
+    readonly accountNumberMasked: FieldRef<"FarmerBankRecord", 'String'>
+    readonly ifscCode: FieldRef<"FarmerBankRecord", 'String'>
+    readonly branchName: FieldRef<"FarmerBankRecord", 'String'>
+    readonly aadhaarLinked: FieldRef<"FarmerBankRecord", 'Boolean'>
+    readonly pfmsStatus: FieldRef<"FarmerBankRecord", 'String'>
+    readonly upiId: FieldRef<"FarmerBankRecord", 'String'>
+    readonly updatedAt: FieldRef<"FarmerBankRecord", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FarmerBankRecord findUnique
+   */
+  export type FarmerBankRecordFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerBankRecord to fetch.
+     */
+    where: FarmerBankRecordWhereUniqueInput
+  }
+
+  /**
+   * FarmerBankRecord findUniqueOrThrow
+   */
+  export type FarmerBankRecordFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerBankRecord to fetch.
+     */
+    where: FarmerBankRecordWhereUniqueInput
+  }
+
+  /**
+   * FarmerBankRecord findFirst
+   */
+  export type FarmerBankRecordFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerBankRecord to fetch.
+     */
+    where?: FarmerBankRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerBankRecords to fetch.
+     */
+    orderBy?: FarmerBankRecordOrderByWithRelationInput | FarmerBankRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FarmerBankRecords.
+     */
+    cursor?: FarmerBankRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerBankRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerBankRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FarmerBankRecords.
+     */
+    distinct?: FarmerBankRecordScalarFieldEnum | FarmerBankRecordScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerBankRecord findFirstOrThrow
+   */
+  export type FarmerBankRecordFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerBankRecord to fetch.
+     */
+    where?: FarmerBankRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerBankRecords to fetch.
+     */
+    orderBy?: FarmerBankRecordOrderByWithRelationInput | FarmerBankRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FarmerBankRecords.
+     */
+    cursor?: FarmerBankRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerBankRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerBankRecords.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FarmerBankRecords.
+     */
+    distinct?: FarmerBankRecordScalarFieldEnum | FarmerBankRecordScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerBankRecord findMany
+   */
+  export type FarmerBankRecordFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter, which FarmerBankRecords to fetch.
+     */
+    where?: FarmerBankRecordWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FarmerBankRecords to fetch.
+     */
+    orderBy?: FarmerBankRecordOrderByWithRelationInput | FarmerBankRecordOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FarmerBankRecords.
+     */
+    cursor?: FarmerBankRecordWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FarmerBankRecords from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FarmerBankRecords.
+     */
+    skip?: number
+    distinct?: FarmerBankRecordScalarFieldEnum | FarmerBankRecordScalarFieldEnum[]
+  }
+
+  /**
+   * FarmerBankRecord create
+   */
+  export type FarmerBankRecordCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * The data needed to create a FarmerBankRecord.
+     */
+    data: XOR<FarmerBankRecordCreateInput, FarmerBankRecordUncheckedCreateInput>
+  }
+
+  /**
+   * FarmerBankRecord createMany
+   */
+  export type FarmerBankRecordCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FarmerBankRecords.
+     */
+    data: FarmerBankRecordCreateManyInput | FarmerBankRecordCreateManyInput[]
+  }
+
+  /**
+   * FarmerBankRecord createManyAndReturn
+   */
+  export type FarmerBankRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many FarmerBankRecords.
+     */
+    data: FarmerBankRecordCreateManyInput | FarmerBankRecordCreateManyInput[]
+  }
+
+  /**
+   * FarmerBankRecord update
+   */
+  export type FarmerBankRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * The data needed to update a FarmerBankRecord.
+     */
+    data: XOR<FarmerBankRecordUpdateInput, FarmerBankRecordUncheckedUpdateInput>
+    /**
+     * Choose, which FarmerBankRecord to update.
+     */
+    where: FarmerBankRecordWhereUniqueInput
+  }
+
+  /**
+   * FarmerBankRecord updateMany
+   */
+  export type FarmerBankRecordUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FarmerBankRecords.
+     */
+    data: XOR<FarmerBankRecordUpdateManyMutationInput, FarmerBankRecordUncheckedUpdateManyInput>
+    /**
+     * Filter which FarmerBankRecords to update
+     */
+    where?: FarmerBankRecordWhereInput
+  }
+
+  /**
+   * FarmerBankRecord upsert
+   */
+  export type FarmerBankRecordUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * The filter to search for the FarmerBankRecord to update in case it exists.
+     */
+    where: FarmerBankRecordWhereUniqueInput
+    /**
+     * In case the FarmerBankRecord found by the `where` argument doesn't exist, create a new FarmerBankRecord with this data.
+     */
+    create: XOR<FarmerBankRecordCreateInput, FarmerBankRecordUncheckedCreateInput>
+    /**
+     * In case the FarmerBankRecord was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FarmerBankRecordUpdateInput, FarmerBankRecordUncheckedUpdateInput>
+  }
+
+  /**
+   * FarmerBankRecord delete
+   */
+  export type FarmerBankRecordDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+    /**
+     * Filter which FarmerBankRecord to delete.
+     */
+    where: FarmerBankRecordWhereUniqueInput
+  }
+
+  /**
+   * FarmerBankRecord deleteMany
+   */
+  export type FarmerBankRecordDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FarmerBankRecords to delete
+     */
+    where?: FarmerBankRecordWhereInput
+  }
+
+  /**
+   * FarmerBankRecord without action
+   */
+  export type FarmerBankRecordDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FarmerBankRecord
+     */
+    select?: FarmerBankRecordSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -21985,6 +25215,62 @@ export namespace Prisma {
   };
 
   export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+  export const GovernmentSchemeScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    category: 'category',
+    ministry: 'ministry',
+    benefitAmount: 'benefitAmount',
+    summary: 'summary',
+    details: 'details',
+    eligibilityCriteria: 'eligibilityCriteria',
+    maxLandAcreage: 'maxLandAcreage',
+    applicableStates: 'applicableStates',
+    applicationUrl: 'applicationUrl',
+    officialCircularUrl: 'officialCircularUrl',
+    deadlineDate: 'deadlineDate',
+    status: 'status',
+    isFeatured: 'isFeatured',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GovernmentSchemeScalarFieldEnum = (typeof GovernmentSchemeScalarFieldEnum)[keyof typeof GovernmentSchemeScalarFieldEnum]
+
+
+  export const FarmerTelegramLinkScalarFieldEnum: {
+    id: 'id',
+    mobile: 'mobile',
+    userId: 'userId',
+    chatId: 'chatId',
+    username: 'username',
+    firstName: 'firstName',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FarmerTelegramLinkScalarFieldEnum = (typeof FarmerTelegramLinkScalarFieldEnum)[keyof typeof FarmerTelegramLinkScalarFieldEnum]
+
+
+  export const FarmerBankRecordScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    accountHolderName: 'accountHolderName',
+    bankName: 'bankName',
+    accountNumber: 'accountNumber',
+    accountNumberMasked: 'accountNumberMasked',
+    ifscCode: 'ifscCode',
+    branchName: 'branchName',
+    aadhaarLinked: 'aadhaarLinked',
+    pfmsStatus: 'pfmsStatus',
+    upiId: 'upiId',
+    updatedAt: 'updatedAt'
+  };
+
+  export type FarmerBankRecordScalarFieldEnum = (typeof FarmerBankRecordScalarFieldEnum)[keyof typeof FarmerBankRecordScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -23688,6 +26974,281 @@ export namespace Prisma {
     paidAt?: DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+  }
+
+  export type GovernmentSchemeWhereInput = {
+    AND?: GovernmentSchemeWhereInput | GovernmentSchemeWhereInput[]
+    OR?: GovernmentSchemeWhereInput[]
+    NOT?: GovernmentSchemeWhereInput | GovernmentSchemeWhereInput[]
+    id?: StringFilter<"GovernmentScheme"> | string
+    title?: StringFilter<"GovernmentScheme"> | string
+    category?: StringFilter<"GovernmentScheme"> | string
+    ministry?: StringFilter<"GovernmentScheme"> | string
+    benefitAmount?: StringFilter<"GovernmentScheme"> | string
+    summary?: StringFilter<"GovernmentScheme"> | string
+    details?: StringNullableFilter<"GovernmentScheme"> | string | null
+    eligibilityCriteria?: StringFilter<"GovernmentScheme"> | string
+    maxLandAcreage?: FloatNullableFilter<"GovernmentScheme"> | number | null
+    applicableStates?: StringFilter<"GovernmentScheme"> | string
+    applicationUrl?: StringFilter<"GovernmentScheme"> | string
+    officialCircularUrl?: StringNullableFilter<"GovernmentScheme"> | string | null
+    deadlineDate?: DateTimeNullableFilter<"GovernmentScheme"> | Date | string | null
+    status?: StringFilter<"GovernmentScheme"> | string
+    isFeatured?: BoolFilter<"GovernmentScheme"> | boolean
+    createdAt?: DateTimeFilter<"GovernmentScheme"> | Date | string
+    updatedAt?: DateTimeFilter<"GovernmentScheme"> | Date | string
+  }
+
+  export type GovernmentSchemeOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    ministry?: SortOrder
+    benefitAmount?: SortOrder
+    summary?: SortOrder
+    details?: SortOrderInput | SortOrder
+    eligibilityCriteria?: SortOrder
+    maxLandAcreage?: SortOrderInput | SortOrder
+    applicableStates?: SortOrder
+    applicationUrl?: SortOrder
+    officialCircularUrl?: SortOrderInput | SortOrder
+    deadlineDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GovernmentSchemeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GovernmentSchemeWhereInput | GovernmentSchemeWhereInput[]
+    OR?: GovernmentSchemeWhereInput[]
+    NOT?: GovernmentSchemeWhereInput | GovernmentSchemeWhereInput[]
+    title?: StringFilter<"GovernmentScheme"> | string
+    category?: StringFilter<"GovernmentScheme"> | string
+    ministry?: StringFilter<"GovernmentScheme"> | string
+    benefitAmount?: StringFilter<"GovernmentScheme"> | string
+    summary?: StringFilter<"GovernmentScheme"> | string
+    details?: StringNullableFilter<"GovernmentScheme"> | string | null
+    eligibilityCriteria?: StringFilter<"GovernmentScheme"> | string
+    maxLandAcreage?: FloatNullableFilter<"GovernmentScheme"> | number | null
+    applicableStates?: StringFilter<"GovernmentScheme"> | string
+    applicationUrl?: StringFilter<"GovernmentScheme"> | string
+    officialCircularUrl?: StringNullableFilter<"GovernmentScheme"> | string | null
+    deadlineDate?: DateTimeNullableFilter<"GovernmentScheme"> | Date | string | null
+    status?: StringFilter<"GovernmentScheme"> | string
+    isFeatured?: BoolFilter<"GovernmentScheme"> | boolean
+    createdAt?: DateTimeFilter<"GovernmentScheme"> | Date | string
+    updatedAt?: DateTimeFilter<"GovernmentScheme"> | Date | string
+  }, "id">
+
+  export type GovernmentSchemeOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    ministry?: SortOrder
+    benefitAmount?: SortOrder
+    summary?: SortOrder
+    details?: SortOrderInput | SortOrder
+    eligibilityCriteria?: SortOrder
+    maxLandAcreage?: SortOrderInput | SortOrder
+    applicableStates?: SortOrder
+    applicationUrl?: SortOrder
+    officialCircularUrl?: SortOrderInput | SortOrder
+    deadlineDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GovernmentSchemeCountOrderByAggregateInput
+    _avg?: GovernmentSchemeAvgOrderByAggregateInput
+    _max?: GovernmentSchemeMaxOrderByAggregateInput
+    _min?: GovernmentSchemeMinOrderByAggregateInput
+    _sum?: GovernmentSchemeSumOrderByAggregateInput
+  }
+
+  export type GovernmentSchemeScalarWhereWithAggregatesInput = {
+    AND?: GovernmentSchemeScalarWhereWithAggregatesInput | GovernmentSchemeScalarWhereWithAggregatesInput[]
+    OR?: GovernmentSchemeScalarWhereWithAggregatesInput[]
+    NOT?: GovernmentSchemeScalarWhereWithAggregatesInput | GovernmentSchemeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    title?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    category?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    ministry?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    benefitAmount?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    summary?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    details?: StringNullableWithAggregatesFilter<"GovernmentScheme"> | string | null
+    eligibilityCriteria?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    maxLandAcreage?: FloatNullableWithAggregatesFilter<"GovernmentScheme"> | number | null
+    applicableStates?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    applicationUrl?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    officialCircularUrl?: StringNullableWithAggregatesFilter<"GovernmentScheme"> | string | null
+    deadlineDate?: DateTimeNullableWithAggregatesFilter<"GovernmentScheme"> | Date | string | null
+    status?: StringWithAggregatesFilter<"GovernmentScheme"> | string
+    isFeatured?: BoolWithAggregatesFilter<"GovernmentScheme"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"GovernmentScheme"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GovernmentScheme"> | Date | string
+  }
+
+  export type FarmerTelegramLinkWhereInput = {
+    AND?: FarmerTelegramLinkWhereInput | FarmerTelegramLinkWhereInput[]
+    OR?: FarmerTelegramLinkWhereInput[]
+    NOT?: FarmerTelegramLinkWhereInput | FarmerTelegramLinkWhereInput[]
+    id?: StringFilter<"FarmerTelegramLink"> | string
+    mobile?: StringFilter<"FarmerTelegramLink"> | string
+    userId?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    chatId?: StringFilter<"FarmerTelegramLink"> | string
+    username?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    firstName?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    isActive?: IntFilter<"FarmerTelegramLink"> | number
+    createdAt?: DateTimeFilter<"FarmerTelegramLink"> | Date | string
+    updatedAt?: DateTimeFilter<"FarmerTelegramLink"> | Date | string
+  }
+
+  export type FarmerTelegramLinkOrderByWithRelationInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    chatId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    firstName?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerTelegramLinkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    mobile?: string
+    AND?: FarmerTelegramLinkWhereInput | FarmerTelegramLinkWhereInput[]
+    OR?: FarmerTelegramLinkWhereInput[]
+    NOT?: FarmerTelegramLinkWhereInput | FarmerTelegramLinkWhereInput[]
+    userId?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    chatId?: StringFilter<"FarmerTelegramLink"> | string
+    username?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    firstName?: StringNullableFilter<"FarmerTelegramLink"> | string | null
+    isActive?: IntFilter<"FarmerTelegramLink"> | number
+    createdAt?: DateTimeFilter<"FarmerTelegramLink"> | Date | string
+    updatedAt?: DateTimeFilter<"FarmerTelegramLink"> | Date | string
+  }, "id" | "mobile">
+
+  export type FarmerTelegramLinkOrderByWithAggregationInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    chatId?: SortOrder
+    username?: SortOrderInput | SortOrder
+    firstName?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: FarmerTelegramLinkCountOrderByAggregateInput
+    _avg?: FarmerTelegramLinkAvgOrderByAggregateInput
+    _max?: FarmerTelegramLinkMaxOrderByAggregateInput
+    _min?: FarmerTelegramLinkMinOrderByAggregateInput
+    _sum?: FarmerTelegramLinkSumOrderByAggregateInput
+  }
+
+  export type FarmerTelegramLinkScalarWhereWithAggregatesInput = {
+    AND?: FarmerTelegramLinkScalarWhereWithAggregatesInput | FarmerTelegramLinkScalarWhereWithAggregatesInput[]
+    OR?: FarmerTelegramLinkScalarWhereWithAggregatesInput[]
+    NOT?: FarmerTelegramLinkScalarWhereWithAggregatesInput | FarmerTelegramLinkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FarmerTelegramLink"> | string
+    mobile?: StringWithAggregatesFilter<"FarmerTelegramLink"> | string
+    userId?: StringNullableWithAggregatesFilter<"FarmerTelegramLink"> | string | null
+    chatId?: StringWithAggregatesFilter<"FarmerTelegramLink"> | string
+    username?: StringNullableWithAggregatesFilter<"FarmerTelegramLink"> | string | null
+    firstName?: StringNullableWithAggregatesFilter<"FarmerTelegramLink"> | string | null
+    isActive?: IntWithAggregatesFilter<"FarmerTelegramLink"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"FarmerTelegramLink"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"FarmerTelegramLink"> | Date | string
+  }
+
+  export type FarmerBankRecordWhereInput = {
+    AND?: FarmerBankRecordWhereInput | FarmerBankRecordWhereInput[]
+    OR?: FarmerBankRecordWhereInput[]
+    NOT?: FarmerBankRecordWhereInput | FarmerBankRecordWhereInput[]
+    id?: StringFilter<"FarmerBankRecord"> | string
+    userId?: StringFilter<"FarmerBankRecord"> | string
+    accountHolderName?: StringFilter<"FarmerBankRecord"> | string
+    bankName?: StringFilter<"FarmerBankRecord"> | string
+    accountNumber?: StringFilter<"FarmerBankRecord"> | string
+    accountNumberMasked?: StringFilter<"FarmerBankRecord"> | string
+    ifscCode?: StringFilter<"FarmerBankRecord"> | string
+    branchName?: StringFilter<"FarmerBankRecord"> | string
+    aadhaarLinked?: BoolFilter<"FarmerBankRecord"> | boolean
+    pfmsStatus?: StringFilter<"FarmerBankRecord"> | string
+    upiId?: StringNullableFilter<"FarmerBankRecord"> | string | null
+    updatedAt?: DateTimeFilter<"FarmerBankRecord"> | Date | string
+  }
+
+  export type FarmerBankRecordOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    aadhaarLinked?: SortOrder
+    pfmsStatus?: SortOrder
+    upiId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerBankRecordWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: FarmerBankRecordWhereInput | FarmerBankRecordWhereInput[]
+    OR?: FarmerBankRecordWhereInput[]
+    NOT?: FarmerBankRecordWhereInput | FarmerBankRecordWhereInput[]
+    accountHolderName?: StringFilter<"FarmerBankRecord"> | string
+    bankName?: StringFilter<"FarmerBankRecord"> | string
+    accountNumber?: StringFilter<"FarmerBankRecord"> | string
+    accountNumberMasked?: StringFilter<"FarmerBankRecord"> | string
+    ifscCode?: StringFilter<"FarmerBankRecord"> | string
+    branchName?: StringFilter<"FarmerBankRecord"> | string
+    aadhaarLinked?: BoolFilter<"FarmerBankRecord"> | boolean
+    pfmsStatus?: StringFilter<"FarmerBankRecord"> | string
+    upiId?: StringNullableFilter<"FarmerBankRecord"> | string | null
+    updatedAt?: DateTimeFilter<"FarmerBankRecord"> | Date | string
+  }, "id" | "userId">
+
+  export type FarmerBankRecordOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    aadhaarLinked?: SortOrder
+    pfmsStatus?: SortOrder
+    upiId?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    _count?: FarmerBankRecordCountOrderByAggregateInput
+    _max?: FarmerBankRecordMaxOrderByAggregateInput
+    _min?: FarmerBankRecordMinOrderByAggregateInput
+  }
+
+  export type FarmerBankRecordScalarWhereWithAggregatesInput = {
+    AND?: FarmerBankRecordScalarWhereWithAggregatesInput | FarmerBankRecordScalarWhereWithAggregatesInput[]
+    OR?: FarmerBankRecordScalarWhereWithAggregatesInput[]
+    NOT?: FarmerBankRecordScalarWhereWithAggregatesInput | FarmerBankRecordScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    userId?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    accountHolderName?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    bankName?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    accountNumber?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    accountNumberMasked?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    ifscCode?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    branchName?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    aadhaarLinked?: BoolWithAggregatesFilter<"FarmerBankRecord"> | boolean
+    pfmsStatus?: StringWithAggregatesFilter<"FarmerBankRecord"> | string
+    upiId?: StringNullableWithAggregatesFilter<"FarmerBankRecord"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"FarmerBankRecord"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -25522,6 +29083,335 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GovernmentSchemeCreateInput = {
+    id?: string
+    title: string
+    category?: string
+    ministry?: string
+    benefitAmount: string
+    summary: string
+    details?: string | null
+    eligibilityCriteria: string
+    maxLandAcreage?: number | null
+    applicableStates?: string
+    applicationUrl: string
+    officialCircularUrl?: string | null
+    deadlineDate?: Date | string | null
+    status?: string
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GovernmentSchemeUncheckedCreateInput = {
+    id?: string
+    title: string
+    category?: string
+    ministry?: string
+    benefitAmount: string
+    summary: string
+    details?: string | null
+    eligibilityCriteria: string
+    maxLandAcreage?: number | null
+    applicableStates?: string
+    applicationUrl: string
+    officialCircularUrl?: string | null
+    deadlineDate?: Date | string | null
+    status?: string
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GovernmentSchemeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    ministry?: StringFieldUpdateOperationsInput | string
+    benefitAmount?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    eligibilityCriteria?: StringFieldUpdateOperationsInput | string
+    maxLandAcreage?: NullableFloatFieldUpdateOperationsInput | number | null
+    applicableStates?: StringFieldUpdateOperationsInput | string
+    applicationUrl?: StringFieldUpdateOperationsInput | string
+    officialCircularUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deadlineDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GovernmentSchemeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    ministry?: StringFieldUpdateOperationsInput | string
+    benefitAmount?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    eligibilityCriteria?: StringFieldUpdateOperationsInput | string
+    maxLandAcreage?: NullableFloatFieldUpdateOperationsInput | number | null
+    applicableStates?: StringFieldUpdateOperationsInput | string
+    applicationUrl?: StringFieldUpdateOperationsInput | string
+    officialCircularUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deadlineDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GovernmentSchemeCreateManyInput = {
+    id?: string
+    title: string
+    category?: string
+    ministry?: string
+    benefitAmount: string
+    summary: string
+    details?: string | null
+    eligibilityCriteria: string
+    maxLandAcreage?: number | null
+    applicableStates?: string
+    applicationUrl: string
+    officialCircularUrl?: string | null
+    deadlineDate?: Date | string | null
+    status?: string
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GovernmentSchemeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    ministry?: StringFieldUpdateOperationsInput | string
+    benefitAmount?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    eligibilityCriteria?: StringFieldUpdateOperationsInput | string
+    maxLandAcreage?: NullableFloatFieldUpdateOperationsInput | number | null
+    applicableStates?: StringFieldUpdateOperationsInput | string
+    applicationUrl?: StringFieldUpdateOperationsInput | string
+    officialCircularUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deadlineDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GovernmentSchemeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    ministry?: StringFieldUpdateOperationsInput | string
+    benefitAmount?: StringFieldUpdateOperationsInput | string
+    summary?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    eligibilityCriteria?: StringFieldUpdateOperationsInput | string
+    maxLandAcreage?: NullableFloatFieldUpdateOperationsInput | number | null
+    applicableStates?: StringFieldUpdateOperationsInput | string
+    applicationUrl?: StringFieldUpdateOperationsInput | string
+    officialCircularUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deadlineDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerTelegramLinkCreateInput = {
+    id?: string
+    mobile: string
+    userId?: string | null
+    chatId: string
+    username?: string | null
+    firstName?: string | null
+    isActive?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FarmerTelegramLinkUncheckedCreateInput = {
+    id?: string
+    mobile: string
+    userId?: string | null
+    chatId: string
+    username?: string | null
+    firstName?: string | null
+    isActive?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FarmerTelegramLinkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    chatId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerTelegramLinkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    chatId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerTelegramLinkCreateManyInput = {
+    id?: string
+    mobile: string
+    userId?: string | null
+    chatId: string
+    username?: string | null
+    firstName?: string | null
+    isActive?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FarmerTelegramLinkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    chatId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerTelegramLinkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mobile?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    chatId?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerBankRecordCreateInput = {
+    id?: string
+    userId: string
+    accountHolderName: string
+    bankName: string
+    accountNumber: string
+    accountNumberMasked: string
+    ifscCode: string
+    branchName: string
+    aadhaarLinked?: boolean
+    pfmsStatus?: string
+    upiId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FarmerBankRecordUncheckedCreateInput = {
+    id?: string
+    userId: string
+    accountHolderName: string
+    bankName: string
+    accountNumber: string
+    accountNumberMasked: string
+    ifscCode: string
+    branchName: string
+    aadhaarLinked?: boolean
+    pfmsStatus?: string
+    upiId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FarmerBankRecordUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    accountHolderName?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountNumberMasked?: StringFieldUpdateOperationsInput | string
+    ifscCode?: StringFieldUpdateOperationsInput | string
+    branchName?: StringFieldUpdateOperationsInput | string
+    aadhaarLinked?: BoolFieldUpdateOperationsInput | boolean
+    pfmsStatus?: StringFieldUpdateOperationsInput | string
+    upiId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerBankRecordUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    accountHolderName?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountNumberMasked?: StringFieldUpdateOperationsInput | string
+    ifscCode?: StringFieldUpdateOperationsInput | string
+    branchName?: StringFieldUpdateOperationsInput | string
+    aadhaarLinked?: BoolFieldUpdateOperationsInput | boolean
+    pfmsStatus?: StringFieldUpdateOperationsInput | string
+    upiId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerBankRecordCreateManyInput = {
+    id?: string
+    userId: string
+    accountHolderName: string
+    bankName: string
+    accountNumber: string
+    accountNumberMasked: string
+    ifscCode: string
+    branchName: string
+    aadhaarLinked?: boolean
+    pfmsStatus?: string
+    upiId?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FarmerBankRecordUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    accountHolderName?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountNumberMasked?: StringFieldUpdateOperationsInput | string
+    ifscCode?: StringFieldUpdateOperationsInput | string
+    branchName?: StringFieldUpdateOperationsInput | string
+    aadhaarLinked?: BoolFieldUpdateOperationsInput | boolean
+    pfmsStatus?: StringFieldUpdateOperationsInput | string
+    upiId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FarmerBankRecordUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    accountHolderName?: StringFieldUpdateOperationsInput | string
+    bankName?: StringFieldUpdateOperationsInput | string
+    accountNumber?: StringFieldUpdateOperationsInput | string
+    accountNumberMasked?: StringFieldUpdateOperationsInput | string
+    ifscCode?: StringFieldUpdateOperationsInput | string
+    branchName?: StringFieldUpdateOperationsInput | string
+    aadhaarLinked?: BoolFieldUpdateOperationsInput | boolean
+    pfmsStatus?: StringFieldUpdateOperationsInput | string
+    upiId?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -26740,6 +30630,190 @@ export namespace Prisma {
     grossAmount?: SortOrder
     deductions?: SortOrder
     netAmount?: SortOrder
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type GovernmentSchemeCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    ministry?: SortOrder
+    benefitAmount?: SortOrder
+    summary?: SortOrder
+    details?: SortOrder
+    eligibilityCriteria?: SortOrder
+    maxLandAcreage?: SortOrder
+    applicableStates?: SortOrder
+    applicationUrl?: SortOrder
+    officialCircularUrl?: SortOrder
+    deadlineDate?: SortOrder
+    status?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GovernmentSchemeAvgOrderByAggregateInput = {
+    maxLandAcreage?: SortOrder
+  }
+
+  export type GovernmentSchemeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    ministry?: SortOrder
+    benefitAmount?: SortOrder
+    summary?: SortOrder
+    details?: SortOrder
+    eligibilityCriteria?: SortOrder
+    maxLandAcreage?: SortOrder
+    applicableStates?: SortOrder
+    applicationUrl?: SortOrder
+    officialCircularUrl?: SortOrder
+    deadlineDate?: SortOrder
+    status?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GovernmentSchemeMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    category?: SortOrder
+    ministry?: SortOrder
+    benefitAmount?: SortOrder
+    summary?: SortOrder
+    details?: SortOrder
+    eligibilityCriteria?: SortOrder
+    maxLandAcreage?: SortOrder
+    applicableStates?: SortOrder
+    applicationUrl?: SortOrder
+    officialCircularUrl?: SortOrder
+    deadlineDate?: SortOrder
+    status?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GovernmentSchemeSumOrderByAggregateInput = {
+    maxLandAcreage?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type FarmerTelegramLinkCountOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    userId?: SortOrder
+    chatId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerTelegramLinkAvgOrderByAggregateInput = {
+    isActive?: SortOrder
+  }
+
+  export type FarmerTelegramLinkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    userId?: SortOrder
+    chatId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerTelegramLinkMinOrderByAggregateInput = {
+    id?: SortOrder
+    mobile?: SortOrder
+    userId?: SortOrder
+    chatId?: SortOrder
+    username?: SortOrder
+    firstName?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerTelegramLinkSumOrderByAggregateInput = {
+    isActive?: SortOrder
+  }
+
+  export type FarmerBankRecordCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    aadhaarLinked?: SortOrder
+    pfmsStatus?: SortOrder
+    upiId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerBankRecordMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    aadhaarLinked?: SortOrder
+    pfmsStatus?: SortOrder
+    upiId?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type FarmerBankRecordMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    accountHolderName?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    accountNumberMasked?: SortOrder
+    ifscCode?: SortOrder
+    branchName?: SortOrder
+    aadhaarLinked?: SortOrder
+    pfmsStatus?: SortOrder
+    upiId?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FarmerProfileCreateNestedOneWithoutUserInput = {
@@ -28168,6 +32242,14 @@ export namespace Prisma {
     update?: XOR<XOR<QueueTokenUpdateToOneWithWhereWithoutPaymentsInput, QueueTokenUpdateWithoutPaymentsInput>, QueueTokenUncheckedUpdateWithoutPaymentsInput>
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -28356,6 +32438,33 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type FarmerProfileCreateWithoutUserInput = {
@@ -34101,6 +38210,18 @@ export namespace Prisma {
      * @deprecated Use PaymentDefaultArgs instead
      */
     export type PaymentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GovernmentSchemeDefaultArgs instead
+     */
+    export type GovernmentSchemeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GovernmentSchemeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FarmerTelegramLinkDefaultArgs instead
+     */
+    export type FarmerTelegramLinkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FarmerTelegramLinkDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use FarmerBankRecordDefaultArgs instead
+     */
+    export type FarmerBankRecordArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = FarmerBankRecordDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

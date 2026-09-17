@@ -318,3 +318,58 @@ model Payment {
   createdAt            DateTime          @default(now())
   updatedAt            DateTime          @updatedAt
 }
+
+model GovernmentScheme {
+  id                  String    @id @default(uuid())
+  title               String
+  category            String    @default("SUBSIDY")
+  ministry            String    @default("Ministry of Agriculture & Farmers Welfare")
+  benefitAmount       String
+  summary             String
+  details             String?
+  eligibilityCriteria String
+  maxLandAcreage      Float?
+  applicableStates    String    @default("ALL")
+  applicationUrl      String
+  officialCircularUrl String?
+  deadlineDate        DateTime?
+  status              String    @default("ACTIVE")
+  isFeatured          Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([status])
+  @@index([category])
+}
+
+model FarmerTelegramLink {
+  id        String   @id @default(uuid())
+  mobile    String   @unique
+  userId    String?
+  chatId    String
+  username  String?
+  firstName String?
+  isActive  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+  @@index([userId])
+}
+
+model FarmerBankRecord {
+  id                  String   @id @default(uuid())
+  userId              String   @unique
+  accountHolderName   String
+  bankName            String
+  accountNumber       String
+  accountNumberMasked String
+  ifscCode            String
+  branchName          String
+  aadhaarLinked       Boolean  @default(true)
+  pfmsStatus          String   @default("ACTIVE")
+  upiId               String?
+  updatedAt           DateTime @updatedAt
+
+  @@index([userId])
+}

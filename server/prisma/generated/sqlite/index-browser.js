@@ -370,6 +370,53 @@ exports.Prisma.PaymentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GovernmentSchemeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  category: 'category',
+  ministry: 'ministry',
+  benefitAmount: 'benefitAmount',
+  summary: 'summary',
+  details: 'details',
+  eligibilityCriteria: 'eligibilityCriteria',
+  maxLandAcreage: 'maxLandAcreage',
+  applicableStates: 'applicableStates',
+  applicationUrl: 'applicationUrl',
+  officialCircularUrl: 'officialCircularUrl',
+  deadlineDate: 'deadlineDate',
+  status: 'status',
+  isFeatured: 'isFeatured',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FarmerTelegramLinkScalarFieldEnum = {
+  id: 'id',
+  mobile: 'mobile',
+  userId: 'userId',
+  chatId: 'chatId',
+  username: 'username',
+  firstName: 'firstName',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FarmerBankRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  accountHolderName: 'accountHolderName',
+  bankName: 'bankName',
+  accountNumber: 'accountNumber',
+  accountNumberMasked: 'accountNumberMasked',
+  ifscCode: 'ifscCode',
+  branchName: 'branchName',
+  aadhaarLinked: 'aadhaarLinked',
+  pfmsStatus: 'pfmsStatus',
+  upiId: 'upiId',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -399,7 +446,10 @@ exports.Prisma.ModelName = {
   Alert: 'Alert',
   AuditLog: 'AuditLog',
   PushSubscription: 'PushSubscription',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  GovernmentScheme: 'GovernmentScheme',
+  FarmerTelegramLink: 'FarmerTelegramLink',
+  FarmerBankRecord: 'FarmerBankRecord'
 };
 
 /**
