@@ -179,6 +179,21 @@ export const api = {
       apiClient.get<{ success: boolean; count: number; unreadCount: number; notifications: NotificationDTO[] }>('/notifications', { params }),
     markAsRead: (id: string) => apiClient.patch(`/notifications/${id}/read`),
     markAllAsRead: () => apiClient.post('/notifications/read-all'),
+    getTelegramStatus: () =>
+      apiClient.get<{
+        success: boolean;
+        botUsername: string;
+        deepLink: string;
+        isLinked: boolean;
+        chatId: string | null;
+        username: string | null;
+        firstName: string | null;
+        mobile: string;
+      }>('/notifications/telegram-status'),
+    linkTelegram: (chatId: string) =>
+      apiClient.post<{ success: boolean; message: string }>('/notifications/link-telegram', { chatId }),
+    sendTestTelegram: () =>
+      apiClient.post<{ success: boolean; message: string; notLinked?: boolean; deepLink?: string }>('/notifications/test-telegram'),
   },
 
   // Alerts
