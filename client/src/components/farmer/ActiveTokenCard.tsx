@@ -3,7 +3,7 @@ import { QueueTokenDTO } from '@smart-farmer/shared';
 import { Badge } from '../common/Badge';
 import { EmptyState } from '../common/EmptyState';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Truck } from 'lucide-react';
 
 interface ActiveTokenCardProps {
   activeToken: QueueTokenDTO | null;
@@ -11,12 +11,11 @@ interface ActiveTokenCardProps {
 }
 
 /**
- * Humanized component representing the farmer's live Mandi Queue Gate Pass.
- * Shows active token sequence, mandi yard info, vehicle registration, and real-time wait estimation.
+ * Displays active APMC Mandi Queue Gate Pass telemetry, vehicle info, and real-time wait estimation.
  */
 export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t }) => {
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card">
+    <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card">
       <div className="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
@@ -25,8 +24,8 @@ export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t
             </h3>
             {activeToken && (
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-none h-2 w-2 bg-emerald-500"></span>
               </span>
             )}
           </div>
@@ -37,7 +36,7 @@ export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t
         {activeToken && (
           <Link
             to="/farmer/queue"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-none bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition-all"
           >
             {t('queue.viewDetails')} <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -47,7 +46,7 @@ export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t
       {activeToken ? (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
           {/* Token sequence badge */}
-          <div className="md:col-span-1 p-5 rounded-2xl bg-emerald-50/70 border border-emerald-100 text-center">
+          <div className="md:col-span-1 p-5 rounded-none bg-emerald-50/70 border border-emerald-100 text-center">
             <span className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
               {t('queue.yourToken')}
             </span>
@@ -56,8 +55,9 @@ export const ActiveTokenCard: React.FC<ActiveTokenCardProps> = ({ activeToken, t
               <Badge status={activeToken.status} />
             </div>
             {activeToken.vehicleNumber && (
-              <div className="mt-2 text-[11px] font-semibold text-slate-600 bg-white/80 py-1 px-2 rounded-lg border border-emerald-100">
-                🚛 {activeToken.vehicleNumber}
+              <div className="mt-2 text-[11px] font-semibold text-slate-600 bg-white/80 py-1 px-2 rounded-none border border-emerald-100 flex items-center justify-center gap-1">
+                <Truck className="w-3 h-3 text-slate-500 flex-shrink-0" />
+                <span>{activeToken.vehicleNumber}</span>
               </div>
             )}
           </div>

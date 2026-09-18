@@ -251,9 +251,10 @@ export const RegisterPage: React.FC = () => {
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white transition-all"
                 >
                   <option value="FARMER">{t('roles.farmer')}</option>
-                  <option value="PROCUREMENT_CENTRE_MANAGER">{t('roles.manager')}</option>
-                  <option value="ADMIN">{t('roles.admin')}</option>
                 </select>
+                <p className="mt-1 text-xs text-slate-400">
+                  Admin &amp; Centre Manager accounts can only be created by the system administrator.
+                </p>
               </div>
             </div>
 

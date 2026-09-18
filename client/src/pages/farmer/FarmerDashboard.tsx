@@ -40,6 +40,8 @@ import {
   RefreshCw,
   X,
   User as UserIcon,
+  Sprout,
+  MapPin,
 } from 'lucide-react';
 
 const POPULAR_INDIAN_BANKS = [
@@ -315,8 +317,8 @@ export const FarmerDashboard: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       {/* Farmer Identity Top Masthead Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-emerald-700 via-emerald-800 to-teal-900 text-white p-6 sm:p-8 shadow-xl shadow-emerald-900/10 relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+      <div className="rounded-none bg-gradient-to-r from-emerald-700 via-emerald-800 to-teal-900 text-white p-6 sm:p-8 shadow-xl shadow-emerald-900/10 relative overflow-hidden">
+        <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-none bg-white/5 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             {/* Farmer Avatar with Camera Upload */}
@@ -326,17 +328,17 @@ export const FarmerDashboard: React.FC = () => {
                   src={user.farmerProfile.profilePictureUrl}
                   alt={user.fullName}
                   onClick={() => setPreviewPhotoUrl(user.farmerProfile?.profilePictureUrl || null)}
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-white/30 shadow-lg cursor-pointer hover:opacity-90 transition"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-none object-cover border-2 border-white/30 shadow-lg cursor-pointer hover:opacity-90 transition"
                 />
               ) : (
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border-2 border-white/20 flex items-center justify-center text-white text-2xl font-bold backdrop-blur-sm">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-none bg-white/10 border-2 border-white/20 flex items-center justify-center text-white text-2xl font-bold backdrop-blur-sm">
                   {user?.fullName?.charAt(0) || <UserIcon className="w-8 h-8" />}
                 </div>
               )}
 
               <label
                 title="Change Photo"
-                className="absolute -bottom-1.5 -right-1.5 p-1.5 rounded-xl bg-white text-emerald-800 shadow-md cursor-pointer hover:bg-emerald-50 active:scale-95 transition-all"
+                className="absolute -bottom-1.5 -right-1.5 p-1.5 rounded-none bg-white text-emerald-800 shadow-md cursor-pointer hover:bg-emerald-50 active:scale-95 transition-all"
               >
                 {isUploadingPhoto ? (
                   <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-700" />
@@ -355,16 +357,16 @@ export const FarmerDashboard: React.FC = () => {
 
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 backdrop-blur text-emerald-100">
-                  🌱 {t('roles.farmer')} Portal
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none text-xs font-semibold bg-white/15 backdrop-blur text-emerald-100">
+                  <Sprout className="w-3.5 h-3.5 text-emerald-300" /> {t('roles.farmer')} Portal
                 </span>
                 {user?.village && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-emerald-800/50 text-emerald-200 border border-emerald-500/30">
-                    📍 {user.village}, {user.district}
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none text-[11px] font-medium bg-emerald-800/50 text-emerald-200 border border-emerald-500/30">
+                    <MapPin className="w-3 h-3 text-emerald-300" /> {user.village}, {user.district}
                   </span>
                 )}
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-200 border border-emerald-300/30">
-                  ✓ Verified Farmer
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none text-[10px] font-bold bg-emerald-400/20 text-emerald-200 border border-emerald-300/30">
+                  <CheckCircle className="w-3 h-3 text-emerald-300" /> Verified Farmer
                 </span>
               </div>
 
@@ -380,13 +382,13 @@ export const FarmerDashboard: React.FC = () => {
           <div className="flex flex-wrap gap-3">
             <Link
               to="/farmer/centres"
-              className="px-5 py-2.5 rounded-2xl bg-white text-emerald-800 text-xs font-bold hover:bg-emerald-50 active:scale-95 transition-all shadow-md flex items-center gap-2"
+              className="px-5 py-2.5 rounded-none bg-white text-emerald-800 text-xs font-bold hover:bg-emerald-50 active:scale-95 transition-all shadow-md flex items-center gap-2"
             >
               <Building2 className="w-4 h-4" /> {t('nav.centres')}
             </Link>
             <Link
               to="/farmer/ai"
-              className="px-5 py-2.5 rounded-2xl bg-emerald-800/60 border border-white/20 text-white text-xs font-bold hover:bg-emerald-800 active:scale-95 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 rounded-none bg-emerald-800/60 border border-white/20 text-white text-xs font-bold hover:bg-emerald-800 active:scale-95 transition-all flex items-center gap-2"
             >
               <Compass className="w-4 h-4" /> {t('nav.ai')}
             </Link>
@@ -400,13 +402,13 @@ export const FarmerDashboard: React.FC = () => {
           {alerts.map((alert) => (
             <div
               key={alert.id}
-              className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-start gap-3 text-amber-900"
+              className="p-4 rounded-none bg-amber-50 border border-amber-200/80 flex items-start gap-3 text-amber-900"
             >
               <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <h4 className="text-xs font-bold">{alert.title}</h4>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-200/60 text-amber-800">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-none bg-amber-200/60 text-amber-800">
                     {alert.priority}
                   </span>
                 </div>
@@ -430,11 +432,11 @@ export const FarmerDashboard: React.FC = () => {
       {/* Financial Settlement & Bank Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Direct Benefit Transfer (DBT) Overview Banner */}
-        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-3xl p-6 text-white shadow-xl flex flex-col justify-between">
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-none p-6 text-white shadow-xl flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
+                <div className="w-10 h-10 rounded-none bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
                   <IndianRupee className="w-5 h-5" />
                 </div>
                 <div>
@@ -446,13 +448,13 @@ export const FarmerDashboard: React.FC = () => {
                   </p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30 flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-none bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30 flex items-center gap-1">
                 <CheckCircle className="w-3 h-3 text-emerald-400" />
                 {t('dashboard.dbtDirectSettlement', 'Direct Bank Settlement')}
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 my-5 py-3.5 px-3.5 rounded-2xl bg-white/5 border border-white/5">
+            <div className="grid grid-cols-3 gap-2 my-5 py-3.5 px-3.5 rounded-none bg-white/5 border border-white/5">
               <div>
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">{t('dashboard.cleared')}</span>
                 <span className="font-extrabold text-sm sm:text-base text-emerald-400">
@@ -476,7 +478,7 @@ export const FarmerDashboard: React.FC = () => {
 
           <Link
             to="/farmer/payments"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm active:scale-95 self-start sm:self-auto"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-none text-xs font-bold transition shadow-sm active:scale-95 self-start sm:self-auto"
           >
             <span>{t('dashboard.viewPaymentsJForm')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -484,11 +486,11 @@ export const FarmerDashboard: React.FC = () => {
         </div>
 
         {/* Bank Records DBT Card */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
+                <div className="w-10 h-10 rounded-none bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-100">
                   <Landmark className="w-5 h-5" />
                 </div>
                 <div>
@@ -496,7 +498,7 @@ export const FarmerDashboard: React.FC = () => {
                   <p className="text-[11px] text-slate-400 truncate max-w-xs">{t('dashboard.bankRecordsSub')}</p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/60 flex items-center gap-1">
+              <span className="px-2.5 py-1 rounded-none bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-200/60 flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-blue-600" />
                 {t('dashboard.aadhaarLinkedDbt')}
               </span>
@@ -504,7 +506,7 @@ export const FarmerDashboard: React.FC = () => {
 
             {bankDetails ? (
               <div className="mt-4 space-y-3">
-                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                <div className="flex items-center justify-between p-3.5 rounded-none bg-slate-50 border border-slate-100">
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                       {t('dashboard.bankNameLabel')}
@@ -523,11 +525,11 @@ export const FarmerDashboard: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
                     <span className="text-[10px] font-medium text-slate-400 block">{t('dashboard.accountHolder')}</span>
                     <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">{bankDetails.accountHolderName}</p>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-medium text-slate-400 block">{t('dashboard.accountNumber')}</span>
                       <button
@@ -559,7 +561,7 @@ export const FarmerDashboard: React.FC = () => {
             <button
               type="button"
               onClick={openBankModal}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200/60 active:scale-95 transition"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-none border border-blue-200/60 active:scale-95 transition"
             >
               <Edit3 className="w-3.5 h-3.5" /> {t('dashboard.editDetails')}
             </button>
@@ -573,7 +575,7 @@ export const FarmerDashboard: React.FC = () => {
       {/* Two Column Grid: Crops Portfolio & Top MSP Rates */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Crops Portfolio */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
               <h3 className="text-base font-bold text-slate-900">{t('dashboard.cropsPortfolio')}</h3>
@@ -596,8 +598,8 @@ export const FarmerDashboard: React.FC = () => {
               crops.slice(0, 3).map((crop) => (
                 <div key={crop.id} className="py-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                      🌾
+                    <div className="w-10 h-10 rounded-none bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                      <Wheat className="w-5 h-5 text-emerald-700" />
                     </div>
                     <div>
                       <h4 className="text-xs font-bold text-slate-900">{crop.crop?.name || crop.variety}</h4>
@@ -619,7 +621,7 @@ export const FarmerDashboard: React.FC = () => {
         </div>
 
         {/* Top MSP Rates */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
               <h3 className="text-base font-bold text-slate-900">
@@ -646,7 +648,7 @@ export const FarmerDashboard: React.FC = () => {
               topPrices.map((price) => (
                 <div key={price.id} className="py-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
+                    <div className="w-8 h-8 rounded-none bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
                       MSP
                     </div>
                     <div>
@@ -686,22 +688,22 @@ export const FarmerDashboard: React.FC = () => {
       {/* Farmer Photo Full-Size Preview Modal */}
       {previewPhotoUrl && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative">
+          <div className="bg-white rounded-none max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative">
             <button
               onClick={() => setPreviewPhotoUrl(null)}
-              className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
+              className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-none hover:bg-slate-100"
             >
               <X className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="w-2.5 h-2.5 rounded-none bg-emerald-500" />
               <h4 className="text-base font-bold text-slate-900">{user?.fullName}</h4>
             </div>
-            <div className="w-full aspect-square rounded-2xl overflow-hidden border border-slate-200 shadow-inner mb-4 bg-slate-100">
+            <div className="w-full aspect-square rounded-none overflow-hidden border border-slate-200 shadow-inner mb-4 bg-slate-100">
               <img src={previewPhotoUrl} alt={user?.fullName} className="w-full h-full object-cover" />
             </div>
             <div className="flex items-center justify-between gap-2">
-              <label className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold text-center cursor-pointer transition-all shadow-md flex items-center justify-center gap-1.5">
+              <label className="flex-1 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold text-center cursor-pointer transition-all shadow-md flex items-center justify-center gap-1.5">
                 <Camera className="w-4 h-4" /> Change Photo
                 <input
                   type="file"
@@ -716,7 +718,7 @@ export const FarmerDashboard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setPreviewPhotoUrl(null)}
-                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50"
+                className="px-4 py-2.5 rounded-none border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50"
               >
                 Close
               </button>

@@ -80,7 +80,7 @@ export const PricesPage: React.FC = () => {
       </div>
 
       {/* Interactive Crop Value Calculator Card */}
-      <div className="bg-gradient-to-r from-emerald-800 to-teal-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-emerald-900/10">
+      <div className="bg-gradient-to-r from-emerald-800 to-teal-800 rounded-none p-6 sm:p-8 text-white shadow-xl shadow-emerald-900/10">
         <div className="flex items-center gap-2 mb-2">
           <Calculator className="w-5 h-5 text-emerald-300" />
           <h3 className="text-lg font-bold">{t('prices.calculatorTitle')}</h3>
@@ -97,7 +97,7 @@ export const PricesPage: React.FC = () => {
             <select
               value={calcCropName}
               onChange={(e) => setCalcCropName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white"
+              className="w-full px-3.5 py-2.5 rounded-none bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white"
             >
               {mspPrices.map((p) => (
                 <option key={p.id} value={p.cropName} className="text-slate-900">
@@ -116,11 +116,11 @@ export const PricesPage: React.FC = () => {
               min="1"
               value={calcQuantity}
               onChange={(e) => setCalcQuantity(parseFloat(e.target.value) || 0)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white"
+              className="w-full px-3.5 py-2.5 rounded-none bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white"
             />
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/10 border border-white/15 text-center">
+          <div className="p-4 rounded-none bg-white/10 border border-white/15 text-center">
             <span className="text-[11px] font-bold text-emerald-200 uppercase tracking-wider block">
               {t('prices.estimatedTotalReturn')}
             </span>
@@ -143,7 +143,7 @@ export const PricesPage: React.FC = () => {
       <div className="flex items-center gap-3 border-b border-slate-200 pb-2">
         <button
           onClick={() => setActiveTab('msp')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`px-4 py-2 rounded-none text-xs font-bold transition-all ${
             activeTab === 'msp'
               ? 'bg-emerald-600 text-white shadow-sm'
               : 'text-slate-600 hover:bg-slate-100'
@@ -154,7 +154,7 @@ export const PricesPage: React.FC = () => {
 
         <button
           onClick={() => setActiveTab('market')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`px-4 py-2 rounded-none text-xs font-bold transition-all ${
             activeTab === 'market'
               ? 'bg-emerald-600 text-white shadow-sm'
               : 'text-slate-600 hover:bg-slate-100'
@@ -176,14 +176,14 @@ export const PricesPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && loadPrices()}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-none border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
             <select
               value={seasonFilter}
               onChange={(e) => setSeasonFilter(e.target.value)}
-              className="px-3 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white"
+              className="px-3 py-2.5 rounded-none border border-slate-200 text-xs text-slate-700 bg-white"
             >
               <option value="">{t('prices.allSeasons')}</option>
               <option value="Kharif">{t('prices.seasonKharif')}</option>
@@ -192,7 +192,7 @@ export const PricesPage: React.FC = () => {
             </select>
           </div>
 
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
+          <div className="bg-white rounded-none border border-slate-100 shadow-card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
@@ -247,7 +247,7 @@ export const PricesPage: React.FC = () => {
       {/* Tab 2: Mandi Market Prices */}
       {activeTab === 'market' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
+          <div className="bg-white rounded-none border border-slate-100 shadow-card overflow-hidden">
             {marketPrices.length === 0 ? (
               <div className="p-8 text-center">
                 <p className="text-sm font-semibold text-slate-600">

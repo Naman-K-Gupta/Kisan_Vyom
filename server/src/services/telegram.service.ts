@@ -227,7 +227,7 @@ export async function saveTelegramLink(params: {
             isActive: 1,
           },
         });
-        logger.success(`🔗 [Telegram] Updated farmer link: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
+        logger.success(` [Telegram] Updated farmer link: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
         return updated as TelegramLinkRecord;
       } else {
         const created = await (prisma as any).farmerTelegramLink.create({
@@ -240,7 +240,7 @@ export async function saveTelegramLink(params: {
             isActive: 1,
           },
         });
-        logger.success(`🔗 [Telegram] New farmer link established: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
+        logger.success(` [Telegram] New farmer link established: +91${clean} -> Chat ID ${chatIdStr} (${farmerName || 'Farmer'})`);
         return created as TelegramLinkRecord;
       }
     }
@@ -405,7 +405,7 @@ export async function sendTelegramDocument(
 }
 
 /**
- * Formats a notification nicely for Telegram delivery
+ * Formats a notification cleanly as a simple SMS for Telegram delivery
  */
 export function formatTelegramNotification(options: {
   title: string;
@@ -415,90 +415,38 @@ export function formatTelegramNotification(options: {
   farmerName?: string;
 }): string {
   const { title, message, type, metadata, farmerName } = options;
+  const resolvedFarmer = farmerName || metadata?.farmerName || 'Kisan';
 
-  let headerIcon = '🌾';
-  if (type === 'TOKEN_GENERATED' || type === 'TOKEN_CALLED') headerIcon = '🎫';
-  else if (type === 'PROCESSING_STARTED') headerIcon = '⚖️';
-  else if (type === 'PROCUREMENT_COMPLETED') headerIcon = '✅';
-  else if (type === 'PAYMENT_DISBURSED') headerIcon = '💰';
-  else if (type === 'TURN_APPROACHING') headerIcon = '🔔';
-  else if (type === 'TOKEN_SKIPPED' || type === 'TOKEN_CANCELLED') headerIcon = '⚠️';
+  // If the message is already in simple SMS format (starts with [VK-GOVMSP] or [...), return directly
+  if (message.startsWith('[VK-GOVMSP]') || (message.startsWith('[') && message.includes('] Dear'))) {
+    return message;
+  }
 
-  const timeStr = new Date().toLocaleTimeString('en-IN', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  });
-
-  // Dedicated Official Mandi Weighment Slip (Tulai Parchi) formatting
+  // Handle weighment receipt cleanly as simple SMS
   if (type === 'PROCUREMENT_COMPLETED' || metadata?.isOfficialReceipt) {
-    const centreName = metadata?.centreName || 'APMC Procurement Yard';
+    const centreName = metadata?.centreName || 'APMC Mandi';
     const slipNo = metadata?.paymentNumber || `PAY-${metadata?.tokenNumber ? metadata.tokenNumber.slice(-4) : 'REC'}`;
-    const tokenNo = metadata?.tokenNumber || 'N/A';
-    const cropName = metadata?.cropName || 'Grain Consignment';
-    const vehicleNo = metadata?.vehicleNumber || 'Registered Vehicle';
+    const cropName = metadata?.cropName || 'Grain';
     const qty = metadata?.quantity ? `${metadata.quantity} ${metadata.unit || 'Quintal'}` : 'N/A';
-    const moisture = metadata?.moisturePercentage != null ? `${metadata.moisturePercentage}%` : 'Standard (FAQ)';
-    const foreignMatter = metadata?.foreignMatterPercentage != null ? `${metadata.foreignMatterPercentage}%` : 'Normal';
-    const grade = metadata?.qualityGrade || 'Grade A (FAQ Passed)';
-    const rate = metadata?.ratePerUnit ? `₹${metadata.ratePerUnit}/Qtl` : 'Official MSP';
-    const gross = metadata?.grossAmount ? `₹${Number(metadata.grossAmount).toLocaleString('en-IN')}` : 'N/A';
-    const deductions = metadata?.deductions ? `-₹${Number(metadata.deductions).toLocaleString('en-IN')}` : '₹0.00';
-    const net = metadata?.amount ? `₹${Number(metadata.amount).toLocaleString('en-IN')}` : 'N/A';
-    const acc = metadata?.accountNumberMasked || 'XXXXXX4021';
-    const resolvedFarmer = farmerName || metadata?.farmerName || 'Kisan Bhai';
+    const net = metadata?.amount ? `Rs. ${Number(metadata.amount).toLocaleString('en-IN')}` : 'MSP Rate';
+    const acc = metadata?.accountNumberMasked ? metadata.accountNumberMasked.slice(-4) : '4021';
 
-    return `🧾 *OFFICIAL APMC MANDI WEIGHMENT SLIP*
-*तुलाई पर्ची एवं गुणवत्ता रिपोर्ट*
-━━━━━━━━━━━━━━━━━━━━
-👨‍🌾 *Farmer / किसान:* *${resolvedFarmer}*
-🏛️ *Centre:* ${centreName}
-📋 *Slip No:* \`${slipNo}\`
-🎫 *Token:* \`${tokenNo}\`
-🚛 *Vehicle No:* *${vehicleNo}*
-🌾 *Crop:* *${cropName}*
-
-⚖️ *WEIGHMENT & QUALITY METRICS*
-• Net Weighed Quantity: *${qty}*
-• Moisture Content: *${moisture}*
-• Foreign Matter: *${foreignMatter}*
-• FAQ Classification: *${grade}*
-
-💰 *MSP BILLING & DBT SETTLEMENT*
-• MSP Rate Applied: *${rate}*
-• Gross Lot Value: *${gross}*
-• Quality Value Cut: *${deductions}*
-━━━━━━━━━━━━━━━━━━━━
-✅ *Net Payable DBT Amount: ${net}*
-🏦 *Disbursement:* PFMS Direct Bank Transfer to State Bank of India (${acc})
-━━━━━━━━━━━━━━━━━━━━
-📌 _Certified digital procurement receipt under APMC guidelines. Keep this slip for your official records._
-🏛️ _Kisan Vyom Portal_
-⏰ _${timeStr}_`;
+    return `[VK-GOVMSP]\nDear ${resolvedFarmer}, ${qty} of ${cropName} weighed under Slip ${slipNo} at ${centreName}. Net payable ${net} initiated via DBT PFMS to A/c ending ${acc}. - APMC Mandi`;
   }
 
-  let extraLines = '';
-  if (metadata) {
-    const extras: string[] = [];
-    if (metadata.tokenNumber) extras.push(`• *Token:* \`${metadata.tokenNumber}\``);
-    if (metadata.bayNumber) extras.push(`• *Bay / Dock:* *${metadata.bayNumber}*`);
-    if (metadata.cropName) extras.push(`• *Crop:* ${metadata.cropName}`);
-    if (metadata.vehicleNumber) extras.push(`• *Vehicle:* *${metadata.vehicleNumber}*`);
-    if (metadata.quantity) extras.push(`• *Quantity:* ${metadata.quantity} ${metadata.unit || 'Qtl'}`);
-    if (metadata.amount) extras.push(`• *Amount:* ₹${Number(metadata.amount).toLocaleString('en-IN')}`);
-    if (metadata.utrNumber) extras.push(`• *UTR No:* \`${metadata.utrNumber}\``);
-    if (extras.length > 0) {
-      extraLines = `\n━━━━━━━━━━━━━━━━━━━━\n📋 *Details:*\n${extras.join('\n')}`;
-    }
+  let body = message.replace(/^[*_`\s\-_]+/, '').trim();
+  if (!body.toLowerCase().startsWith('dear')) {
+    body = `Dear ${resolvedFarmer},\n${body}`;
+  }
+  if (!body.includes('- APMC') && !body.includes('- Govt') && !body.includes('- Dept')) {
+    body = `${body}\n- APMC Mandi`;
   }
 
-  const farmerHeader = farmerName ? `👨‍🌾 *Farmer / किसान:* *${farmerName}*\n` : '';
-
-  return `${headerIcon} *Kisan Vyom | किसान व्योम*\n━━━━━━━━━━━━━━━━━━━━\n${farmerHeader}📌 *${title}*\n\n${message}${extraLines}\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _APMC Mandi Procurement Portal_\n⏰ _${timeStr}_`;
+  return `[VK-GOVMSP]\n${body}`;
 }
 
 /**
- * Main dispatch function: Sends any dashboard notification to the farmer on Telegram
+ * Dispatches notifications to linked farmer via Telegram bot
  */
 export async function sendTelegramNotificationToFarmer(
   options: SendTelegramOptions
@@ -577,7 +525,7 @@ export async function sendTelegramNotificationToFarmer(
         });
 
         const filename = `Mandi_Weighment_Slip_${metadata.paymentNumber || metadata.tokenNumber || 'Receipt'}.pdf`;
-        const docCaption = `🧾 *Official APMC Mandi Weighment Slip (तुलाई पर्ची)*\n🌾 *Crop:* ${metadata.cropName || 'Produce'} • *Qty:* ${metadata.quantity || 0} ${metadata.unit || 'Qtl'}\n🚛 *Vehicle:* ${metadata.vehicleNumber || 'N/A'}\n💰 *Net DBT Payable:* ₹${Number(metadata.amount || 0).toLocaleString('en-IN')}\n\nTap above to view and download your official APMC receipt.`;
+        const docCaption = ` *Official APMC Mandi Weighment Slip (तुलाई पर्ची)*\n *Crop:* ${metadata.cropName || 'Produce'} • *Qty:* ${metadata.quantity || 0} ${metadata.unit || 'Qtl'}\n *Vehicle:* ${metadata.vehicleNumber || 'N/A'}\n *Net DBT Payable:* ₹${Number(metadata.amount || 0).toLocaleString('en-IN')}\n\nTap above to view and download your official APMC receipt.`;
 
         await sendTelegramMessage(link.chatId, formattedText);
 
@@ -629,7 +577,7 @@ export async function sendTelegramNotificationToFarmer(
         });
         const filename = `Mandi_Weighment_Slip_${metadata.paymentNumber || metadata.tokenNumber || 'Receipt'}.pdf`;
         await sendTelegramMessage(fallbackChatId, formattedText);
-        const docRes = await sendTelegramDocument(fallbackChatId, pdfBuffer, filename, `🧾 Official Mandi Weighment Slip`);
+        const docRes = await sendTelegramDocument(fallbackChatId, pdfBuffer, filename, ` Official Mandi Weighment Slip`);
         if (docRes.success) {
           return { success: true, chatId: fallbackChatId, messageId: docRes.messageId };
         }
@@ -637,7 +585,7 @@ export async function sendTelegramNotificationToFarmer(
     }
     const res = await sendTelegramMessage(fallbackChatId, formattedText);
     if (res.success) {
-      logger.info(`📬 [Telegram Bot] Delivered to default chat ID ${fallbackChatId}`);
+      logger.info(` [Telegram Bot] Delivered to default chat ID ${fallbackChatId}`);
       return { success: true, chatId: fallbackChatId, messageId: res.messageId };
     }
   }
@@ -700,7 +648,7 @@ export function startTelegramBotListener() {
     return;
   }
 
-  logger.success(`🤖 Starting Telegram Bot Listener for @${botUsername}...`);
+  logger.success(` Starting Telegram Bot Listener for @${botUsername}...`);
 
   let lastUpdateId = 0;
   let isRunning = true;
@@ -777,7 +725,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${farmerDisplayName}!* 🌾\n\n✅ *Aapka mobile number +91 ${cleanPhone} Kisan Vyom Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n• 🎫 Gate Pass & Queue Tokens\n• 🔔 Turn Approaching Callouts\n• ⚖️ Weighbridge & Bay Instructions\n• 💰 Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n🏛️ _Kisan Vyom - Digital APMC Mandi Assistance_`,
+              ` *Namaste ${farmerDisplayName}!* \n\n *Aapka mobile number +91 ${cleanPhone} Kisan Vyom Bot se safaltapoorvak link ho gaya hai!*\n\nAb aapko APMC Mandi ke sabhi updates:\n•  Gate Pass & Queue Tokens\n•  Turn Approaching Callouts\n• ️ Weighbridge & Bay Instructions\n•  Direct Benefit Transfer (DBT) Payment Alerts\n\nDirect isi Telegram chat par praapt honge.\n\n️ _Kisan Vyom - Digital APMC Mandi Assistance_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -800,7 +748,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste ${farmerDisplayName}!* 🌾\n\n✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n🏛️ _Kisan Vyom Digital Mandi Portal_`,
+              ` *Namaste ${farmerDisplayName}!* \n\n *Mobile Number +91 ${phone} Safalta se jud gaya hai!*\n\nAapko Mandi tokens, bay calls, weighing status, aur DBT payment updates turant yahan milenge.\n\n️ _Kisan Vyom Digital Mandi Portal_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -823,7 +771,7 @@ export function startTelegramBotListener() {
 
             await sendTelegramMessage(
               chatId,
-              `✅ *Mobile Number +91 ${phone} Safalta se jud gaya hai, ${farmerDisplayName}!* 🌾\n\nKisan Vyom portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n🏛️ _Kisan Vyom Support_`,
+              ` *Mobile Number +91 ${phone} Safalta se jud gaya hai, ${farmerDisplayName}!* \n\nKisan Vyom portal ke sabhi Mandi notifications ab aapko is chat par milenge.\n\n️ _Kisan Vyom Support_`,
               {
                 replyMarkup: { remove_keyboard: true },
               }
@@ -836,20 +784,20 @@ export function startTelegramBotListener() {
             if (linkedUser) {
               await sendTelegramMessage(
                 chatId,
-                `🌾 *Namaste ${linkedUser.fullName}!* 🌾\n\n✅ *Aapka Kisan Vyom Account Pehle Se Linked Hai.*\n📱 *Registered Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n\nAapko Mandi queue tokens, bay calls, weighment slips, aur DBT payments ke live alerts automatically yahan milte rahenge.\n\n🏛️ _Kisan Vyom — Digital Mandi Assistance_`
+                ` *Namaste ${linkedUser.fullName}!* \n\n *Aapka Kisan Vyom Account Pehle Se Linked Hai.*\n *Registered Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n\nAapko Mandi queue tokens, bay calls, weighment slips, aur DBT payments ke live alerts automatically yahan milte rahenge.\n\n️ _Kisan Vyom — Digital Mandi Assistance_`
               );
               continue;
             }
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *Namaste, Kisan Vyom mein aapka swaagat hai!* 🌾\n\nApna Mandi account connect karne ke liye:\n1️⃣ Niche दिए gaye button par click karke apna *Mobile Number Share* karein, ya\n2️⃣ Apna 10-digit registered mobile number yahan type karke send karein.\n\n_Ek baar judte hi aapko Gate Token, Bay Calling, aur DBT Payment ke live notifications milenge._`,
+              ` *Namaste, Kisan Vyom mein aapka swaagat hai!* \n\nApna Mandi account connect karne ke liye:\n1️⃣ Niche दिए gaye button par click karke apna *Mobile Number Share* karein, ya\n2️⃣ Apna 10-digit registered mobile number yahan type karke send karein.\n\n_Ek baar judte hi aapko Gate Token, Bay Calling, aur DBT Payment ke live notifications milenge._`,
               {
                 replyMarkup: {
                   keyboard: [
                     [
                       {
-                        text: '📱 Share Registered Mobile Number',
+                        text: ' Share Registered Mobile Number',
                         request_contact: true,
                       },
                     ],
@@ -866,12 +814,12 @@ export function startTelegramBotListener() {
           if (text === '/help' || text.startsWith('/help')) {
             const greeting = linkedUser?.fullName ? `Namaste ${linkedUser.fullName}!` : 'Kisan Vyom Bot Help';
             const accountInfo = linkedUser
-              ? `👤 *Farmer Profile:* *${linkedUser.fullName}*\n📱 *Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n✅ Status: Linked & Active\n━━━━━━━━━━━━━━━━━━━━\n`
+              ? ` *Farmer Profile:* *${linkedUser.fullName}*\n *Mobile:* +91 ${cleanMobileNumber(linkedUser.mobile)}\n Status: Linked & Active\n━━━━━━━━━━━━━━━━━━━━\n`
               : '• Apna 10-digit phone number bhejein apna account link karne ke liye.\n';
 
             await sendTelegramMessage(
               chatId,
-              `🌾 *${greeting}*\n━━━━━━━━━━━━━━━━━━━━\n${accountInfo}• Sabhi Mandi alerts (Tokens, Bay Calling, Tulai Parchi) yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n🏛️ _Digital APMC Mandi Support_`
+              ` *${greeting}*\n━━━━━━━━━━━━━━━━━━━━\n${accountInfo}• Sabhi Mandi alerts (Tokens, Bay Calling, Tulai Parchi) yahan milenge.\n• Portal Web: http://localhost:5173\n━━━━━━━━━━━━━━━━━━━━\n️ _Digital APMC Mandi Support_`
             );
           }
         }

@@ -32,7 +32,7 @@ export class QueueService {
   static async recalculateAndBroadcast(centreId: string) {
     const centre = await prisma.procurementCentre.findUnique({
       where: { id: centreId },
-      select: { processingRate: true, totalCapacity: true, currentUsage: true, status: true },
+      select: { name: true, processingRate: true, totalCapacity: true, currentUsage: true, status: true },
     });
 
     if (!centre) return;
@@ -41,6 +41,9 @@ export class QueueService {
       where: {
         centreId,
         status: 'WAITING',
+      },
+      include: {
+        farmer: { select: { id: true, fullName: true, mobile: true } },
       },
       orderBy: { createdAt: 'asc' },
     });
@@ -66,12 +69,13 @@ export class QueueService {
 
       // Notify when only 3 farmers are ahead
       if (farmersAhead === 3) {
+        const farmerName = token.farmer?.fullName || 'Kisan';
         await sendNotification({
           userId: token.farmerId,
-          title: 'Turn Approaching Soon',
-          message: `There are only 3 farmers ahead of you for Token ${token.tokenNumber}. Please stay near the centre gate.`,
+          title: 'SMS: Turn Approaching',
+          message: `[VK-GOVMSP] Dear ${farmerName}, only 3 farmers ahead of Token ${token.tokenNumber} at ${centre.name || 'Mandi'}. Please stay ready near the entry gate. - APMC Mandi`,
           type: 'TURN_APPROACHING',
-          metadata: { tokenId: token.id, centreId },
+          metadata: { tokenId: token.id, centreId, farmerName },
         });
       }
     }
@@ -114,7 +118,7 @@ export class QueueService {
   }) {
     const { farmerId, centreId, cropId, quantity, unit = 'Quintal', vehicleNumber, vehicleType } = params;
 
-    // 1. Check if centre is open
+    // Verify centre operating status
     const centre = await prisma.procurementCentre.findUnique({
       where: { id: centreId },
       include: { supportedCrops: true },
@@ -128,13 +132,13 @@ export class QueueService {
       throw new Error(`This centre is currently ${centre.status}. Queue tokens cannot be issued.`);
     }
 
-    // 2. Check if crop is supported
+    // Check crop acceptance
     const isSupported = centre.supportedCrops.some((sc) => sc.cropId === cropId && sc.isAccepting);
     if (!isSupported) {
       throw new Error('This centre is not currently accepting the selected crop.');
     }
 
-    // 3. Prevent multiple active tokens for the same farmer at the same centre
+    // Prevent duplicate active queue tokens for same farmer
     const existingActiveToken = await prisma.queueToken.findFirst({
       where: {
         farmerId,
@@ -149,7 +153,7 @@ export class QueueService {
       );
     }
 
-    // 4. Generate token number and calculate current position
+    // Generate token sequence and estimate queue wait time
     const tokenNumber = await this.generateTokenNumber(centreId);
     const waitingCount = await prisma.queueToken.count({
       where: { centreId, status: 'WAITING' },
@@ -180,16 +184,17 @@ export class QueueService {
       },
     });
 
-    // 5. Notify farmer
+    // Notify farmer via SMS
+    const farmerName = token.farmer?.fullName || 'Kisan';
     await sendNotification({
       userId: farmerId,
-      title: 'Queue Token Issued',
-      message: `Your token ${tokenNumber} has been generated at ${centre.name}. Position: #${position}. Estimated wait: ${estimatedWaitMinutes} mins.`,
+      title: 'SMS: Token Generated',
+      message: `[VK-GOVMSP] Dear ${farmerName}, Token ${tokenNumber} for ${token.crop.name} (${quantity} ${unit}) is booked at ${centre.name}. Queue Position: #${position}. Approx wait: ${estimatedWaitMinutes} mins. - APMC Mandi`,
       type: 'TOKEN_GENERATED',
-      metadata: { tokenId: token.id, centreId },
+      metadata: { tokenId: token.id, centreId, farmerName },
     });
 
-    // 6. Broadcast update
+    // Broadcast queue update to mandi subscribers
     await this.recalculateAndBroadcast(centreId);
 
     return token;
@@ -234,12 +239,14 @@ export class QueueService {
     });
 
     // Notify farmer
+    const farmerName = updatedToken.farmer?.fullName || 'Kisan';
+    const vehicleInfo = token.vehicleNumber ? ` with vehicle ${token.vehicleNumber}` : '';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Your Token has been Called!',
-      message: `Token ${token.tokenNumber}: Please proceed immediately to the inspection and procurement bay at ${token.centre.name}.`,
+      title: 'SMS: Token Called',
+      message: `[VK-GOVMSP] Dear ${farmerName}, Token ${token.tokenNumber} is CALLED at ${token.centre.name}. Please report immediately to Weighbridge Bay${vehicleInfo}. - APMC Mandi`,
       type: 'TOKEN_CALLED',
-      metadata: { tokenId: token.id, centreId: token.centreId },
+      metadata: { tokenId: token.id, centreId: token.centreId, farmerName },
     });
 
     // Broadcast
@@ -287,12 +294,13 @@ export class QueueService {
       newValue: { status: 'PROCESSING' },
     });
 
+    const farmerNameProc = updatedToken.farmer?.fullName || 'Kisan';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Crop Inspection & Weighing Started',
-      message: `Token ${token.tokenNumber}: Weighing and quality verification are now in progress.`,
+      title: 'SMS: Weighment Started',
+      message: `[VK-GOVMSP] Dear ${farmerNameProc}, gross weighing and quality assay for Token ${token.tokenNumber} (${updatedToken.crop.name}) has commenced at ${token.centre.name}. - APMC Mandi`,
       type: 'PROCESSING_STARTED',
-      metadata: { tokenId: token.id, centreId: token.centreId },
+      metadata: { tokenId: token.id, centreId: token.centreId, farmerName: farmerNameProc },
     });
 
     const io = getIO();
@@ -447,11 +455,12 @@ export class QueueService {
       newValue: { status: 'COMPLETED', currentUsage: newUsage, netAmount, paymentNumber },
     });
 
-    // Rich receipt metadata sent via Telegram & In-App notification
+    // Dispatch official APMC receipt confirmation via SMS
+    const farmerNameComp = token.farmer?.fullName || 'Kisan';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Official APMC Mandi Weighment Slip (तुलाई पर्ची)',
-      message: `Token ${token.tokenNumber}: Procured ${finalQuantity} ${token.unit} of ${token.crop.name} (Vehicle: ${finalVehicle}). Payment order of ₹${netAmount.toLocaleString('en-IN')} initiated to your Aadhaar-linked bank account.`,
+      title: 'SMS: Weighment Completed',
+      message: `[VK-GOVMSP] Dear ${farmerNameComp}, ${finalQuantity} ${token.unit} of ${token.crop.name} weighed at ${token.centre.name} under Slip ${paymentNumber}. Net MSP amount Rs. ${netAmount.toLocaleString('en-IN')} initiated via DBT PFMS to A/c ending ${maskedAcc.slice(-4)}. - APMC Mandi`,
       type: 'PROCUREMENT_COMPLETED',
       metadata: {
         tokenId: token.id,
@@ -545,10 +554,11 @@ export class QueueService {
       newValue: { status: 'CANCELLED', reason: options.reason },
     });
 
+    const farmerNameRej = token.farmer?.fullName || 'Kisan';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Consignment Quality Rejection Advisory',
-      message: `Token ${token.tokenNumber} for ${token.crop.name} could not be accepted at ${token.centre.name}. Reason: ${options.reason}. ${options.advisoryNote || 'Please sun-dry grain in the mandi yard before re-booking.'}`,
+      title: 'SMS: Quality Advisory',
+      message: `[VK-GOVMSP] Dear ${farmerNameRej}, consignment for Token ${token.tokenNumber} (${token.crop.name}) not accepted at ${token.centre.name}. Reason: ${options.reason}. Please sun-dry produce before re-booking. - APMC Mandi`,
       type: 'TOKEN_CANCELLED',
       metadata: {
         tokenId: token.id,
@@ -558,6 +568,7 @@ export class QueueService {
         foreignMatterPercentage: options.foreignMatterPercentage,
         reason: options.reason,
         advisoryNote: options.advisoryNote,
+        farmerName: farmerNameRej,
       },
     });
 
@@ -575,7 +586,10 @@ export class QueueService {
    * Skip Token (farmer was absent when called)
    */
   static async skipToken(tokenId: string, managerUserId: string) {
-    const token = await prisma.queueToken.findUnique({ where: { id: tokenId } });
+    const token = await prisma.queueToken.findUnique({
+      where: { id: tokenId },
+      include: { centre: true, farmer: true },
+    });
     if (!token) throw new Error('Token not found');
 
     const updated = await prisma.queueToken.update({
@@ -591,12 +605,14 @@ export class QueueService {
       entityId: tokenId,
     });
 
+    const farmerNameSkip = (token as any).farmer?.fullName || 'Kisan';
+    const centreNameSkip = (token as any).centre?.name || 'Mandi';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Token Skipped',
-      message: `Your token ${token.tokenNumber} was skipped because you were not present when called. Please contact the centre manager.`,
+      title: 'SMS: Token Skipped',
+      message: `[VK-GOVMSP] Dear ${farmerNameSkip}, Token ${token.tokenNumber} was SKIPPED due to non-arrival at weighing bay at ${centreNameSkip}. Please contact Mandi Helpdesk to re-activate. - APMC Mandi`,
       type: 'TOKEN_SKIPPED',
-      metadata: { tokenId: token.id, centreId: token.centreId },
+      metadata: { tokenId: token.id, centreId: token.centreId, farmerName: farmerNameSkip },
     });
 
     const io = getIO();
@@ -613,7 +629,10 @@ export class QueueService {
    * Cancel Token (farmer or manager cancels)
    */
   static async cancelToken(tokenId: string, userId: string, userRole: string, reason?: string) {
-    const token = await prisma.queueToken.findUnique({ where: { id: tokenId } });
+    const token = await prisma.queueToken.findUnique({
+      where: { id: tokenId },
+      include: { centre: true, farmer: true },
+    });
     if (!token) throw new Error('Token not found');
 
     // Only the farmer who owns it, or a manager/admin can cancel
@@ -635,12 +654,14 @@ export class QueueService {
       newValue: { reason },
     });
 
+    const farmerNameCancel = (token as any).farmer?.fullName || 'Kisan';
+    const centreNameCancel = (token as any).centre?.name || 'Mandi';
     await sendNotification({
       userId: token.farmerId,
-      title: 'Queue Token Cancelled',
-      message: `Token ${token.tokenNumber} has been cancelled. ${reason ? `Reason: ${reason}` : ''}`,
+      title: 'SMS: Token Cancelled',
+      message: `[VK-GOVMSP] Dear ${farmerNameCancel}, Token ${token.tokenNumber} has been CANCELLED at ${centreNameCancel}.${reason ? ` Reason: ${reason}.` : ''} - APMC Mandi`,
       type: 'TOKEN_CANCELLED',
-      metadata: { tokenId: token.id, centreId: token.centreId },
+      metadata: { tokenId: token.id, centreId: token.centreId, farmerName: farmerNameCancel },
     });
 
     const io = getIO();

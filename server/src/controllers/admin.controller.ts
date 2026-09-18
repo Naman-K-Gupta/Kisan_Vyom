@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 import { prisma } from '../utils/prisma';
 import { logAudit } from '../services/audit.service';
 
@@ -307,6 +308,97 @@ export class AdminController {
         statusBreakdown: statusCounts,
       },
       records: payments,
+    });
+  }
+
+  /**
+   * Admin-only: Create a privileged user account (ADMIN or PROCUREMENT_CENTRE_MANAGER).
+   * Farmers cannot access this endpoint — it is protected by requireRole(['ADMIN']).
+   */
+  static async createPrivilegedUser(req: Request, res: Response) {
+    if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const { fullName, email, mobile, password, role, state, district, village, address } = req.body;
+
+    // Only ADMIN and PROCUREMENT_CENTRE_MANAGER roles can be created here
+    if (!['ADMIN', 'PROCUREMENT_CENTRE_MANAGER'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'This endpoint only creates ADMIN or PROCUREMENT_CENTRE_MANAGER accounts. Use the public register endpoint for farmers.',
+      });
+    }
+
+    if (!fullName || !mobile || !password || !role || !state || !district || !village) {
+      return res.status(400).json({ success: false, message: 'fullName, mobile, password, role, state, district, and village are required.' });
+    }
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
+      return res.status(400).json({ success: false, message: 'Mobile number must be exactly 10 digits.' });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 8 characters.' });
+    }
+
+    const resolvedEmail =
+      email && email.trim().length > 0
+        ? email.trim().toLowerCase()
+        : `${mobile}@smartfarmer.local`;
+
+    // Check for duplicate email
+    const existingEmail = await prisma.user.findUnique({ where: { email: resolvedEmail } });
+    if (existingEmail) {
+      return res.status(409).json({ success: false, message: 'An account with this email already exists.' });
+    }
+
+    // Check for duplicate mobile
+    const existingMobile = await prisma.user.findUnique({ where: { mobile } });
+    if (existingMobile) {
+      return res.status(409).json({ success: false, message: 'An account with this mobile number already exists.' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.user.create({
+      data: {
+        fullName,
+        email: resolvedEmail,
+        mobile,
+        passwordHash,
+        role,
+        state,
+        district,
+        village,
+        address: address || [village, district, state].filter(Boolean).join(', '),
+        notificationPreference: {
+          create: { inApp: true, sms: true, whatsapp: true, push: true },
+        },
+      },
+    });
+
+    await logAudit({
+      userId: req.user.id,
+      role: req.user.role,
+      action: 'PRIVILEGED_USER_CREATED',
+      entity: 'User',
+      entityId: newUser.id,
+      newValue: { role: newUser.role, email: newUser.email, mobile: newUser.mobile },
+      ipAddress: req.ip,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: `${role === 'ADMIN' ? 'Admin' : 'Centre Manager'} account created successfully.`,
+      user: {
+        id: newUser.id,
+        fullName: newUser.fullName,
+        email: newUser.email,
+        mobile: newUser.mobile,
+        role: newUser.role,
+        state: newUser.state,
+        district: newUser.district,
+        village: newUser.village,
+      },
     });
   }
 }

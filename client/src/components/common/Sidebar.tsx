@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 to={item.path}
                 onClick={onClose}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                  `flex items-center gap-3 px-3.5 py-2.5 rounded-none text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-500/10'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -110,7 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
         {/* Footer Support Info */}
         <div className="p-4 border-t border-slate-100">
-          <div className="rounded-xl bg-slate-50 p-3 border border-slate-200/50">
+          <div className="rounded-none bg-slate-50 p-3 border border-slate-200/50">
             <p className="text-[11px] font-semibold text-slate-800">{t('nav.kisanCallCentre')}</p>
             <p className="text-[10px] text-slate-500 mt-0.5">{t('nav.tollFree')}</p>
           </div>

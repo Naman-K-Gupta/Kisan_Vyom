@@ -210,11 +210,11 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="bg-white rounded-none max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="px-6 py-4 bg-gradient-to-r from-slate-900 to-blue-950 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300">
+            <div className="w-10 h-10 rounded-none bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300">
               <FlaskConical className="w-5 h-5" />
             </div>
             <div>
@@ -222,7 +222,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 <span className="text-xs font-bold uppercase tracking-wider text-blue-300">
                   APMC Weighbridge & Quality Assay
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-500/30 text-blue-200 border border-blue-400/30">
+                <span className="px-2 py-0.5 rounded-none text-[10px] font-extrabold bg-blue-500/30 text-blue-200 border border-blue-400/30">
                   Bay 1
                 </span>
               </div>
@@ -233,7 +233,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-none text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -242,7 +242,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
         {/* Scrollable Content */}
         <div className="p-6 overflow-y-auto space-y-6">
           {error && (
-            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-800 flex items-center gap-2">
+            <div className="p-3.5 rounded-none bg-rose-50 border border-rose-200 text-xs font-bold text-rose-800 flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{error}</span>
             </div>
@@ -250,7 +250,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
 
           {/* Farmer & Consignment Summary Badge */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 Crop
               </span>
@@ -258,7 +258,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 {token.crop?.name}
               </span>
             </div>
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 Declared Qty
               </span>
@@ -266,7 +266,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 {token.quantity} {token.unit}
               </span>
             </div>
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 MSP Benchmark
               </span>
@@ -274,7 +274,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 ₹{calculations.mspRate}/Qtl
               </span>
             </div>
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+            <div className="p-3 rounded-none bg-slate-50 border border-slate-100">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                 FAQ Moisture Limit
               </span>
@@ -285,7 +285,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
           </div>
 
           {/* Section 1: Vehicle & Weighbridge Scale Entry */}
-          <div className="p-4 rounded-2xl bg-blue-50/40 border border-blue-100 space-y-3">
+          <div className="p-4 rounded-none bg-blue-50/40 border border-blue-100 space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <Truck className="w-4 h-4 text-blue-600" />
@@ -310,7 +310,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                   placeholder="e.g. PB-10-AB-1234"
                   value={vehicleNumber}
                   onChange={(e) => setVehicleNumber(e.target.value.toUpperCase())}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-bold uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 />
                 <p className="text-[10px] text-slate-400 mt-0.5">Printed on final Mandi receipt</p>
               </div>
@@ -322,13 +322,13 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 <select
                   value={vehicleType}
                   onChange={(e) => setVehicleType(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
-                  <option value="Tractor Trolley">🚜 Tractor Trolley</option>
-                  <option value="Mini Truck / Canter">🚛 Canter / Mini Truck</option>
-                  <option value="Heavy Multi-Axle Truck">🚚 Heavy Multi-Axle Truck</option>
-                  <option value="Pickup / Chota Hathi">🛺 Pickup / LCV</option>
-                  <option value="Bullock Cart / Other">🐂 Other</option>
+                  <option value="Tractor Trolley">Tractor Trolley</option>
+                  <option value="Mini Truck / Canter">Canter / Mini Truck</option>
+                  <option value="Heavy Multi-Axle Truck">Heavy Multi-Axle Truck</option>
+                  <option value="Pickup / Chota Hathi">Pickup / LCV</option>
+                  <option value="Bullock Cart / Other">Other</option>
                 </select>
               </div>
             </div>
@@ -346,7 +346,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                     placeholder="Gross"
                     value={grossWeight || ''}
                     onChange={(e) => setGrossWeight(parseFloat(e.target.value) || 0)}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-2.5 py-1.5 rounded-none border border-slate-200 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -359,14 +359,14 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                     placeholder="Tare"
                     value={tareWeight || ''}
                     onChange={(e) => setTareWeight(parseFloat(e.target.value) || 0)}
-                    className="w-full px-2.5 py-1.5 rounded-xl border border-slate-200 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-2.5 py-1.5 rounded-none border border-slate-200 text-xs font-bold bg-white focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-emerald-700 uppercase mb-1">
                     Net Certified Wt
                   </label>
-                  <div className="w-full px-2.5 py-1.5 rounded-xl bg-emerald-100 border border-emerald-300 text-xs font-black text-emerald-900 text-center">
+                  <div className="w-full px-2.5 py-1.5 rounded-none bg-emerald-100 border border-emerald-300 text-xs font-black text-emerald-900 text-center">
                     {actualQuantity} Qtl
                   </div>
                 </div>
@@ -384,7 +384,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                     required
                     value={actualQuantity}
                     onChange={(e) => setActualQuantity(parseFloat(e.target.value) || 0)}
-                    className="w-full pl-9 pr-14 py-2 rounded-xl border border-slate-200 text-sm font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    className="w-full pl-9 pr-14 py-2 rounded-none border border-slate-200 text-sm font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   />
                   <Scale className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                   <span className="text-xs font-bold text-slate-400 absolute right-3 top-2.5">
@@ -396,14 +396,14 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
           </div>
 
           {/* Section 2: Moisture Meter & Quality Assay */}
-          <div className="p-4 rounded-2xl bg-amber-50/40 border border-amber-200/70 space-y-4">
+          <div className="p-4 rounded-none bg-amber-50/40 border border-amber-200/70 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <FlaskConical className="w-4 h-4 text-amber-600" />
                 2. Moisture Meter & Refraction Assay
               </h3>
               <span
-                className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-md ${
+                className={`text-[11px] font-extrabold px-2.5 py-0.5 rounded-none ${
                   calculations.isRejection
                     ? 'bg-rose-100 text-rose-800'
                     : calculations.totalDeductions > 0
@@ -429,7 +429,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                     max="30"
                     value={moisturePercentage}
                     onChange={(e) => setMoisturePercentage(parseFloat(e.target.value) || 0)}
-                    className="w-16 px-2 py-1 text-xs font-black text-center border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 bg-white"
+                    className="w-16 px-2 py-1 text-xs font-black text-center border border-slate-300 rounded-none focus:ring-2 focus:ring-amber-500 bg-white"
                   />
                   <span className="text-xs font-bold text-slate-600">%</span>
                 </div>
@@ -442,24 +442,24 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 step="0.1"
                 value={moisturePercentage}
                 onChange={(e) => setMoisturePercentage(parseFloat(e.target.value))}
-                className="w-full accent-amber-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
+                className="w-full accent-amber-600 cursor-pointer h-2 bg-slate-200 rounded-none"
               />
 
               {/* Status threshold bar */}
               <div className="flex items-center justify-between text-[10px] font-bold mt-1.5">
                 <span className="text-emerald-700">
-                  🟢 ≤ {faq.idealMoisture}% (Ideal FAQ)
+                  <span className="inline-block w-2 h-2 rounded-none bg-emerald-500 mr-1 align-middle" /> ≤ {faq.idealMoisture}% (Ideal FAQ)
                 </span>
                 <span className="text-amber-700">
-                  🟡 {faq.idealMoisture + 0.1}% - {faq.maxMoisture}% (Value Cut)
+                  <span className="inline-block w-2 h-2 rounded-none bg-amber-500 mr-1 align-middle" /> {faq.idealMoisture + 0.1}% - {faq.maxMoisture}% (Value Cut)
                 </span>
                 <span className="text-rose-700">
-                  🔴 &gt; {faq.maxMoisture}% (Reject Lot)
+                  <span className="inline-block w-2 h-2 rounded-none bg-red-500 mr-1 align-middle" /> &gt; {faq.maxMoisture}% (Reject Lot)
                 </span>
               </div>
 
               {moisturePercentage > faq.idealMoisture && moisturePercentage <= faq.maxMoisture && (
-                <div className="mt-2 text-[11px] text-amber-800 font-semibold bg-amber-100/70 p-2 rounded-xl flex items-center justify-between">
+                <div className="mt-2 text-[11px] text-amber-800 font-semibold bg-amber-100/70 p-2 rounded-none flex items-center justify-between">
                   <span>
                     Excess Moisture: {(moisturePercentage - faq.idealMoisture).toFixed(1)}%
                   </span>
@@ -488,7 +488,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                   step="0.1"
                   value={foreignMatterPercentage}
                   onChange={(e) => setForeignMatterPercentage(parseFloat(e.target.value))}
-                  className="w-full accent-amber-600 h-1.5 bg-slate-200 rounded-lg"
+                  className="w-full accent-amber-600 h-1.5 bg-slate-200 rounded-none"
                 />
                 <span className="text-[9px] text-slate-400">Tolerance: &lt; {faq.maxImpurities}%</span>
               </div>
@@ -509,7 +509,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                   step="0.1"
                   value={damagedGrainPercentage}
                   onChange={(e) => setDamagedGrainPercentage(parseFloat(e.target.value))}
-                  className="w-full accent-amber-600 h-1.5 bg-slate-200 rounded-lg"
+                  className="w-full accent-amber-600 h-1.5 bg-slate-200 rounded-none"
                 />
                 <span className="text-[9px] text-slate-400">Tolerance: &lt; 2.0%</span>
               </div>
@@ -517,13 +517,13 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
           </div>
 
           {/* Section 3: Financial & DBT Settlement Summary */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white space-y-3 shadow-lg">
+          <div className="p-4 rounded-none bg-gradient-to-br from-slate-900 to-slate-800 text-white space-y-3 shadow-lg">
             <div className="flex items-center justify-between border-b border-slate-700 pb-2">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
                 Live MSP & PFMS DBT Calculation
               </span>
-              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
+              <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded-none border border-emerald-800">
                 Direct Bank Transfer
               </span>
             </div>
@@ -558,7 +558,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
 
           {/* Rejection Warning Banner if moisture exceeded */}
           {calculations.isRejection && (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-2">
+            <div className="p-4 rounded-none bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-2">
               <div className="flex items-center gap-2 font-bold text-rose-700">
                 <XCircle className="w-5 h-5 text-rose-600" />
                 <span>Consignment Exceeds Permissible Quality Limits!</span>
@@ -566,14 +566,14 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
               <p className="leading-relaxed text-slate-700">
                 {calculations.rejectionReason}
               </p>
-              <div className="text-[11px] text-slate-600 bg-white/80 p-2 rounded-xl border border-rose-200">
-                📌 <strong>Action:</strong> Click <em>"Issue Rejection Advisory"</em> below. The farmer will be immediately notified in-app with recommendations to sun-dry and aerate the grain.
+              <div className="text-[11px] text-slate-600 bg-white/80 p-2 rounded-none border border-rose-200">
+                <strong>Action:</strong> Click <em>"Issue Rejection Advisory"</em> below. The farmer will be immediately notified in-app with recommendations to sun-dry and aerate the grain.
               </div>
             </div>
           )}
 
           {/* Digital Weighment Slip Notification */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <div className="p-3.5 rounded-none bg-slate-50 border border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <div>
@@ -585,7 +585,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
                 </span>
               </div>
             </div>
-            <span className="px-2.5 py-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200">
+            <span className="px-2.5 py-1 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded-none border border-emerald-200">
               Automated
             </span>
           </div>
@@ -596,7 +596,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+            className="px-4 py-2.5 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
           >
             Cancel
           </button>
@@ -606,7 +606,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
               type="button"
               onClick={handleReject}
               disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md shadow-rose-600/20 active:scale-95 transition-all flex items-center gap-1.5"
+              className="px-5 py-2.5 rounded-none bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md shadow-rose-600/20 active:scale-95 transition-all flex items-center gap-1.5"
             >
               <XCircle className="w-4 h-4" />
               {isSubmitting ? 'Issuing Advisory...' : 'Issue Rejection Advisory'}
@@ -616,7 +616,7 @@ export const QualityAssayModal: React.FC<QualityAssayModalProps> = ({
               type="button"
               onClick={handleSubmitApproval}
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-1.5"
+              className="px-6 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-1.5"
             >
               <CheckCircle className="w-4 h-4" />
               {isSubmitting ? 'Processing...' : 'Approve Quality & Complete Procurement'}

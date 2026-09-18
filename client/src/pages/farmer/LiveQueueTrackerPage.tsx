@@ -18,6 +18,7 @@ import {
   Ban,
   ArrowRight,
   Radio,
+  Truck,
 } from 'lucide-react';
 
 export const LiveQueueTrackerPage: React.FC = () => {
@@ -168,8 +169,8 @@ export const LiveQueueTrackerPage: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               {t('queue.title')}
             </h1>
-            <span className="live-pulse w-3 h-3 rounded-full bg-emerald-500" />
-            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 uppercase tracking-wider">
+            <span className="live-pulse w-3 h-3 rounded-none bg-emerald-500" />
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-none border border-emerald-200 uppercase tracking-wider">
               {t('queue.liveSynchronized')}
             </span>
           </div>
@@ -182,7 +183,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
           href={`https://www.google.com/maps/dir/?api=1&destination=${token.centre?.address}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold inline-flex items-center gap-1.5 shadow-sm transition-all"
+          className="px-4 py-2 rounded-none bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold inline-flex items-center gap-1.5 shadow-sm transition-all"
         >
           <Navigation className="w-3.5 h-3.5 text-emerald-600" /> {t('centres.navigateMaps')}
         </a>
@@ -190,7 +191,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
 
       {/* Urgency Alert when Called */}
       {isCalled && (
-        <div className="p-6 rounded-3xl bg-blue-600 text-white shadow-xl shadow-blue-600/25 animate-bounce-slow">
+        <div className="p-6 rounded-none bg-blue-600 text-white shadow-xl shadow-blue-600/25 animate-bounce-slow">
           <div className="flex items-center gap-3">
             <Radio className="w-6 h-6 text-white animate-pulse" />
             <div>
@@ -206,7 +207,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
       )}
 
       {/* Main Token Display Card */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-xl shadow-slate-200/40">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-xl shadow-slate-200/40">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -219,12 +220,15 @@ export const LiveQueueTrackerPage: React.FC = () => {
               <Badge status={token.status} />
             </div>
             <div className="flex flex-wrap items-center gap-2 mt-2">
-              <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-lg">
-                🌾 {token.crop?.name} ({token.quantity} {token.unit})
+              <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-none flex items-center gap-1.5">
+                <Wheat className="w-3.5 h-3.5 text-slate-600" />
+                <span>{token.crop?.name} ({token.quantity} {token.unit})</span>
               </span>
               {token.vehicleNumber && (
-                <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-1 rounded-lg flex items-center gap-1">
-                  🚛 {token.vehicleNumber} <span className="text-[10px] text-blue-500 font-normal">({token.vehicleType || 'Tractor'})</span>
+                <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-1 rounded-none flex items-center gap-1.5">
+                  <Truck className="w-3.5 h-3.5 text-blue-600" />
+                  <span>{token.vehicleNumber}</span>
+                  <span className="text-[10px] text-blue-500 font-normal">({token.vehicleType || 'Tractor'})</span>
                 </span>
               )}
             </div>
@@ -241,7 +245,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
 
         {/* Live Metrics Quad */}
         <div className="my-8 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-          <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+          <div className="p-4 rounded-none bg-emerald-50/60 border border-emerald-100">
             <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
               {t('queue.position')}
             </span>
@@ -251,7 +255,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
             <span className="text-[10px] text-emerald-600">{t('queue.inCurrentQueue')}</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+          <div className="p-4 rounded-none bg-slate-50 border border-slate-100">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
               {t('queue.tokensAhead')}
             </span>
@@ -261,7 +265,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
             <span className="text-[10px] text-slate-400">{t('queue.waitingBeforeYou')}</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100">
+          <div className="p-4 rounded-none bg-amber-50/60 border border-amber-100">
             <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">
               {t('queue.estWait')}
             </span>
@@ -271,7 +275,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
             <span className="text-[10px] text-amber-700">{t('queue.realtimeCalculation')}</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100">
+          <div className="p-4 rounded-none bg-blue-50/60 border border-blue-100">
             <span className="text-[11px] font-bold text-blue-700 uppercase tracking-wider block">
               {t('queue.currentServing')}
             </span>
@@ -290,7 +294,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 relative">
             {/* Step 1 */}
             <div
-              className={`p-4 rounded-2xl border ${
+              className={`p-4 rounded-none border ${
                 token.status === 'WAITING'
                   ? 'border-amber-400 bg-amber-50/50'
                   : 'border-slate-200 bg-slate-50'
@@ -311,7 +315,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
 
             {/* Step 2 */}
             <div
-              className={`p-4 rounded-2xl border ${
+              className={`p-4 rounded-none border ${
                 token.status === 'CALLED'
                   ? 'border-blue-500 bg-blue-50/70 shadow-md'
                   : 'border-slate-200 bg-slate-50'
@@ -336,7 +340,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
 
             {/* Step 3 */}
             <div
-              className={`p-4 rounded-2xl border ${
+              className={`p-4 rounded-none border ${
                 token.status === 'PROCESSING'
                   ? 'border-blue-500 bg-blue-50/70 shadow-md'
                   : 'border-slate-200 bg-slate-50'
@@ -356,7 +360,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
             </div>
 
             {/* Step 4 */}
-            <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50">
+            <div className="p-4 rounded-none border border-slate-200 bg-slate-50">
               <div className="flex items-center gap-2 mb-2">
                 <Wheat className="w-4 h-4 text-slate-300" />
                 <span className="text-xs font-bold text-slate-800">{t('queue.step4Title')}</span>
@@ -381,7 +385,7 @@ export const LiveQueueTrackerPage: React.FC = () => {
             type="button"
             onClick={handleCancelToken}
             disabled={isCancelling || token.status === 'PROCESSING'}
-            className="px-4 py-2 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold transition-colors inline-flex items-center gap-1.5 disabled:opacity-40"
+            className="px-4 py-2 rounded-none border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold transition-colors inline-flex items-center gap-1.5 disabled:opacity-40"
           >
             <Ban className="w-3.5 h-3.5" /> {t('queue.cancelToken')}
           </button>

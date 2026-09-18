@@ -30,7 +30,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
 
     socketInstance.on('connect', () => {
-      console.log('⚡ Socket connected to server:', socketInstance.id);
+      console.log('Socket connected to server:', socketInstance.id);
       setIsConnected(true);
 
       // Join personal user room if logged in
@@ -40,7 +40,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('⚡ Socket disconnected');
+      console.log('Socket disconnected');
       setIsConnected(false);
     });
 

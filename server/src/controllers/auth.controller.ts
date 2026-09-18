@@ -44,6 +44,15 @@ export class AuthController {
       });
     }
 
+    // Security: Only FARMER role is allowed via public self-registration.
+    // ADMIN and PROCUREMENT_CENTRE_MANAGER accounts must be created by an existing Admin.
+    if ((validated.role as string) === 'ADMIN' || (validated.role as string) === 'PROCUREMENT_CENTRE_MANAGER') {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not allowed to register as an Admin or Centre Manager. Please contact the system administrator.',
+      });
+    }
+
     // Hash password securely
     const passwordHash = await bcrypt.hash(validated.password, 10);
 
@@ -111,9 +120,10 @@ export class AuthController {
     // Send Welcome Notification & SMS
     await sendNotification({
       userId: user.id,
-      title: 'Registration Successful',
-      message: `Welcome ${user.fullName}! Your Smart Farmer account is active. You can now book Mandi queue tokens, view DBT payments, and track crops.`,
+      title: 'SMS: Registration Confirmed',
+      message: `[VK-GOVMSP] Dear ${user.fullName}, welcome to Kisan Vyom. Your farmer account is registered. You can now book digital Mandi tokens and receive DBT payments. - Dept of Agriculture, GoI`,
       type: 'SYSTEM_NOTIFICATION',
+      metadata: { farmerName: user.fullName },
     });
 
     res.status(201).json({

@@ -22,7 +22,7 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
       }
     }
 
-    logger.info('🌱 Seeding comprehensive demo data for Farmer, Manager, and Admin portals...');
+    logger.info('Seeding comprehensive demo data for Farmer, Manager, and Admin portals...');
 
     // ----------------------------------------------------
     // 1. Password Hashes (Harmonized for Portal Demo Logins)
@@ -728,7 +728,7 @@ export async function ensureComprehensiveDemoData(force: boolean = false): Promi
       }
     }
 
-    logger.success('✨ Comprehensive demo data successfully seeded for all 3 dashboards!');
+    logger.success('Comprehensive demo data successfully seeded for all 3 dashboards!');
   } catch (err: any) {
     logger.warn('Demo seeding notice:', err.stack || err.message || err);
   }

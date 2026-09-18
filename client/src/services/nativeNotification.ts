@@ -1,4 +1,4 @@
-﻿import { LocalNotifications } from '@capacitor/local-notifications';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 
 // Distinct channel ID for Farmer Alerts on Android 8.0+
@@ -26,7 +26,7 @@ export async function setupFarmerNotificationChannel(): Promise<void> {
       lightColor: '#16a34a',
     });
     isChannelCreated = true;
-    console.log('✅ Android Farmer Notification Channel initialized');
+    console.log('Android Farmer Notification Channel initialized');
   } catch (err) {
     console.warn('Could not create Android notification channel:', err);
   }
@@ -72,7 +72,7 @@ export async function triggerFarmerAppNotification(
   body: string,
   extraData?: Record<string, any>
 ): Promise<boolean> {
-  // CRITICAL REQUIREMENT: Notifications are only for farmers, not center manager or admin
+  // Device notifications are intended specifically for farmer accounts
   if (userRole !== 'FARMER') {
     console.log(`[NotificationGatekeeper] Skipped app notification for role "${userRole}". Only Farmers receive device alerts.`);
     return false;
@@ -93,11 +93,12 @@ export async function triggerFarmerAppNotification(
       }
 
       const notifId = Math.floor(Math.random() * 2147483647);
+      const displayTitle = title?.startsWith('[') ? title : (title?.startsWith('SMS') ? `[VK-GOVMSP] ${title}` : `[VK-GOVMSP] ${title || 'SMS Alert'}`);
       await LocalNotifications.schedule({
         notifications: [
           {
             id: notifId,
-            title: title || '🚜 Kisan Sahayak Alert',
+            title: displayTitle,
             body: body || 'You have an update regarding your APMC token or crop.',
             channelId: FARMER_NOTIFICATION_CHANNEL_ID,
             schedule: { at: new Date(Date.now() + 100) }, // fire immediately
@@ -109,10 +110,11 @@ export async function triggerFarmerAppNotification(
       return true;
     } else if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
       // Browser / PWA fallback for farmers
-      new Notification(title, {
+      const displayTitle = title?.startsWith('[') ? title : (title?.startsWith('SMS') ? `[VK-GOVMSP] ${title}` : `[VK-GOVMSP] ${title || 'SMS Alert'}`);
+      new Notification(displayTitle, {
         body,
-        icon: '/favicon.ico',
-        badge: '/favicon.ico',
+        icon: '/logo.png',
+        badge: '/logo.png',
         data: extraData,
       });
       return true;

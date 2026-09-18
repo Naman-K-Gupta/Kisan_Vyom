@@ -126,7 +126,7 @@ export class NotificationController {
     try {
       const verifySend = await sendTelegramMessage(
         trimmedChatId,
-        `🌾 *Namaste ${req.user.fullName || 'Farmer'}!* 🌾\n\n✅ *Aapka mobile number +91 ${clean || req.user.mobile} safaltapoorvak link ho gaya hai!*\nAb aapko Kisan Vyom ke sabhi live alerts Telegram par milenge.\n\n🏛️ _APMC Mandi Portal_`
+        ` *Namaste ${req.user.fullName || 'Farmer'}!* \n\n *Aapka mobile number +91 ${clean || req.user.mobile} safaltapoorvak link ho gaya hai!*\nAb aapko Kisan Vyom ke sabhi live alerts Telegram par milenge.\n\n️ _APMC Mandi Portal_`
       );
       if (verifySend.success) {
         verifySuccess = true;
@@ -207,7 +207,7 @@ export class NotificationController {
         hour12: true,
       });
 
-      const tgText = `🌾 *Kisan Vyom Verification*\n━━━━━━━━━━━━━━━━━━━━\n✅ *Telegram Alert Gateway Active!*\nNamaste *${req.user.fullName || 'Farmer'}*! Your Telegram notification channel is live.\n\n📱 *Linked Mobile:* +91 ${clean || req.user.mobile}\n💬 *Chat ID:* \`${targetChatId}\`\n\nYou will receive real-time APMC Mandi queue tokens, weighing bay callouts, quality inspection certificates, and DBT payment credits directly on Telegram.\n━━━━━━━━━━━━━━━━━━━━\n⏰ _${nowStr}_`;
+      const tgText = ` *Kisan Vyom Verification*\n━━━━━━━━━━━━━━━━━━━━\n *Telegram Alert Gateway Active!*\nNamaste *${req.user.fullName || 'Farmer'}*! Your Telegram notification channel is live.\n\n *Linked Mobile:* +91 ${clean || req.user.mobile}\n *Chat ID:* \`${targetChatId}\`\n\nYou will receive real-time APMC Mandi queue tokens, weighing bay callouts, quality inspection certificates, and DBT payment credits directly on Telegram.\n━━━━━━━━━━━━━━━━━━━━\n⏰ _${nowStr}_`;
 
       const response = await sendTelegramMessage(targetChatId, tgText);
 

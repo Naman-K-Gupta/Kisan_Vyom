@@ -211,13 +211,13 @@ export const FarmerSchemesPage: React.FC = () => {
   };
 
   const schemeCategories = [
-    { id: 'ALL', label: t('schemes.all', '🌾 All Schemes') },
-    { id: 'FINANCE', label: t('schemes.finance', '💰 Direct Income & Credit') },
-    { id: 'SOLAR_PUMP', label: t('schemes.solarPump', '☀️ Solar Pumps') },
-    { id: 'INSURANCE', label: t('schemes.insurance', '🛡️ Crop Insurance') },
-    { id: 'MACHINERY', label: t('schemes.machinery', '🚜 Mechanization') },
-    { id: 'IRRIGATION', label: t('schemes.irrigation', '💧 Irrigation') },
-    { id: 'SUBSIDY', label: t('schemes.subsidy', '🎁 Grants & Subsidies') },
+    { id: 'ALL', label: t('schemes.all', 'All Schemes') },
+    { id: 'FINANCE', label: t('schemes.finance', 'Direct Income & Credit') },
+    { id: 'SOLAR_PUMP', label: t('schemes.solarPump', 'Solar Pumps') },
+    { id: 'INSURANCE', label: t('schemes.insurance', 'Crop Insurance') },
+    { id: 'MACHINERY', label: t('schemes.machinery', 'Mechanization') },
+    { id: 'IRRIGATION', label: t('schemes.irrigation', 'Irrigation') },
+    { id: 'SUBSIDY', label: t('schemes.subsidy', 'Grants & Subsidies') },
   ];
 
   const filteredSchemes = schemes.filter((s) => {
@@ -241,26 +241,26 @@ export const FarmerSchemesPage: React.FC = () => {
   return (
     <div className="space-y-6 animate-fade-in pb-12">
       {/* Top Page Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 text-white p-6 sm:p-8 shadow-xl shadow-emerald-955/10 relative overflow-hidden">
-        <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+      <div className="rounded-none bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 text-white p-6 sm:p-8 shadow-xl shadow-emerald-955/10 relative overflow-hidden">
+        <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-none bg-white/5 pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/15 backdrop-blur text-emerald-200">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none text-xs font-bold bg-white/15 backdrop-blur text-emerald-200">
                 <Landmark className="w-3.5 h-3.5" /> {t('schemes.centralStateBadge', 'Central & State Agricultural Welfare')}
               </span>
               {/* Live Pulsing Sync Indicator */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/30 text-emerald-100 border border-emerald-400/40 text-xs font-bold shadow-xs">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none bg-emerald-500/30 text-emerald-100 border border-emerald-400/40 text-xs font-bold shadow-xs">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-emerald-300 opacity-75"></span>
+                  <span className="relative inline-flex rounded-none h-2 w-2 bg-emerald-400"></span>
                 </span>
                 <span>
-                  🟢 {t('schemes.liveSync', 'Live Ministry Sync')} • {lastSchemeUpdate ? `${lastSchemeUpdate}` : t('schemes.verifiedToday', 'Verified Today')}
+                  {t('schemes.liveSync', 'Live Ministry Sync')} • {lastSchemeUpdate ? `${lastSchemeUpdate}` : t('schemes.verifiedToday', 'Verified Today')}
                 </span>
               </div>
               {isTranslating && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-200 animate-pulse border border-emerald-400/30">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none text-[11px] font-semibold bg-emerald-500/20 text-emerald-200 animate-pulse border border-emerald-400/30">
                   <Globe className="w-3 h-3" /> {t('schemes.translating', 'Translating...')}
                 </span>
               )}
@@ -274,7 +274,7 @@ export const FarmerSchemesPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-2xl border border-white/15 text-white flex flex-col items-start sm:items-end justify-center self-start md:self-auto flex-shrink-0">
+          <div className="bg-white/10 backdrop-blur-md px-5 py-4 rounded-none border border-white/15 text-white flex flex-col items-start sm:items-end justify-center self-start md:self-auto flex-shrink-0">
             <span className="text-[10px] uppercase font-bold text-emerald-200">{t('schemes.verifiedActive', 'Verified Schemes Active')}</span>
             <span className="text-2xl font-black text-white mt-0.5">{schemes.length}</span>
             <span className="text-[11px] text-emerald-100/80">{t('schemes.realtimeSocket', 'Real-time socket connection')}</span>
@@ -283,7 +283,7 @@ export const FarmerSchemesPage: React.FC = () => {
       </div>
 
       {/* Main Container */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card space-y-6">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card space-y-6">
         {/* Search & Category Filter Toolbar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           {/* Search Box */}
@@ -294,7 +294,7 @@ export const FarmerSchemesPage: React.FC = () => {
               value={schemeSearch}
               onChange={(e) => setSchemeSearch(e.target.value)}
               placeholder={t('schemes.searchPlaceholder', 'Search scheme name, ministry, or benefit...')}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full pl-10 pr-4 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
             {schemeSearch && (
               <button
@@ -319,7 +319,7 @@ export const FarmerSchemesPage: React.FC = () => {
               key={cat.id}
               type="button"
               onClick={() => setSchemeCategoryFilter(cat.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-3.5 py-2 rounded-none text-xs font-bold transition-all whitespace-nowrap ${
                 schemeCategoryFilter === cat.id
                   ? 'bg-emerald-700 text-white shadow-md shadow-emerald-700/20'
                   : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200/70'
@@ -334,7 +334,7 @@ export const FarmerSchemesPage: React.FC = () => {
         {isLoading ? (
           <div className="py-16 text-center text-xs text-slate-400">{t('schemes.loading', 'Loading government schemes...')}</div>
         ) : filteredSchemes.length === 0 ? (
-          <div className="py-16 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          <div className="py-16 text-center bg-slate-50 rounded-none border border-dashed border-slate-200">
             <Layers className="w-10 h-10 text-slate-300 mx-auto mb-2" />
             <p className="text-sm font-bold text-slate-700">{t('schemes.noSchemes', 'No schemes found')}</p>
             <p className="text-xs text-slate-400 mt-1">{t('schemes.noSchemesDesc', 'Try another search keyword or select All Schemes.')}</p>

@@ -129,13 +129,13 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className={`relative rounded-2xl p-5 sm:p-6 bg-gradient-to-br ${slide.gradient} bg-white border shadow-card transition-all duration-500 flex flex-col justify-between overflow-hidden min-h-[220px]`}
+      className={`relative rounded-none p-5 sm:p-6 bg-gradient-to-br ${slide.gradient} bg-white border shadow-card transition-all duration-500 flex flex-col justify-between overflow-hidden min-h-[220px]`}
     >
       {/* Top Header Row: Category Badge & Slide Controls */}
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2 flex-wrap">
           <span
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border ${slide.badgeBg}`}
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-none text-[11px] font-bold border ${slide.badgeBg}`}
           >
             <IconComponent className="w-3.5 h-3.5" />
             {slide.tag}
@@ -150,7 +150,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
           <button
             type="button"
             onClick={() => setIsPaused((p) => !p)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-white/80 border border-slate-200/50 transition active:scale-95"
+            className="p-1.5 rounded-none text-slate-400 hover:text-slate-700 hover:bg-white/80 border border-slate-200/50 transition active:scale-95"
             title={isPaused ? t('envBanner.autoPlayResume', 'Resume Slideshow') : t('envBanner.autoPlayPause', 'Pause Slideshow')}
             aria-label={isPaused ? 'Resume' : 'Pause'}
           >
@@ -159,7 +159,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
           <button
             type="button"
             onClick={prevSlide}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-slate-200/60 shadow-2xs transition active:scale-95"
+            className="p-1.5 rounded-none text-slate-500 hover:text-slate-900 hover:bg-white border border-slate-200/60 shadow-2xs transition active:scale-95"
             title={t('envBanner.prevSlide', 'Previous Slide')}
             aria-label="Previous Slide"
           >
@@ -168,7 +168,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
           <button
             type="button"
             onClick={nextSlide}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-slate-200/60 shadow-2xs transition active:scale-95"
+            className="p-1.5 rounded-none text-slate-500 hover:text-slate-900 hover:bg-white border border-slate-200/60 shadow-2xs transition active:scale-95"
             title={t('envBanner.nextSlide', 'Next Slide')}
             aria-label="Next Slide"
           >
@@ -181,7 +181,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
       <div className="space-y-2.5">
         <div className="flex items-start gap-3">
           <div
-            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border shadow-2xs ${slide.iconBg} ${slide.iconColor}`}
+            className={`w-10 h-10 rounded-none flex items-center justify-center flex-shrink-0 border shadow-2xs ${slide.iconBg} ${slide.iconColor}`}
           >
             <IconComponent className="w-5 h-5" />
           </div>
@@ -202,7 +202,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
             return (
               <span
                 key={idx}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/90 text-slate-700 border border-slate-200/80 shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-none text-[11px] font-semibold bg-white/90 text-slate-700 border border-slate-200/80 shadow-2xs"
               >
                 <PillIcon className="w-3 h-3 text-emerald-600 flex-shrink-0" />
                 <span>{pill.label}</span>
@@ -220,7 +220,7 @@ export const EnvironmentAwarenessBanner: React.FC<EnvironmentAwarenessBannerProp
               key={s.id}
               onClick={() => setCurrentSlide(idx)}
               aria-label={`Go to slide ${idx + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-none transition-all duration-300 ${
                 idx === currentSlide
                   ? 'w-6 bg-emerald-600 shadow-2xs'
                   : 'w-2 bg-slate-300 hover:bg-slate-400'

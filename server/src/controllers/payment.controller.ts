@@ -5,7 +5,7 @@ import { sendNotification } from '../services/notification.service';
 
 export class PaymentController {
   /**
-   * Helper: Ensure default realistic DBT payments exist for a farmer
+   * Seeds initial DBT payment ledger records for fresh farmer accounts
    */
   public static async ensureSamplePaymentsForFarmer(user: any) {
     if (!user || !user.id) return;
@@ -368,12 +368,13 @@ export class PaymentController {
 
     // Notify farmer of payment clearance
     if (status === 'PAID') {
+      const farmerName = existing.farmer?.fullName || 'Kisan';
       await sendNotification({
         userId: existing.farmerId,
-        title: 'DBT Payment Disbursed!',
-        message: `₹${existing.netAmount.toLocaleString('en-IN')} has been credited for your ${existing.crop.name} procurement via DBT. UTR: ${updated.utrNumber}.`,
+        title: 'SMS: Payment Credited',
+        message: `[VK-GOVMSP] Dear ${farmerName}, Rs. ${existing.netAmount.toLocaleString('en-IN')} has been credited to your bank account via PFMS DBT for ${existing.crop.name} procurement. UTR: ${updated.utrNumber}. - Govt of India`,
         type: 'SYSTEM_NOTIFICATION',
-        metadata: { paymentId: existing.id, utrNumber: updated.utrNumber },
+        metadata: { paymentId: existing.id, utrNumber: updated.utrNumber, farmerName },
       });
     }
 

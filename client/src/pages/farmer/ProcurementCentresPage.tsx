@@ -20,6 +20,7 @@ import {
   Ticket,
   SlidersHorizontal,
   Compass,
+  Truck,
 } from 'lucide-react';
 
 export const ProcurementCentresPage: React.FC = () => {
@@ -170,9 +171,9 @@ export const ProcurementCentresPage: React.FC = () => {
 
       {/* Dynamic Location Banner matching Farmer's Address */}
       {user && (
-        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50/70 border border-emerald-200/80 rounded-none p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-md shadow-emerald-600/20 flex-shrink-0">
+            <div className="w-10 h-10 rounded-none bg-emerald-600 text-white flex items-center justify-center font-bold shadow-md shadow-emerald-600/20 flex-shrink-0">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
@@ -180,7 +181,7 @@ export const ProcurementCentresPage: React.FC = () => {
                 <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">
                   {t('centres.registeredLocation')}
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-600 text-white">
+                <span className="px-2 py-0.5 rounded-none text-[10px] font-extrabold bg-emerald-600 text-white">
                   {t('centres.dynamicMatch')}
                 </span>
               </div>
@@ -194,7 +195,7 @@ export const ProcurementCentresPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedState(user.state || '')}
-              className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-none text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                 isMyState
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
                   : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
@@ -206,7 +207,7 @@ export const ProcurementCentresPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedState('')}
-              className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-none text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                 isAllStates
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
                   : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
@@ -219,7 +220,7 @@ export const ProcurementCentresPage: React.FC = () => {
       )}
 
       {/* Search & Filter Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-card flex flex-col md:flex-row items-center gap-3">
+      <div className="bg-white rounded-none p-4 border border-slate-100 shadow-card flex flex-col md:flex-row items-center gap-3">
         <form onSubmit={handleSearchSubmit} className="flex-1 w-full relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
           <input
@@ -227,7 +228,7 @@ export const ProcurementCentresPage: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t('centres.searchPlaceholder')}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 rounded-none border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
           />
         </form>
 
@@ -235,7 +236,7 @@ export const ProcurementCentresPage: React.FC = () => {
           <select
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
-            className="flex-1 md:w-44 px-3 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+            className="flex-1 md:w-44 px-3 py-2.5 rounded-none border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
           >
             <option value="">{t('centres.allStates')}</option>
             <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -263,7 +264,7 @@ export const ProcurementCentresPage: React.FC = () => {
           <select
             value={selectedCropId}
             onChange={(e) => setSelectedCropId(e.target.value)}
-            className="flex-1 md:w-40 px-3 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="flex-1 md:w-40 px-3 py-2.5 rounded-none border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">{t('centres.allCrops')}</option>
             {masterCrops.map((mc) => (
@@ -276,7 +277,7 @@ export const ProcurementCentresPage: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="flex-1 md:w-32 px-3 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="flex-1 md:w-32 px-3 py-2.5 rounded-none border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option value="">{t('centres.allStatuses')}</option>
             <option value="OPEN">{t('status.open')}</option>
@@ -288,7 +289,7 @@ export const ProcurementCentresPage: React.FC = () => {
       </div>
 
       {/* Interactive Map Visual Locator / Google Maps Section */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+      <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <MapPin className="w-5 h-5 text-emerald-600" />
@@ -300,12 +301,12 @@ export const ProcurementCentresPage: React.FC = () => {
         </div>
 
         {/* Visual Map Container */}
-        <div className="mt-4 relative rounded-2xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-6 text-white overflow-hidden min-h-[260px] flex flex-col justify-between">
+        <div className="mt-4 relative rounded-none bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 p-6 text-white overflow-hidden min-h-[260px] flex flex-col justify-between">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#4ade80_1px,transparent_1px)] [background-size:16px_16px]" />
 
           <div className="relative z-10 flex items-start justify-between">
             <div>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-none text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                 {t('centres.liveCoordTracking')}
               </span>
               <p className="text-xs text-slate-300 mt-2 max-w-md">
@@ -321,7 +322,7 @@ export const ProcurementCentresPage: React.FC = () => {
                 href={`https://www.google.com/maps/dir/?api=1&destination=${c.latitude},${c.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-all"
+                className="px-3 py-1.5 rounded-none bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-semibold text-white flex items-center gap-1.5 transition-all"
               >
                 <MapPin className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{c.name}</span>
@@ -358,7 +359,7 @@ export const ProcurementCentresPage: React.FC = () => {
             return (
               <div
                 key={centre.id}
-                className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
+                className="bg-white rounded-none p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-3">
@@ -368,12 +369,12 @@ export const ProcurementCentresPage: React.FC = () => {
                           {centre.name}
                         </h3>
                         {(centre as any).isDistrictMatch && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                          <span className="px-2 py-0.5 rounded-none text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">
                             {t('centres.inYourDistrict')} ({centre.district})
                           </span>
                         )}
                         {!(centre as any).isDistrictMatch && (centre as any).isStateMatch && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                          <span className="px-2 py-0.5 rounded-none text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                             {t('centres.inYourState')} ({centre.state})
                           </span>
                         )}
@@ -387,7 +388,7 @@ export const ProcurementCentresPage: React.FC = () => {
                   </div>
 
                   {/* Capacity Bar */}
-                  <div className="my-4 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                  <div className="my-4 p-3.5 rounded-none bg-slate-50 border border-slate-100">
                     <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
                       <span className="text-slate-600">{t('centres.storageCapacity')}</span>
                       <span
@@ -402,9 +403,9 @@ export const ProcurementCentresPage: React.FC = () => {
                         {usagePercent}% {t('centres.utilized')}
                       </span>
                     </div>
-                    <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div className="w-full bg-slate-200 rounded-none h-2 overflow-hidden">
                       <div
-                        className={`h-2 rounded-full transition-all duration-500 ${
+                        className={`h-2 rounded-none transition-all duration-500 ${
                           usagePercent > 85
                             ? 'bg-rose-500'
                             : usagePercent > 60
@@ -446,7 +447,7 @@ export const ProcurementCentresPage: React.FC = () => {
                         {centre.supportedCrops.map((sc) => (
                           <span
                             key={sc.id}
-                            className="px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-800 text-[11px] font-medium border border-emerald-100"
+                            className="px-2 py-0.5 rounded-none bg-emerald-50 text-emerald-800 text-[11px] font-medium border border-emerald-100"
                           >
                             {sc.crop?.name}
                           </span>
@@ -456,7 +457,7 @@ export const ProcurementCentresPage: React.FC = () => {
                   )}
 
                   {/* Working Location & Operating Hours */}
-                  <div className="mt-4 p-3 rounded-2xl bg-emerald-50/50 border border-emerald-100/80 text-xs space-y-2">
+                  <div className="mt-4 p-3 rounded-none bg-emerald-50/50 border border-emerald-100/80 text-xs space-y-2">
                     <div className="flex items-start gap-1.5 text-slate-800">
                       <MapPin className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
                       <span className="leading-snug">
@@ -489,7 +490,7 @@ export const ProcurementCentresPage: React.FC = () => {
                     href={`https://www.google.com/maps/dir/?api=1&destination=${centre.latitude},${centre.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-2.5 px-3 rounded-xl border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-800 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                    className="flex-1 py-2.5 px-3 rounded-none border border-emerald-200 bg-white hover:bg-emerald-50 text-emerald-800 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                     title={t('centres.viewMapDirections')}
                   >
                     <Navigation className="w-3.5 h-3.5 text-emerald-600" />
@@ -499,7 +500,7 @@ export const ProcurementCentresPage: React.FC = () => {
                   <button
                     onClick={() => openTokenModal(centre)}
                     disabled={!canIssueToken}
-                    className="flex-1 py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-98 transition-all shadow-sm shadow-emerald-600/20 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 py-2.5 px-4 rounded-none text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-98 transition-all shadow-sm shadow-emerald-600/20 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <Ticket className="w-4 h-4" />
                     {canIssueToken ? t('centres.getQueueToken') : t('centres.queueFull')}
@@ -519,7 +520,7 @@ export const ProcurementCentresPage: React.FC = () => {
       >
         <form onSubmit={handleTokenSubmit} className="space-y-4">
           {tokenError && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800">
+            <div className="p-3 rounded-none bg-rose-50 border border-rose-200 text-xs text-rose-800">
               {tokenError}
             </div>
           )}
@@ -532,7 +533,7 @@ export const ProcurementCentresPage: React.FC = () => {
               value={tokenCropId}
               onChange={(e) => setTokenCropId(e.target.value)}
               required
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             >
               {selectedCentre?.supportedCrops && selectedCentre.supportedCrops.length > 0 ? (
                 selectedCentre.supportedCrops.map((sc) => (
@@ -567,7 +568,7 @@ export const ProcurementCentresPage: React.FC = () => {
                 required
                 value={tokenQuantity}
                 onChange={(e) => setTokenQuantity(parseFloat(e.target.value) || 1)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -578,7 +579,7 @@ export const ProcurementCentresPage: React.FC = () => {
               <select
                 value={tokenUnit}
                 onChange={(e) => setTokenUnit(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
               >
                 <option value="Quintal">{t('common.quintal')}</option>
                 <option value="Kg">{t('common.kg')}</option>
@@ -588,12 +589,12 @@ export const ProcurementCentresPage: React.FC = () => {
           </div>
 
           {/* Vehicle Information for Weighbridge Gate Entry */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+          <div className="p-3.5 rounded-none bg-slate-50 border border-slate-200/80 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                🚛 Vehicle & Trolley Information
+                <Truck className="w-3.5 h-3.5 text-slate-700" /> Vehicle & Trolley Information
               </span>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-none">
                 Weighbridge Entry
               </span>
             </div>
@@ -608,7 +609,7 @@ export const ProcurementCentresPage: React.FC = () => {
                   placeholder="e.g. PB-10-AB-1234"
                   value={tokenVehicleNumber}
                   onChange={(e) => setTokenVehicleNumber(e.target.value.toUpperCase())}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-semibold uppercase placeholder:normal-case placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
                 />
                 <p className="text-[10px] text-slate-400 mt-0.5">Printed on official Mandi Weighment Slip</p>
               </div>
@@ -620,20 +621,20 @@ export const ProcurementCentresPage: React.FC = () => {
                 <select
                   value={tokenVehicleType}
                   onChange={(e) => setTokenVehicleType(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
                 >
-                  <option value="Tractor Trolley">🚜 Tractor Trolley (Standard)</option>
-                  <option value="Mini Truck / Canter">🚛 Canter / Eicher / Mini Truck</option>
-                  <option value="Heavy Multi-Axle Truck">🚚 Heavy Multi-Axle Truck (10+ Wheeler)</option>
-                  <option value="Pickup / Chota Hathi">🛺 Pickup / Chota Hathi / LCV</option>
-                  <option value="Bullock Cart / Other">🐂 Bullock Cart / Non-Motorized</option>
+                  <option value="Tractor Trolley">Tractor Trolley (Standard)</option>
+                  <option value="Mini Truck / Canter">Canter / Eicher / Mini Truck</option>
+                  <option value="Heavy Multi-Axle Truck">Heavy Multi-Axle Truck (10+ Wheeler)</option>
+                  <option value="Pickup / Chota Hathi">Pickup / Chota Hathi / LCV</option>
+                  <option value="Bullock Cart / Other">Bullock Cart / Non-Motorized</option>
                 </select>
                 <p className="text-[10px] text-slate-400 mt-0.5">Used for Weighbridge Bay allocation</p>
               </div>
             </div>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-xs text-amber-900 leading-relaxed">
+          <div className="p-3.5 rounded-none bg-amber-50 border border-amber-200/80 text-xs text-amber-900 leading-relaxed">
             <span className="font-bold block mb-0.5">{t('centres.guidelinesTitle')}</span>
             {t('centres.guidelinesDesc')}
           </div>
@@ -642,14 +643,14 @@ export const ProcurementCentresPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedCentre(null)}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2.5 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
               {t('common.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmittingToken}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
+              className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
             >
               {isSubmittingToken ? t('centres.generatingToken') : t('centres.confirmIssueToken')}
             </button>

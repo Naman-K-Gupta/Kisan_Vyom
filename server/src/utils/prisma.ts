@@ -69,7 +69,7 @@ export async function checkDatabaseConnection(): Promise<boolean> {
         await (internalPrisma as any).$queryRaw`SELECT 1`;
         isUsingSqlite = true;
         await ensureSqliteTables();
-        logger.success('✅ Connected to local development database successfully via SQLite fallback');
+        logger.success('Connected to local development database successfully via SQLite fallback');
         return true;
       } catch (fallbackErr: any) {
         logger.error('SQLite fallback connection also failed:', fallbackErr.message);

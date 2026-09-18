@@ -214,7 +214,7 @@ export const FarmerProfilePage: React.FC = () => {
 
       {statusMessage && (
         <div
-          className={`p-4 rounded-2xl border text-xs flex items-center gap-2.5 ${
+          className={`p-4 rounded-none border text-xs flex items-center gap-2.5 ${
             statusMessage.type === 'success'
               ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : 'bg-rose-50 border-rose-200 text-rose-800'
@@ -230,20 +230,20 @@ export const FarmerProfilePage: React.FC = () => {
       )}
 
       {/* Profile Photo Section */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-6">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-6">
         <div className="relative group">
           {user?.farmerProfile?.profilePictureUrl ? (
             <img
               src={user.farmerProfile.profilePictureUrl}
               alt={user.fullName}
-              className="w-24 h-24 rounded-full object-cover border-2 border-emerald-500 shadow-md"
+              className="w-24 h-24 rounded-none object-cover border-2 border-emerald-500 shadow-md"
             />
           ) : (
-            <div className="w-24 h-24 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-3xl shadow-inner">
+            <div className="w-24 h-24 rounded-none bg-emerald-100 text-emerald-800 flex items-center justify-center font-black text-3xl shadow-inner">
               {user?.fullName.charAt(0).toUpperCase()}
             </div>
           )}
-          <label className="absolute bottom-0 right-0 p-2 rounded-full bg-emerald-600 text-white hover:bg-emerald-700 shadow-md cursor-pointer transition-all">
+          <label className="absolute bottom-0 right-0 p-2 rounded-none bg-emerald-600 text-white hover:bg-emerald-700 shadow-md cursor-pointer transition-all">
             <Camera className="w-4 h-4" />
             <input
               type="file"
@@ -265,7 +265,7 @@ export const FarmerProfilePage: React.FC = () => {
           </p>
 
           <div className="mt-3 flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-            <label className="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer inline-flex items-center gap-1.5 transition-colors">
+            <label className="px-3 py-1.5 rounded-none border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 cursor-pointer inline-flex items-center gap-1.5 transition-colors">
               <Camera className="w-3.5 h-3.5 text-slate-500" />
               {isUploadingPhoto ? t('profile.uploading') : t('profile.changePhoto')}
               <input
@@ -280,7 +280,7 @@ export const FarmerProfilePage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleDeletePhoto}
-                className="px-3 py-1.5 rounded-xl border border-rose-200 hover:bg-rose-50 text-xs font-semibold text-rose-600 inline-flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 rounded-none border border-rose-200 hover:bg-rose-50 text-xs font-semibold text-rose-600 inline-flex items-center gap-1.5 transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" /> {t('profile.removePhoto')}
               </button>
@@ -290,7 +290,7 @@ export const FarmerProfilePage: React.FC = () => {
       </div>
 
       {/* Main Details Form */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card">
         <h3 className="text-base font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
           {t('profile.personalLandInfo')}
         </h3>
@@ -306,7 +306,7 @@ export const FarmerProfilePage: React.FC = () => {
                 required
                 value={formData.fullName}
                 onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -322,7 +322,7 @@ export const FarmerProfilePage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, landAreaTotal: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -337,7 +337,7 @@ export const FarmerProfilePage: React.FC = () => {
                 required
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -350,7 +350,7 @@ export const FarmerProfilePage: React.FC = () => {
                 required
                 value={formData.district}
                 onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -363,7 +363,7 @@ export const FarmerProfilePage: React.FC = () => {
                 required
                 value={formData.village}
                 onChange={(e) => setFormData({ ...formData, village: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -377,7 +377,7 @@ export const FarmerProfilePage: React.FC = () => {
               required
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -390,7 +390,7 @@ export const FarmerProfilePage: React.FC = () => {
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
               placeholder={t('profile.farmingBioPlaceholder')}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -400,12 +400,12 @@ export const FarmerProfilePage: React.FC = () => {
               <BellRing className="w-4 h-4 text-emerald-600" /> {t('profile.notificationChannels')}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 cursor-pointer hover:bg-slate-50">
+              <label className="flex items-center gap-2.5 p-3 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 cursor-pointer hover:bg-slate-50">
                 <input
                   type="checkbox"
                   checked={notifPrefs.inApp}
                   onChange={(e) => setNotifPrefs({ ...notifPrefs, inApp: e.target.checked })}
-                  className="rounded text-emerald-600 focus:ring-emerald-500"
+                  className="rounded-none text-emerald-600 focus:ring-emerald-500"
                 />
                 <div>
                   <p className="font-bold text-slate-800">{t('profile.inApp')} (Dashboard)</p>
@@ -413,12 +413,12 @@ export const FarmerProfilePage: React.FC = () => {
                 </div>
               </label>
 
-              <label className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 cursor-pointer hover:bg-slate-50">
+              <label className="flex items-center gap-2.5 p-3 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 cursor-pointer hover:bg-slate-50">
                 <input
                   type="checkbox"
                   checked={notifPrefs.push}
                   onChange={(e) => setNotifPrefs({ ...notifPrefs, push: e.target.checked })}
-                  className="rounded text-emerald-600 focus:ring-emerald-500"
+                  className="rounded-none text-emerald-600 focus:ring-emerald-500"
                 />
                 <div>
                   <p className="font-bold text-slate-800">{t('profile.webPush')} (Browser Alerts)</p>
@@ -428,22 +428,22 @@ export const FarmerProfilePage: React.FC = () => {
             </div>
 
             {/* Telegram Notifications Integration */}
-            <div className="mt-3 p-4 rounded-2xl bg-gradient-to-r from-sky-50 via-indigo-50 to-sky-100/50 border border-sky-200/80 shadow-sm text-xs space-y-3">
+            <div className="mt-3 p-4 rounded-none bg-gradient-to-r from-sky-50 via-indigo-50 to-sky-100/50 border border-sky-200/80 shadow-sm text-xs space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-start sm:items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-[#229ED9] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <div className="w-10 h-10 rounded-none bg-[#229ED9] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
                     <Send className="w-5 h-5 -rotate-45 -translate-y-0.5" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <p className="font-bold text-sky-950 text-sm">Telegram Mandi Alerts</p>
                       {telegramInfo?.isLinked ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-none text-[10px] bg-emerald-100 text-emerald-800 font-bold border border-emerald-300">
+                          <span className="w-1.5 h-1.5 rounded-none bg-emerald-500 animate-pulse"></span>
                           Connected
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold border border-amber-300">
+                        <span className="px-2 py-0.5 rounded-none text-[10px] bg-amber-100 text-amber-800 font-bold border border-amber-300">
                           Not Connected
                         </span>
                       )}
@@ -469,7 +469,7 @@ export const FarmerProfilePage: React.FC = () => {
                       type="button"
                       onClick={handleSendTestTelegram}
                       disabled={isSendingTelegram}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#229ED9] hover:bg-[#1d87ba] active:scale-95 text-white font-bold text-xs transition shadow-sm disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-none bg-[#229ED9] hover:bg-[#1d87ba] active:scale-95 text-white font-bold text-xs transition shadow-sm disabled:opacity-50"
                     >
                       <Send className="w-3.5 h-3.5 -rotate-45" />
                       <span>{isSendingTelegram ? 'Sending Alert...' : 'Send Test Alert'}</span>
@@ -479,7 +479,7 @@ export const FarmerProfilePage: React.FC = () => {
                       href={telegramInfo?.deepLink || `https://t.me/Kisan_kendra_bot?start=${user?.mobile || ''}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs transition shadow-sm"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-none bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs transition shadow-sm"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Connect Telegram</span>
@@ -490,7 +490,7 @@ export const FarmerProfilePage: React.FC = () => {
 
               {/* Status and Details Bar */}
               {telegramInfo?.isLinked ? (
-                <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-between gap-2 text-emerald-900 text-[11px]">
+                <div className="p-2.5 rounded-none bg-emerald-50 border border-emerald-200/80 flex items-center justify-between gap-2 text-emerald-900 text-[11px]">
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                     <span>
@@ -507,7 +507,7 @@ export const FarmerProfilePage: React.FC = () => {
                   </a>
                 </div>
               ) : (
-                <div className="p-2.5 rounded-xl bg-amber-50/90 border border-amber-200/80 space-y-2 text-[11px] text-amber-900">
+                <div className="p-2.5 rounded-none bg-amber-50/90 border border-amber-200/80 space-y-2 text-[11px] text-amber-900">
                   <div className="flex items-start gap-2">
                     <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
@@ -538,12 +538,12 @@ export const FarmerProfilePage: React.FC = () => {
                           placeholder="Enter your personal Telegram User ID (e.g. 5839210492)"
                           value={manualChatId}
                           onChange={(e) => setManualChatId(e.target.value)}
-                          className="px-2.5 py-1.5 rounded-lg border border-sky-300 bg-white text-xs flex-1 outline-none focus:ring-1 focus:ring-sky-500"
+                          className="px-2.5 py-1.5 rounded-none border border-sky-300 bg-white text-xs flex-1 outline-none focus:ring-1 focus:ring-sky-500"
                         />
                         <button
                           type="button"
                           onClick={handleManualLink}
-                          className="px-3 py-1.5 rounded-lg bg-sky-600 text-white font-bold text-xs hover:bg-sky-700"
+                          className="px-3 py-1.5 rounded-none bg-sky-600 text-white font-bold text-xs hover:bg-sky-700"
                         >
                           Link
                         </button>
@@ -556,7 +556,7 @@ export const FarmerProfilePage: React.FC = () => {
                         </button>
                       </div>
                       <p className="text-[10px] text-amber-800">
-                        💡 <strong>Note:</strong> Do not enter the bot token/ID (<code className="bg-amber-100 px-1 rounded">8927569233</code>). Enter your personal user ID (check with <a href="https://t.me/userinfobot" target="_blank" rel="noopener noreferrer" className="underline font-bold">@userinfobot</a>) or simply tap the green <strong>"Connect Telegram"</strong> button above to pair with 1 tap.
+                        <strong>Note:</strong> Do not enter the bot token/ID (<code className="bg-amber-100 px-1 rounded-none">8927569233</code>). Enter your personal user ID (check with <a href="https://t.me/userinfobot" target="_blank" rel="noopener noreferrer" className="underline font-bold">@userinfobot</a>) or simply tap the green <strong>"Connect Telegram"</strong> button above to pair with 1 tap.
                       </p>
                     </div>
                   )}
@@ -569,7 +569,7 @@ export const FarmerProfilePage: React.FC = () => {
             <button
               type="submit"
               disabled={isSavingProfile}
-              className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
+              className="px-6 py-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               {isSavingProfile ? t('profile.saving') : t('profile.saveProfileBtn')}
@@ -579,7 +579,7 @@ export const FarmerProfilePage: React.FC = () => {
       </div>
 
       {/* Change Password */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card">
         <h3 className="text-base font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100 flex items-center gap-2">
           <Lock className="w-4 h-4 text-slate-500" /> {t('profile.securityPassword')}
         </h3>
@@ -596,7 +596,7 @@ export const FarmerProfilePage: React.FC = () => {
               onChange={(e) =>
                 setPasswordData({ ...passwordData, currentPassword: e.target.value })
               }
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -610,7 +610,7 @@ export const FarmerProfilePage: React.FC = () => {
                 required
                 value={passwordData.newPassword}
                 onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -625,7 +625,7 @@ export const FarmerProfilePage: React.FC = () => {
                 onChange={(e) =>
                   setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -633,7 +633,7 @@ export const FarmerProfilePage: React.FC = () => {
           <button
             type="submit"
             disabled={isChangingPassword}
-            className="px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs active:scale-95 transition-all disabled:opacity-50"
+            className="px-6 py-2.5 rounded-none bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs active:scale-95 transition-all disabled:opacity-50"
           >
             {isChangingPassword ? t('profile.saving') : t('profile.updatePasswordBtn')}
           </button>

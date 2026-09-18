@@ -8,6 +8,7 @@ import {
   AlertCircle,
   FileText,
   ExternalLink,
+  Landmark,
 } from 'lucide-react';
 
 interface SchemeEligibilityInfo {
@@ -37,8 +38,7 @@ interface SchemeCardProps {
 }
 
 /**
- * Clean, humanized card component representing a single Government Policy/Scheme.
- * Preserves exact existing UI design, badges, and layout.
+ * Card component representing a single Government Policy or Subsidy Scheme.
  */
 export const SchemeCard: React.FC<SchemeCardProps> = ({
   scheme,
@@ -53,15 +53,15 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
   t,
 }) => {
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/50 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group hover:border-emerald-200">
+    <div className="rounded-none border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/50 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group hover:border-emerald-200">
       <div className="space-y-3">
         {/* Top Badges: Category & Application Status */}
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-lg border border-emerald-100 truncate">
+          <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-none border border-emerald-100 truncate">
             {categoryLabel}
           </span>
           <span
-            className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full border flex items-center gap-1 ${
+            className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-none border flex items-center gap-1 ${
               statusInfo.isClosing
                 ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse'
                 : statusInfo.isNew
@@ -82,14 +82,14 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
           <h4 className="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-2 leading-snug">
             {translatedTitle}
           </h4>
-          <p className="text-[11px] font-medium text-slate-500 mt-1 flex items-center gap-1 truncate">
-            <span>🏛️</span>
+          <p className="text-[11px] font-medium text-slate-500 mt-1 flex items-center gap-1.5 truncate">
+            <Landmark className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
             <span className="truncate">{translatedMinistry}</span>
           </p>
         </div>
 
         {/* Highlighted Direct Financial Benefit Box */}
-        <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/50 border border-emerald-200/70">
+        <div className="p-3 rounded-none bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/50 border border-emerald-200/70">
           <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
             {t('schemes.benefitLabel', 'Direct Financial Benefit / Subsidy')}
           </span>
@@ -105,7 +105,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         </p>
 
         {/* Automated Farmer Eligibility Matcher */}
-        <div className={`p-2.5 rounded-xl border text-xs ${eligibility.color}`}>
+        <div className={`p-2.5 rounded-none border text-xs ${eligibility.color}`}>
           <div className="flex items-center gap-1.5 font-bold">
             {eligibility.eligible ? (
               <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
@@ -123,7 +123,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
         <button
           type="button"
           onClick={() => onSelect(scheme)}
-          className="flex-1 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs font-bold transition flex items-center justify-center gap-1.5"
+          className="flex-1 py-2 px-3 rounded-none bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs font-bold transition flex items-center justify-center gap-1.5"
         >
           <FileText className="w-3.5 h-3.5 text-slate-600" />
           <span>{t('schemes.viewGuidelines', 'View Guidelines')}</span>
@@ -133,7 +133,7 @@ export const SchemeCard: React.FC<SchemeCardProps> = ({
           href={scheme.applicationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1 active:scale-95"
+          className="py-2 px-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-xs flex items-center justify-center gap-1 active:scale-95"
         >
           <span>{t('schemes.apply', 'Apply')}</span>
           <ExternalLink className="w-3 h-3" />

@@ -8,6 +8,8 @@ import {
   FileText,
   CheckCircle2,
   ExternalLink,
+  Landmark,
+  Check,
 } from 'lucide-react';
 
 interface SchemeDetailsModalProps {
@@ -26,8 +28,7 @@ interface SchemeDetailsModalProps {
 }
 
 /**
- * Clean, humanized modal displaying full circular details, landholding caps, and mandatory documentation checklists.
- * Preserves exact existing UI styling, modal animations, and backdrop.
+ * Modal displaying full government circular details, landholding caps, and documentation checklist.
  */
 export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
   scheme,
@@ -47,22 +48,22 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-scale-up my-8">
+      <div className="bg-white w-full max-w-2xl rounded-none shadow-2xl border border-slate-100 overflow-hidden animate-scale-up my-8">
         {/* Modal Header Banner */}
         <div className="p-6 bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 text-white relative">
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition"
+            className="absolute top-5 right-5 p-2 rounded-none bg-white/10 hover:bg-white/20 text-white transition"
           >
             <X className="w-5 h-5" />
           </button>
 
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-none text-[10px] font-black uppercase tracking-wider bg-emerald-500/30 text-emerald-200 border border-emerald-400/30">
               {categoryLabel}
             </span>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/20 text-white">
+            <span className="px-2.5 py-0.5 rounded-none text-[10px] font-black uppercase tracking-wider bg-white/20 text-white">
               {statusLabel}
             </span>
           </div>
@@ -71,14 +72,14 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
             {translatedTitle}
           </h3>
           <p className="text-xs text-emerald-200 mt-1 flex items-center gap-1.5">
-            <span>🏛️</span> {translatedMinistry}
+            <Landmark className="w-3.5 h-3.5 inline text-emerald-200" /> {translatedMinistry}
           </p>
         </div>
 
         {/* Modal Body */}
         <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
           {/* Financial Benefit Banner */}
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/60 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-4 rounded-none bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100/60 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
                 {t('schemes.benefitLabel', 'Approved Government Benefit / Direct Support')}
@@ -89,7 +90,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               </p>
             </div>
             {scheme.deadlineDate ? (
-              <div className="sm:text-right bg-white/80 px-3 py-1.5 rounded-xl border border-emerald-100">
+              <div className="sm:text-right bg-white/80 px-3 py-1.5 rounded-none border border-emerald-100">
                 <span className="text-[10px] font-bold text-slate-500 uppercase block">
                   {t('schemes.lastDate', 'Application Deadline')}
                 </span>
@@ -105,7 +106,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
                 </span>
               </div>
             ) : (
-              <div className="sm:text-right bg-white/80 px-3 py-1.5 rounded-xl border border-emerald-100">
+              <div className="sm:text-right bg-white/80 px-3 py-1.5 rounded-none border border-emerald-100">
                 <span className="text-[10px] font-bold text-emerald-600 uppercase block">
                   {t('schemes.noDeadline', 'Open Ongoing Scheme')}
                 </span>
@@ -115,7 +116,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
 
           {/* Key Eligibility Highlights Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="p-3.5 rounded-none bg-slate-50 border border-slate-100">
               <span className="text-[10px] font-bold text-slate-400 uppercase block">
                 {t('schemes.exceedsLand', 'Land Limit')}
               </span>
@@ -126,7 +127,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 sm:col-span-2">
+            <div className="p-3.5 rounded-none bg-slate-50 border border-slate-100 sm:col-span-2">
               <span className="text-[10px] font-bold text-slate-400 uppercase block">
                 {t('schemes.applicableGeography', 'Applicable Geographic States')}
               </span>
@@ -146,7 +147,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               <BookOpen className="w-4 h-4 text-emerald-600" />{' '}
               {t('schemes.guidelinesTitle', 'Policy Summary & Objectives')}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-xl border border-slate-100">
+            <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-none border border-slate-100">
               {translatedSummary}
             </p>
           </div>
@@ -156,7 +157,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               <ShieldCheck className="w-4 h-4 text-emerald-600" />{' '}
               {t('schemes.eligibilityReqs', 'Eligibility Criteria & Framework')}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-xl border border-slate-100">
+            <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-none border border-slate-100">
               {translatedEligibility}
             </p>
           </div>
@@ -167,7 +168,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
                 <FileText className="w-4 h-4 text-emerald-600" />{' '}
                 {t('common.details', 'Operational Guidelines')}
               </h4>
-              <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-xl border border-slate-100">
+              <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 p-3.5 rounded-none border border-slate-100">
                 {translatedDetails}
               </p>
             </div>
@@ -180,27 +181,27 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               {t('schemes.eligibilityReqs', 'Mandatory Document Checklist for Application')}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="w-4 h-4 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[10px]">
-                  ✓
+              <div className="flex items-center gap-2 p-2.5 rounded-none bg-slate-50 border border-slate-100">
+                <span className="w-4 h-4 rounded-none bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5" />
                 </span>
                 <span>Aadhaar Card (Mobile & Bank linked)</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="w-4 h-4 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[10px]">
-                  ✓
+              <div className="flex items-center gap-2 p-2.5 rounded-none bg-slate-50 border border-slate-100">
+                <span className="w-4 h-4 rounded-none bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5" />
                 </span>
                 <span>Land Record (7/12 Extract or Khasra/Khatauni)</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="w-4 h-4 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[10px]">
-                  ✓
+              <div className="flex items-center gap-2 p-2.5 rounded-none bg-slate-50 border border-slate-100">
+                <span className="w-4 h-4 rounded-none bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5" />
                 </span>
                 <span>Active PFMS-linked Bank Passbook / DBT</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                <span className="w-4 h-4 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-[10px]">
-                  ✓
+              <div className="flex items-center gap-2 p-2.5 rounded-none bg-slate-50 border border-slate-100">
+                <span className="w-4 h-4 rounded-none bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5" />
                 </span>
                 <span>Passport Photograph & Self Declaration</span>
               </div>
@@ -215,7 +216,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               href={scheme.officialCircularUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold transition shadow-xs w-full sm:w-auto justify-center"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-none bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold transition shadow-xs w-full sm:w-auto justify-center"
             >
               <FileText className="w-4 h-4 text-slate-500" />
               <span>{t('schemes.downloadCircular', 'View Official Circular / Guidelines')}</span>
@@ -229,7 +230,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100 transition"
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-none border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100 transition"
             >
               {t('schemes.close', 'Close')}
             </button>
@@ -237,7 +238,7 @@ export const SchemeDetailsModal: React.FC<SchemeDetailsModalProps> = ({
               href={scheme.applicationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-md active:scale-95"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-md active:scale-95"
             >
               <span>{t('schemes.apply', 'Apply on Govt Portal')}</span>
               <ExternalLink className="w-3.5 h-3.5" />

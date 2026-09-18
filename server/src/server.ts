@@ -148,7 +148,7 @@ async function cleanupRameshData() {
       await (prisma as any).user.delete({
         where: { id: u.id },
       }).catch(() => {});
-      logger.success(`✅ Removed seeded farmer data: ${u.email}`);
+      logger.success(` Removed seeded farmer data: ${u.email}`);
     }
   } catch (err: any) {
     logger.warn('Ramesh cleanup note:', err.message);
@@ -163,9 +163,9 @@ async function start() {
   await ensureComprehensiveDemoData();
 
   server.listen(ENV.PORT, () => {
-    logger.success(`🚀 Server running on http://localhost:${ENV.PORT}`);
-    logger.info(`🔌 WebSocket Server active on port ${ENV.PORT}`);
-    logger.info(`🌍 Environment: ${ENV.NODE_ENV}`);
+    logger.success(` Server running on http://localhost:${ENV.PORT}`);
+    logger.info(` WebSocket Server active on port ${ENV.PORT}`);
+    logger.info(` Environment: ${ENV.NODE_ENV}`);
     startTelegramBotListener();
   });
 }

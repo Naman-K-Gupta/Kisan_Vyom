@@ -387,7 +387,7 @@ export const ManagerDashboard: React.FC = () => {
         <div className="flex items-center gap-4">
           {/* Manager Photo Avatar */}
           <div className="relative group shrink-0">
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-emerald-800 border-2 border-emerald-500 overflow-hidden shadow-md flex items-center justify-center text-white font-black text-xl">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-none bg-emerald-800 border-2 border-emerald-500 overflow-hidden shadow-md flex items-center justify-center text-white font-black text-xl">
               {user?.farmerProfile?.profilePictureUrl ? (
                 <img
                   src={user.farmerProfile.profilePictureUrl}
@@ -402,7 +402,7 @@ export const ManagerDashboard: React.FC = () => {
             {/* Camera Upload Button */}
             <label
               htmlFor="manager-photo-upload"
-              className="absolute -bottom-1 -right-1 p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white shadow-md cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="absolute -bottom-1 -right-1 p-1.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white shadow-md cursor-pointer transition-transform hover:scale-110 active:scale-95"
               title="Update Manager Photo"
             >
               {isUploadingManagerPhoto ? (
@@ -426,10 +426,10 @@ export const ManagerDashboard: React.FC = () => {
               <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 {t('manager.title')}
               </h1>
-              <span className="live-pulse w-3 h-3 rounded-full bg-emerald-500" />
+              <span className="live-pulse w-3 h-3 rounded-none bg-emerald-500" />
             </div>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md flex items-center gap-1">
+              <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-none flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3 text-emerald-600" />
                 {user?.fullName || 'Centre In-Charge'}
               </span>
@@ -445,7 +445,7 @@ export const ManagerDashboard: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={handleTogglePause}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+            className={`px-4 py-2 rounded-none text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm ${
               isQueuePaused
                 ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
                 : 'bg-amber-500 hover:bg-amber-600 text-white'
@@ -457,7 +457,7 @@ export const ManagerDashboard: React.FC = () => {
 
           <button
             onClick={() => loadCentreQueue()}
-            className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-2 rounded-none border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"
             title="Refresh"
           >
             <RefreshCw className="w-4 h-4" />

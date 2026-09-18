@@ -92,7 +92,7 @@ export const AdminCentresPage: React.FC = () => {
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2"
+          className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2"
         >
           <Plus className="w-4 h-4" /> Add Procurement Centre
         </button>
@@ -103,7 +103,7 @@ export const AdminCentresPage: React.FC = () => {
         {centres.map((c) => (
           <div
             key={c.id}
-            className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
+            className="bg-white rounded-none p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
           >
             <div>
               <div className="flex items-start justify-between gap-2 mb-3">
@@ -164,7 +164,7 @@ export const AdminCentresPage: React.FC = () => {
               placeholder="e.g. Panipat Central Grain Depot"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
 
@@ -178,7 +178,7 @@ export const AdminCentresPage: React.FC = () => {
                 required
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
               />
             </div>
             <div>
@@ -190,7 +190,7 @@ export const AdminCentresPage: React.FC = () => {
                 required
                 value={formData.district}
                 onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
               />
             </div>
             <div>
@@ -202,7 +202,7 @@ export const AdminCentresPage: React.FC = () => {
                 required
                 value={formData.village}
                 onChange={(e) => setFormData({ ...formData, village: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
               />
             </div>
           </div>
@@ -217,7 +217,7 @@ export const AdminCentresPage: React.FC = () => {
               placeholder="Mandi Complex, National Highway..."
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
             />
           </div>
 
@@ -234,7 +234,7 @@ export const AdminCentresPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
+                className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
               />
             </div>
             <div>
@@ -249,7 +249,7 @@ export const AdminCentresPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
+                className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
               />
             </div>
             <div>
@@ -264,7 +264,7 @@ export const AdminCentresPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, totalCapacity: parseFloat(e.target.value) || 100 })
                 }
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
+                className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
               />
             </div>
             <div>
@@ -279,7 +279,7 @@ export const AdminCentresPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, processingRate: parseFloat(e.target.value) || 1 })
                 }
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"
+                className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
               />
             </div>
           </div>
@@ -288,7 +288,7 @@ export const AdminCentresPage: React.FC = () => {
             <label className="block text-xs font-bold text-slate-700 uppercase mb-2">
               Supported Crops
             </label>
-            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border border-slate-200 rounded-xl">
+            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border border-slate-200 rounded-none">
               {masterCrops.map((c) => {
                 const isSelected = formData.supportedCropIds.includes(c.id);
                 return (
@@ -296,7 +296,7 @@ export const AdminCentresPage: React.FC = () => {
                     type="button"
                     key={c.id}
                     onClick={() => toggleCropSelection(c.id)}
-                    className={`px-3 py-1 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+                    className={`px-3 py-1 rounded-none text-xs font-semibold border transition-all flex items-center gap-1.5 ${
                       isSelected
                         ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
                         : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -314,13 +314,13 @@ export const AdminCentresPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(false)}
-              className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
+              className="px-5 py-2 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
             >
               Save Procurement Centre
             </button>

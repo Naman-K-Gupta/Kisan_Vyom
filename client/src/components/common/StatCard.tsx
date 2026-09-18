@@ -24,10 +24,10 @@ export const StatCard: React.FC<StatCardProps> = ({
   trend,
 }) => {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all duration-200">
+    <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all duration-200">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-slate-500">{title}</span>
-        <div className={`w-12 h-12 rounded-xl ${bgColor} flex items-center justify-center`}>
+        <div className={`w-12 h-12 rounded-none ${bgColor} flex items-center justify-center`}>
           <Icon className={`w-6 h-6 ${iconColor}`} />
         </div>
       </div>
@@ -35,7 +35,7 @@ export const StatCard: React.FC<StatCardProps> = ({
         <span className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">{value}</span>
         {trend && (
           <span
-            className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+            className={`text-xs font-semibold px-2 py-0.5 rounded-none ${
               trend.isPositive ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
             }`}
           >

@@ -85,3 +85,40 @@ export function maskSensitiveId(identifier?: string | null, unmaskedTailLength =
   const maskedPrefix = '•'.repeat(Math.min(clean.length - unmaskedTailLength, 8));
   return `${maskedPrefix} ${tail}`;
 }
+
+/**
+ * Converts a currency amount to Indian English Words.
+ * e.g. 91000 -> "Rupees Ninety-One Thousand Only"
+ */
+export function numberToWordsINR(num?: number | null): string {
+  if (!num || isNaN(num) || num <= 0) return 'Rupees Zero Only';
+
+  const a = [
+    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+    'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+  ];
+  const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function inWords(n: number): string {
+    if (n < 20) return a[n];
+    const digit = n % 10;
+    return b[Math.floor(n / 10)] + (digit ? ' ' + a[digit] : '');
+  }
+
+  const intNum = Math.floor(num);
+  const crore = Math.floor(intNum / 10000000);
+  const lakh = Math.floor((intNum % 10000000) / 100000);
+  const thousand = Math.floor((intNum % 100000) / 1000);
+  const hundred = Math.floor((intNum % 1000) / 100);
+  const rest = intNum % 100;
+
+  const parts: string[] = [];
+  if (crore) parts.push(inWords(crore) + ' Crore');
+  if (lakh) parts.push(inWords(lakh) + ' Lakh');
+  if (thousand) parts.push(inWords(thousand) + ' Thousand');
+  if (hundred) parts.push(inWords(hundred) + ' Hundred');
+  if (rest) parts.push(inWords(rest));
+
+  return 'Rupees ' + (parts.join(' ') || 'Zero') + ' Only';
+}
+

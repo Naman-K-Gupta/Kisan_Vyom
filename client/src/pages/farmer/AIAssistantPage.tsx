@@ -252,7 +252,7 @@ export const AIAssistantPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+              className={`px-4 py-2.5 rounded-none text-xs font-bold transition-all flex items-center gap-2 ${
                 activeTab === tab.id
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
                   : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/70'
@@ -268,16 +268,16 @@ export const AIAssistantPage: React.FC = () => {
       {/* 1. CHATBOT TAB */}
       {/* ========================================== */}
       {activeTab === 'chat' && (
-        <div className="bg-white rounded-3xl border border-slate-100 shadow-card flex flex-col h-[650px] overflow-hidden">
+        <div className="bg-white rounded-none border border-slate-100 shadow-card flex flex-col h-[650px] overflow-hidden">
           <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20">
+              <div className="w-10 h-10 rounded-none bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-slate-900">{t('ai.assistantTitle')}</h3>
                 <p className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="w-2 h-2 rounded-none bg-emerald-500 animate-pulse" />
                   {t('ai.onlineStatus')}
                 </p>
               </div>
@@ -286,7 +286,7 @@ export const AIAssistantPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowKeyModal(true)}
-              className="px-3 py-1.5 rounded-3xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[11px] font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+              className="px-3 py-1.5 rounded-none border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-[11px] font-semibold flex items-center gap-1.5 transition-all shadow-sm"
               title="Configure AI Engine or API Key"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
@@ -298,10 +298,10 @@ export const AIAssistantPage: React.FC = () => {
           {/* AI Settings Modal */}
           {showKeyModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-              <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95">
+              <div className="bg-white rounded-none max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-3xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-none bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <Key className="w-4 h-4" />
                     </div>
                     <div>
@@ -311,7 +311,7 @@ export const AIAssistantPage: React.FC = () => {
                   </div>
                   <button
                     onClick={() => setShowKeyModal(false)}
-                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
+                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-none hover:bg-slate-100"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -325,7 +325,7 @@ export const AIAssistantPage: React.FC = () => {
                     <select
                       value={aiProvider}
                       onChange={(e) => setAiProvider(e.target.value as any)}
-                      className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     >
                       <option value="auto">Auto-Detect from API Key</option>
                       <option value="gemini">Google Gemini (Recommended - Free Tier)</option>
@@ -343,14 +343,14 @@ export const AIAssistantPage: React.FC = () => {
                       value={keyInput}
                       onChange={(e) => setKeyInput(e.target.value)}
                       placeholder="e.g. AIzaSy... or gsk_..."
-                      className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
                     <p className="text-[10px] text-slate-500 mt-1">
                       Leave empty to use our built-in <strong>Kisan Agro-NLP Engine</strong> (grounded with real MSP prices, live APMC mandis, and ICAR agricultural protocols).
                     </p>
                   </div>
 
-                  <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 space-y-1.5 text-[11px] text-slate-600">
+                  <div className="bg-slate-50 rounded-none p-3 border border-slate-100 space-y-1.5 text-[11px] text-slate-600">
                     <div className="font-semibold text-slate-700">Where to get free API keys?</div>
                     <div className="flex items-center justify-between">
                       <span>• Google Gemini (100% Free):</span>
@@ -381,7 +381,7 @@ export const AIAssistantPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleClearAIKey}
-                        className="text-xs text-rose-600 hover:text-rose-700 font-medium px-3 py-2 rounded-3xl hover:bg-rose-50 transition-colors"
+                        className="text-xs text-rose-600 hover:text-rose-700 font-medium px-3 py-2 rounded-none hover:bg-rose-50 transition-colors"
                       >
                         Clear Saved Key
                       </button>
@@ -392,13 +392,13 @@ export const AIAssistantPage: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowKeyModal(false)}
-                        className="px-4 py-2 rounded-3xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
+                        className="px-4 py-2 rounded-none border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors"
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
-                        className="px-4 py-2 rounded-3xl bg-emerald-600 text-xs font-semibold text-white hover:bg-emerald-700 shadow-md shadow-emerald-600/20 transition-all"
+                        className="px-4 py-2 rounded-none bg-emerald-600 text-xs font-semibold text-white hover:bg-emerald-700 shadow-md shadow-emerald-600/20 transition-all"
                       >
                         Save Settings
                       </button>
@@ -419,7 +419,7 @@ export const AIAssistantPage: React.FC = () => {
                 }`}
               >
                 <div
-                  className={`w-8 h-8 rounded-3xl flex items-center justify-center flex-shrink-0 text-xs font-bold ${
+                  className={`w-8 h-8 rounded-none flex items-center justify-center flex-shrink-0 text-xs font-bold ${
                     m.role === 'user'
                       ? 'bg-emerald-600 text-white'
                       : 'bg-slate-100 text-emerald-700'
@@ -429,10 +429,10 @@ export const AIAssistantPage: React.FC = () => {
                 </div>
 
                 <div
-                  className={`p-4 rounded-2xl text-xs leading-relaxed ${
+                  className={`p-4 rounded-none text-xs leading-relaxed ${
                     m.role === 'user'
-                      ? 'bg-emerald-600 text-white rounded-tr-none'
-                      : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-tl-none whitespace-pre-line'
+                      ? 'bg-emerald-600 text-white rounded-none'
+                      : 'bg-slate-50 text-slate-800 border border-slate-100 rounded-none whitespace-pre-line'
                   }`}
                 >
                   {m.content}
@@ -442,10 +442,10 @@ export const AIAssistantPage: React.FC = () => {
 
             {isChatLoading && (
               <div className="flex gap-3 max-w-md mr-auto">
-                <div className="w-8 h-8 rounded-3xl bg-slate-100 text-emerald-700 flex items-center justify-center flex-shrink-0 text-xs font-bold">
+                <div className="w-8 h-8 rounded-none bg-slate-100 text-emerald-700 flex items-center justify-center flex-shrink-0 text-xs font-bold">
                   <Bot className="w-4 h-4" />
                 </div>
-                <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-400 flex items-center gap-2">
+                <div className="p-3 rounded-none bg-slate-50 border border-slate-100 text-xs text-slate-400 flex items-center gap-2">
                   <span className="animate-pulse">{t('ai.thinking')}</span>
                 </div>
               </div>
@@ -461,7 +461,7 @@ export const AIAssistantPage: React.FC = () => {
               <button
                 key={i}
                 onClick={() => handleSendMessage(q)}
-                className="px-2.5 py-1 rounded-3xl bg-white border border-slate-200 hover:border-emerald-300 text-[11px] text-slate-700 font-medium whitespace-nowrap transition-colors"
+                className="px-2.5 py-1 rounded-none bg-white border border-slate-200 hover:border-emerald-300 text-[11px] text-slate-700 font-medium whitespace-nowrap transition-colors"
               >
                 {q}
               </button>
@@ -482,12 +482,12 @@ export const AIAssistantPage: React.FC = () => {
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder={t('ai.chatPlaceholder')}
-                className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="flex-1 px-4 py-3 rounded-none border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
               <button
                 type="submit"
                 disabled={!chatInput.trim() || isChatLoading}
-                className="p-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-40 transition-all shadow-md shadow-emerald-600/20"
+                className="p-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-40 transition-all shadow-md shadow-emerald-600/20"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -501,7 +501,7 @@ export const AIAssistantPage: React.FC = () => {
       {/* ========================================== */}
       {activeTab === 'crop' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1 bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+          <div className="lg:col-span-1 bg-white rounded-none p-6 border border-slate-100 shadow-card">
             <h3 className="text-base font-bold text-slate-900 mb-4 pb-3 border-b border-slate-100">
               Soil & Land Parameters
             </h3>
@@ -514,7 +514,7 @@ export const AIAssistantPage: React.FC = () => {
                 <select
                   value={cropForm.season}
                   onChange={(e) => setCropForm({ ...cropForm, season: e.target.value })}
-                  className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs bg-white"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs bg-white"
                 >
                   <option value="Rabi (Winter)">Rabi (Winter)</option>
                   <option value="Kharif (Monsoon)">Kharif (Monsoon)</option>
@@ -530,7 +530,7 @@ export const AIAssistantPage: React.FC = () => {
                   type="text"
                   value={cropForm.soilType}
                   onChange={(e) => setCropForm({ ...cropForm, soilType: e.target.value })}
-                  className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
@@ -542,7 +542,7 @@ export const AIAssistantPage: React.FC = () => {
                   type="text"
                   value={cropForm.waterAvailability}
                   onChange={(e) => setCropForm({ ...cropForm, waterAvailability: e.target.value })}
-                  className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
@@ -557,7 +557,7 @@ export const AIAssistantPage: React.FC = () => {
                   onChange={(e) =>
                     setCropForm({ ...cropForm, landAreaAcres: parseFloat(e.target.value) || 0 })
                   }
-                  className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
@@ -569,14 +569,14 @@ export const AIAssistantPage: React.FC = () => {
                   type="text"
                   value={cropForm.previousCrop}
                   onChange={(e) => setCropForm({ ...cropForm, previousCrop: e.target.value })}
-                  className="w-full px-3 py-2 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isCropLoading}
-                className="w-full mt-3 py-3 rounded-3xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
+                className="w-full mt-3 py-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
               >
                 {isCropLoading ? 'Analyzing Soil & Agro-climatic zone...' : 'Generate Recommendations'}
               </button>
@@ -586,7 +586,7 @@ export const AIAssistantPage: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             {cropResult ? (
               <>
-                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-xs text-emerald-900 leading-relaxed">
+                <div className="p-4 rounded-none bg-emerald-50 border border-emerald-100 text-xs text-emerald-900 leading-relaxed">
                   <span className="font-bold block mb-1">Agronomic Advisory:</span>
                   {cropResult.generalAdvisory}
                 </div>
@@ -595,14 +595,14 @@ export const AIAssistantPage: React.FC = () => {
                   {cropResult.recommendedCrops.map((c, idx) => (
                     <div
                       key={idx}
-                      className="bg-white rounded-2xl p-5 border border-slate-100 shadow-card hover:shadow-soft transition-all"
+                      className="bg-white rounded-none p-5 border border-slate-100 shadow-card hover:shadow-soft transition-all"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <h4 className="text-base font-bold text-slate-900">{c.cropName}</h4>
                           <p className="text-xs text-slate-500 mt-1 leading-relaxed">{c.reason}</p>
                         </div>
-                        <span className="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">
+                        <span className="px-3 py-1 rounded-none text-xs font-black bg-emerald-100 text-emerald-800">
                           {c.suitabilityScore}% Match
                         </span>
                       </div>
@@ -630,7 +630,7 @@ export const AIAssistantPage: React.FC = () => {
                 </p>
               </>
             ) : (
-              <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center text-slate-400 text-xs">
+              <div className="bg-white rounded-none p-12 border border-slate-100 text-center text-slate-400 text-xs">
                 Configure your land parameters on the left to generate scientific crop recommendations.
               </div>
             )}
@@ -643,19 +643,19 @@ export const AIAssistantPage: React.FC = () => {
       {/* ========================================== */}
       {activeTab === 'disease' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+          <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
             <h3 className="text-base font-bold text-slate-900 mb-2">Upload Crop Leaf Photo</h3>
             <p className="text-xs text-slate-500 mb-4">
               Take a clear, close-up photo of the affected leaf showing spots, lesions, or yellowing
             </p>
 
             <form onSubmit={handleDiseaseSubmit} className="space-y-4">
-              <label className="border-2 border-dashed border-slate-200 hover:border-emerald-400 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-slate-50/50">
+              <label className="border-2 border-dashed border-slate-200 hover:border-emerald-400 rounded-none p-6 flex flex-col items-center justify-center cursor-pointer transition-colors bg-slate-50/50">
                 {leafPreviewUrl ? (
                   <img
                     src={leafPreviewUrl}
                     alt="Leaf Preview"
-                    className="max-h-48 rounded-3xl object-contain"
+                    className="max-h-48 rounded-none object-contain"
                   />
                 ) : (
                   <div className="text-center">
@@ -679,7 +679,7 @@ export const AIAssistantPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={!selectedLeafFile || isDiseaseLoading}
-                className="w-full py-3.5 rounded-3xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
+                className="w-full py-3.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
               >
                 {isDiseaseLoading ? 'Analyzing leaf symptoms...' : 'Diagnose Plant Disease'}
               </button>
@@ -688,7 +688,7 @@ export const AIAssistantPage: React.FC = () => {
 
           <div>
             {diseaseResult ? (
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card space-y-4">
+              <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card space-y-4">
                 <div className="flex items-start justify-between gap-2 pb-3 border-b border-slate-100">
                   <div>
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -698,7 +698,7 @@ export const AIAssistantPage: React.FC = () => {
                       {diseaseResult.diseaseName}
                     </h4>
                   </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                  <span className="px-3 py-1 rounded-none text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
                     {Math.round(diseaseResult.confidence * 100)}% Confidence
                   </span>
                 </div>
@@ -713,20 +713,20 @@ export const AIAssistantPage: React.FC = () => {
                 </div>
 
                 {diseaseResult.organicRemedy && (
-                  <div className="p-3 rounded-3xl bg-emerald-50 border border-emerald-100 text-xs">
+                  <div className="p-3 rounded-none bg-emerald-50 border border-emerald-100 text-xs">
                     <span className="font-bold text-emerald-900 block mb-0.5">Organic Treatment:</span>
                     <p className="text-emerald-800">{diseaseResult.organicRemedy}</p>
                   </div>
                 )}
 
                 {diseaseResult.chemicalRemedy && (
-                  <div className="p-3 rounded-3xl bg-blue-50 border border-blue-100 text-xs">
+                  <div className="p-3 rounded-none bg-blue-50 border border-blue-100 text-xs">
                     <span className="font-bold text-blue-900 block mb-0.5">Chemical Spray:</span>
                     <p className="text-blue-800">{diseaseResult.chemicalRemedy}</p>
                   </div>
                 )}
 
-                <div className="p-3 rounded-3xl bg-slate-50 text-xs text-slate-600">
+                <div className="p-3 rounded-none bg-slate-50 text-xs text-slate-600">
                   <span className="font-bold block mb-0.5">KVK Expert Advice:</span>
                   {diseaseResult.expertConsultationAdvice}
                 </div>
@@ -734,7 +734,7 @@ export const AIAssistantPage: React.FC = () => {
                 <p className="text-[10px] text-slate-400 italic">{diseaseResult.disclaimer}</p>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center text-slate-400 text-xs">
+              <div className="bg-white rounded-none p-12 border border-slate-100 text-center text-slate-400 text-xs">
                 Upload a plant leaf image to view symptom analysis and remedy recommendations.
               </div>
             )}
@@ -747,7 +747,7 @@ export const AIAssistantPage: React.FC = () => {
       {/* ========================================== */}
       {activeTab === 'irrigation' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+          <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
             <h3 className="text-base font-bold text-slate-900 mb-2">Irrigation Schedule Advisor</h3>
             <p className="text-xs text-slate-500 mb-4">
               Integrates crop phenology stage with live Open-Meteo precipitation probability
@@ -761,7 +761,7 @@ export const AIAssistantPage: React.FC = () => {
                 <select
                   value={irrigationForm.cropName}
                   onChange={(e) => setIrrigationForm({ ...irrigationForm, cropName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-3xl border border-slate-200 text-xs bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs bg-white"
                 >
                   <option value="Wheat">Wheat</option>
                   <option value="Paddy">Paddy / Rice</option>
@@ -779,7 +779,7 @@ export const AIAssistantPage: React.FC = () => {
                   type="text"
                   value={irrigationForm.growthStage}
                   onChange={(e) => setIrrigationForm({ ...irrigationForm, growthStage: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
@@ -791,14 +791,14 @@ export const AIAssistantPage: React.FC = () => {
                   type="text"
                   value={irrigationForm.soilType}
                   onChange={(e) => setIrrigationForm({ ...irrigationForm, soilType: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isIrrigationLoading}
-                className="w-full py-3 rounded-3xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
+                className="w-full py-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
               >
                 {isIrrigationLoading ? 'Checking rain telemetry...' : 'Check Irrigation Advisory'}
               </button>
@@ -807,13 +807,13 @@ export const AIAssistantPage: React.FC = () => {
 
           <div>
             {irrigationResult ? (
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card space-y-4">
+              <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                     Recommendation
                   </span>
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    className={`px-3 py-1 rounded-none text-xs font-bold ${
                       irrigationResult.recommendation === 'IRRIGATE_NOW'
                         ? 'bg-emerald-100 text-emerald-800'
                         : 'bg-amber-100 text-amber-800'
@@ -827,7 +827,7 @@ export const AIAssistantPage: React.FC = () => {
                   {irrigationResult.advisory}
                 </p>
 
-                <div className="p-3.5 rounded-2xl bg-blue-50 border border-blue-100 text-xs text-blue-900">
+                <div className="p-3.5 rounded-none bg-blue-50 border border-blue-100 text-xs text-blue-900">
                   <span className="font-bold block mb-0.5">Weather Forecast Telemetry:</span>
                   {irrigationResult.rainForecastSummary}
                 </div>
@@ -848,7 +848,7 @@ export const AIAssistantPage: React.FC = () => {
                 <p className="text-[10px] text-slate-400 italic">{irrigationResult.disclaimer}</p>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center text-slate-400 text-xs">
+              <div className="bg-white rounded-none p-12 border border-slate-100 text-center text-slate-400 text-xs">
                 Submit your crop details to calculate moisture needs against precipitation forecasts.
               </div>
             )}
@@ -861,7 +861,7 @@ export const AIAssistantPage: React.FC = () => {
       {/* ========================================== */}
       {activeTab === 'centre' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+          <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
             <h3 className="text-base font-bold text-slate-900 mb-2">Centre Recommendation</h3>
             <p className="text-xs text-slate-500 mb-4">
               Calculates shortest driving distance, lowest queue wait time, and available intake capacity
@@ -875,7 +875,7 @@ export const AIAssistantPage: React.FC = () => {
                 <select
                   value={centreReqForm.cropName}
                   onChange={(e) => setCentreReqForm({ ...centreReqForm, cropName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-3xl border border-slate-200 text-xs bg-white"
+                  className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs bg-white"
                 >
                   <option value="Wheat">Wheat</option>
                   <option value="Paddy (Common)">Paddy</option>
@@ -899,14 +899,14 @@ export const AIAssistantPage: React.FC = () => {
                       quantityQuintals: parseFloat(e.target.value) || 1,
                     })
                   }
-                  className="w-full px-3.5 py-2.5 rounded-3xl border border-slate-200 text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isCentreRecLoading}
-                className="w-full py-3 rounded-3xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
+                className="w-full py-3 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all disabled:opacity-50"
               >
                 {isCentreRecLoading ? 'Scoring centres...' : 'Find Optimal Centre'}
               </button>
@@ -915,14 +915,15 @@ export const AIAssistantPage: React.FC = () => {
 
           <div>
             {centreRecResult ? (
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card space-y-4">
-                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-2.5 py-1 rounded-full">
-                  ★ Recommended Centre Match
+              <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card space-y-4">
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 uppercase tracking-wider bg-emerald-50 px-2.5 py-1 rounded-none">
+                  <Sparkles className="w-3 h-3 text-emerald-600" />
+                  <span>Recommended Centre Match</span>
                 </span>
                 <h4 className="text-xl font-black text-slate-900">{centreRecResult.centreName}</h4>
                 <p className="text-xs text-slate-600 leading-relaxed">{centreRecResult.reason}</p>
 
-                <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-slate-50 text-xs text-center">
+                <div className="grid grid-cols-3 gap-3 p-4 rounded-none bg-slate-50 text-xs text-center">
                   <div>
                     <span className="text-[10px] text-slate-400 block">Distance</span>
                     <span className="font-bold text-slate-800">{centreRecResult.distanceKm} km</span>
@@ -950,7 +951,7 @@ export const AIAssistantPage: React.FC = () => {
                       {centreRecResult.alternatives.map((alt) => (
                         <div
                           key={alt.centreId}
-                          className="flex items-center justify-between text-xs p-2.5 rounded-3xl border border-slate-100 bg-slate-50/50"
+                          className="flex items-center justify-between text-xs p-2.5 rounded-none border border-slate-100 bg-slate-50/50"
                         >
                           <span className="font-bold text-slate-800">{alt.centreName}</span>
                           <span className="text-slate-500">
@@ -963,7 +964,7 @@ export const AIAssistantPage: React.FC = () => {
                 )}
               </div>
             ) : (
-              <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center text-slate-400 text-xs">
+              <div className="bg-white rounded-none p-12 border border-slate-100 text-center text-slate-400 text-xs">
                 Select your crop to calculate the nearest centre with lowest waiting time.
               </div>
             )}

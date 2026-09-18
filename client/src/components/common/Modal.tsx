@@ -35,7 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
       <div
-        className={`bg-white w-full ${maxWidth} rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all`}
+        className={`bg-white w-full ${maxWidth} rounded-none shadow-2xl border border-slate-100 overflow-hidden transform transition-all`}
         role="dialog"
         aria-modal="true"
       >
@@ -43,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
           <h3 className="text-lg font-bold text-slate-800 tracking-tight">{title}</h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-none text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

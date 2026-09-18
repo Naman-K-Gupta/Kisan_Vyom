@@ -1,6 +1,6 @@
 import React from 'react';
 import { CreateGovernmentSchemeDTO, GovernmentSchemeDTO } from '@smart-farmer/shared';
-import { X } from 'lucide-react';
+import { X, Landmark } from 'lucide-react';
 
 export interface SchemeFormModalProps {
   isOpen: boolean;
@@ -25,12 +25,12 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-scale-up my-8">
+      <div className="bg-white w-full max-w-2xl rounded-none shadow-2xl border border-slate-100 overflow-hidden animate-scale-up my-8">
         {/* Modal Header */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between">
           <div>
             <h3 className="text-lg font-extrabold flex items-center gap-2">
-              🏛️ {editingScheme ? 'Edit Government Policy' : 'Publish New Government Policy'}
+              <Landmark className="w-5 h-5 text-emerald-400 inline mr-1.5" />{editingScheme ? 'Edit Government Policy' : 'Publish New Government Policy'}
             </h3>
             <p className="text-xs text-slate-300 mt-0.5">
               Changes broadcast immediately over Socket.IO to all farmer and admin dashboards
@@ -39,7 +39,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition"
+            className="p-2 rounded-none bg-white/10 hover:bg-white/20 text-white transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -57,7 +57,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               value={form.title}
               onChange={(e) => onChange({ ...form, title: e.target.value })}
               placeholder="e.g. PM-KUSUM Solar Agriculture Pump Subsidy"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -69,7 +69,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               <select
                 value={form.category}
                 onChange={(e) => onChange({ ...form, category: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               >
                 <option value="SUBSIDY">Subsidy & Grants</option>
                 <option value="FINANCE">Finance & DBT Support</option>
@@ -90,7 +90,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 value={form.ministry}
                 onChange={(e) => onChange({ ...form, ministry: e.target.value })}
                 placeholder="e.g. Ministry of Agriculture & Farmers Welfare"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 value={form.benefitAmount}
                 onChange={(e) => onChange({ ...form, benefitAmount: e.target.value })}
                 placeholder="e.g. Up to 90% Subsidy or ₹6,000 / Year DBT"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
 
@@ -117,7 +117,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               <select
                 value={form.status}
                 onChange={(e) => onChange({ ...form, status: e.target.value as any })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               >
                 <option value="ACTIVE">APPLICATION OPEN</option>
                 <option value="CLOSING_SOON">CLOSING SOON</option>
@@ -137,7 +137,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               value={form.summary}
               onChange={(e) => onChange({ ...form, summary: e.target.value })}
               placeholder="Concise overview of what this policy offers farmers..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -151,7 +151,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               value={form.eligibilityCriteria}
               onChange={(e) => onChange({ ...form, eligibilityCriteria: e.target.value })}
               placeholder="Who is eligible? Land requirements, tenant rules, etc."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -164,7 +164,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
               value={form.details || ''}
               onChange={(e) => onChange({ ...form, details: e.target.value })}
               placeholder="In-depth implementation rules, payment disbursement stages, etc."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -184,7 +184,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                   })
                 }
                 placeholder="Leave empty for No Limit"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
 
@@ -197,7 +197,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 value={form.applicableStates || 'ALL'}
                 onChange={(e) => onChange({ ...form, applicableStates: e.target.value })}
                 placeholder="ALL or comma separated (e.g. Punjab, Haryana)"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           </div>
@@ -213,7 +213,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 value={form.applicationUrl}
                 onChange={(e) => onChange({ ...form, applicationUrl: e.target.value })}
                 placeholder="https://..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
 
@@ -226,7 +226,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 value={form.officialCircularUrl || ''}
                 onChange={(e) => onChange({ ...form, officialCircularUrl: e.target.value })}
                 placeholder="https://..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           </div>
@@ -240,7 +240,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                 type="date"
                 value={form.deadlineDate || ''}
                 onChange={(e) => onChange({ ...form, deadlineDate: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
 
@@ -250,7 +250,7 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
                   type="checkbox"
                   checked={form.isFeatured ?? true}
                   onChange={(e) => onChange({ ...form, isFeatured: e.target.checked })}
-                  className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
+                  className="w-4 h-4 rounded-none text-emerald-600 focus:ring-emerald-500 border-slate-300"
                 />
                 <span>Highlight as Featured Scheme on Farmer Portal</span>
               </label>
@@ -262,14 +262,14 @@ export const SchemeFormModal: React.FC<SchemeFormModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition"
+              className="px-4 py-2.5 rounded-none border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-50 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-extrabold shadow-md active:scale-95 transition disabled:opacity-50"
+              className="px-6 py-2.5 rounded-none bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-extrabold shadow-md active:scale-95 transition disabled:opacity-50"
             >
               {isSubmitting
                 ? 'Broadcasting...'

@@ -56,7 +56,7 @@ export const AdminFarmersPage: React.FC = () => {
       </div>
 
       {/* Search & Filter */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-3">
+      <div className="bg-white rounded-none p-4 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-3">
         <div className="flex-1 w-full relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
           <input
@@ -65,20 +65,20 @@ export const AdminFarmersPage: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && loadFarmers()}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-none border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
         </div>
 
         <button
           onClick={loadFarmers}
-          className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
+          className="px-4 py-2.5 rounded-none bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-colors"
         >
           Search
         </button>
       </div>
 
       {/* Farmers Table */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
+      <div className="bg-white rounded-none border border-slate-100 shadow-card overflow-hidden">
         {farmers.length === 0 ? (
           <EmptyState
             title="No Farmers Found"
@@ -107,10 +107,10 @@ export const AdminFarmersPage: React.FC = () => {
                           <img
                             src={farmer.farmerProfile.profilePictureUrl}
                             alt=""
-                            className="w-8 h-8 rounded-full object-cover border border-slate-200"
+                            className="w-8 h-8 rounded-none object-cover border border-slate-200"
                           />
                         ) : (
-                          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+                          <div className="w-8 h-8 rounded-none bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
                             {farmer.fullName.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -141,7 +141,7 @@ export const AdminFarmersPage: React.FC = () => {
 
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${
+                        className={`inline-flex items-center px-2 py-0.5 rounded-none text-xs font-bold ${
                           farmer.isActive
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-rose-50 text-rose-700 border border-rose-200'
@@ -154,7 +154,7 @@ export const AdminFarmersPage: React.FC = () => {
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => handleToggleStatus(farmer.id, farmer.isActive)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                        className={`px-3 py-1.5 rounded-none text-xs font-bold transition-all ${
                           farmer.isActive
                             ? 'border border-rose-200 text-rose-600 hover:bg-rose-50'
                             : 'border border-emerald-200 text-emerald-600 hover:bg-emerald-50'

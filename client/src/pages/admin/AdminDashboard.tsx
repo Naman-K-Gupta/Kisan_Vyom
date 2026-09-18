@@ -82,10 +82,10 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Featured: Daily Centre Procurement Records Banner */}
-      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-purple-800/50">
+      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white rounded-none p-6 sm:p-7 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-purple-800/50">
         <div className="space-y-2 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-800/80 text-purple-200 text-[11px] font-bold uppercase tracking-wider border border-purple-700/50">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-purple-800/80 text-purple-200 text-[11px] font-bold uppercase tracking-wider border border-purple-700/50">
+            <span className="w-2 h-2 rounded-none bg-emerald-400 animate-pulse"></span>
             Real-Time State Procurement Oversight
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
@@ -98,7 +98,7 @@ export const AdminDashboard: React.FC = () => {
 
         <Link
           to="/admin/procurement-records"
-          className="px-6 py-3.5 rounded-2xl bg-white hover:bg-purple-50 active:scale-95 text-purple-950 font-extrabold text-xs shadow-lg transition flex items-center gap-2 self-start md:self-auto flex-shrink-0"
+          className="px-6 py-3.5 rounded-none bg-white hover:bg-purple-50 active:scale-95 text-purple-950 font-extrabold text-xs shadow-lg transition flex items-center gap-2 self-start md:self-auto flex-shrink-0"
         >
           <span>Open Daily Procurement Ledger</span>
           <ArrowRight className="w-4 h-4 text-purple-600" />
@@ -107,7 +107,7 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Administrative Operations Shortcuts */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
               Management
@@ -119,13 +119,13 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <Link
             to="/admin/farmers"
-            className="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 rounded-none bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
           >
             Manage Farmers <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">
               Logistics
@@ -137,13 +137,13 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <Link
             to="/admin/centres"
-            className="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 rounded-none bg-blue-50 hover:bg-blue-100 text-blue-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
           >
             Manage Centres <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">
               Policy & Welfare
@@ -155,7 +155,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <Link
             to="/admin/schemes"
-            className="w-full py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 rounded-none bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
           >
             <Landmark className="w-3.5 h-3.5 text-amber-700" />
             <span>Policy Console</span>
@@ -163,7 +163,7 @@ export const AdminDashboard: React.FC = () => {
           </Link>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card flex flex-col justify-between">
+        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col justify-between">
           <div>
             <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider">
               Compliance & Security
@@ -175,7 +175,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <Link
             to="/admin/audit-logs"
-            className="w-full py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 rounded-none bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
           >
             View Audit Logs <ArrowRight className="w-3.5 h-3.5" />
           </Link>

@@ -87,13 +87,15 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       showToast('Action Blocked', 'Device app notifications are configured exclusively for Farmers.', 'warning');
       return false;
     }
+    const farmerName = user.fullName || 'Kisan';
+    const testSms = `[VK-GOVMSP] Dear ${farmerName}, your mobile is active for real-time Mandi queue tokens, weighment receipts, and DBT payment SMS alerts. - APMC Mandi`;
     const success = await triggerFarmerAppNotification(
       user.role,
-      '🌾 Kisan Sahayak Notification',
-      'Your Android device is receiving real-time APMC Mandi and MSP updates!'
+      'SMS: Service Active',
+      testSms
     );
     if (success) {
-      showToast('Notification Sent', 'A heads-up Android alert was sent to your status bar!', 'success');
+      showToast('SMS Alert Received', testSms, 'success');
     }
     return success;
   };

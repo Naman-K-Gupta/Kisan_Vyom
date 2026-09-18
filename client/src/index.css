@@ -21,7 +21,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 9999px;
+  border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -76,4 +76,11 @@ body {
 
 font[style*="vertical-align: inherit"] {
   vertical-align: inherit !important;
+}
+
+/* Perfect square and rectangle geometry for all dashboards and components */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
 }

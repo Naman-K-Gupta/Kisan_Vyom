@@ -27,8 +27,7 @@ interface FarmerBankDetailsModalProps {
 }
 
 /**
- * Humanized PFMS Aadhaar-linked Bank Records Modal.
- * Allows verified farmers to register or update their Direct Benefit Transfer (DBT) bank accounts.
+ * Modal for registering or updating DBT/PFMS Aadhaar-linked bank accounts.
  */
 export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
   isOpen,
@@ -46,16 +45,16 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-8">
+      <div className="bg-white rounded-none max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-8">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-1.5 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition"
+          className="absolute top-5 right-5 p-1.5 text-slate-400 hover:text-slate-600 rounded-none hover:bg-slate-100 transition"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-          <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
+          <div className="w-10 h-10 rounded-none bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
             <Landmark className="w-5 h-5" />
           </div>
           <div>
@@ -69,13 +68,13 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
         </div>
 
         {error && (
-          <div className="mb-4 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+          <div className="mb-4 p-3.5 rounded-none bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-4 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700">
+          <div className="mb-4 p-3.5 rounded-none bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700">
             {success}
           </div>
         )}
@@ -91,7 +90,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
               value={bankForm.accountHolderName}
               onChange={(e) => setBankForm({ ...bankForm, accountHolderName: e.target.value })}
               placeholder="As printed on bank passbook / Aadhaar"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -103,7 +102,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
               <select
                 value={bankForm.bankName}
                 onChange={(e) => setBankForm({ ...bankForm, bankName: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               >
                 {bankOptions.map((b) => (
                   <option key={b} value={b}>
@@ -124,7 +123,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
                 value={bankForm.ifscCode}
                 onChange={(e) => setBankForm({ ...bankForm, ifscCode: e.target.value.toUpperCase() })}
                 placeholder="e.g. SBIN0001234"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-mono uppercase focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           </div>
@@ -140,7 +139,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
                 value={bankForm.customBankName}
                 onChange={(e) => setBankForm({ ...bankForm, customBankName: e.target.value })}
                 placeholder="Enter full bank name"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           )}
@@ -158,7 +157,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
                   setBankForm({ ...bankForm, accountNumber: e.target.value.replace(/\D/g, '') })
                 }
                 placeholder="Enter account number"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
 
@@ -178,7 +177,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
                   })
                 }
                 placeholder="Re-enter account number"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
               />
             </div>
           </div>
@@ -192,7 +191,7 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
               value={bankForm.branchName}
               onChange={(e) => setBankForm({ ...bankForm, branchName: e.target.value })}
               placeholder="e.g. Main Market Branch, Ludhiana"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
@@ -205,17 +204,17 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
               value={bankForm.upiId}
               onChange={(e) => setBankForm({ ...bankForm, upiId: e.target.value })}
               placeholder="e.g. farmer@upi"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-100 flex items-start gap-2.5">
+          <div className="p-3.5 rounded-none bg-emerald-50/70 border border-emerald-100 flex items-start gap-2.5">
             <input
               id="aadhaarLinkedCheckbox"
               type="checkbox"
               checked={bankForm.aadhaarLinked}
               onChange={(e) => setBankForm({ ...bankForm, aadhaarLinked: e.target.checked })}
-              className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
+              className="mt-0.5 rounded-none text-emerald-600 focus:ring-emerald-500"
             />
             <label
               htmlFor="aadhaarLinkedCheckbox"
@@ -232,14 +231,14 @@ export const FarmerBankDetailsModal: React.FC<FarmerBankDetailsModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all"
+              className="px-4 py-2 rounded-none text-xs font-bold text-slate-600 hover:bg-slate-100 transition-all"
             >
               {t('common.cancel', 'Cancel')}
             </button>
             <button
               type="submit"
               disabled={isSaving}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md active:scale-95 disabled:opacity-50"
+              className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md active:scale-95 disabled:opacity-50"
             >
               {isSaving
                 ? t('dashboard.savingBankDetails', 'Saving...')

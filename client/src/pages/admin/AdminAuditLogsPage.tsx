@@ -43,11 +43,11 @@ export const AdminAuditLogsPage: React.FC = () => {
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-3">
+      <div className="bg-white rounded-none p-4 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-3">
         <select
           value={entityFilter}
           onChange={(e) => setEntityFilter(e.target.value)}
-          className="w-full sm:w-48 px-3.5 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-700"
+          className="w-full sm:w-48 px-3.5 py-2 rounded-none border border-slate-200 text-xs bg-white text-slate-700"
         >
           <option value="">All Entities</option>
           <option value="ProcurementCentre">Procurement Centre</option>
@@ -60,7 +60,7 @@ export const AdminAuditLogsPage: React.FC = () => {
         <select
           value={actionFilter}
           onChange={(e) => setActionFilter(e.target.value)}
-          className="w-full sm:w-56 px-3.5 py-2 rounded-xl border border-slate-200 text-xs bg-white text-slate-700"
+          className="w-full sm:w-56 px-3.5 py-2 rounded-none border border-slate-200 text-xs bg-white text-slate-700"
         >
           <option value="">All Actions</option>
           <option value="MSP_PRICE_CREATED">MSP Price Created</option>
@@ -72,7 +72,7 @@ export const AdminAuditLogsPage: React.FC = () => {
       </div>
 
       {/* Audit Log Table */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-card overflow-hidden">
+      <div className="bg-white rounded-none border border-slate-100 shadow-card overflow-hidden">
         {logs.length === 0 ? (
           <EmptyState
             title="No Audit Logs Found"
@@ -104,7 +104,7 @@ export const AdminAuditLogsPage: React.FC = () => {
                     </td>
 
                     <td className="px-6 py-4">
-                      <span className="font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
+                      <span className="font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-none border border-purple-100">
                         {log.role}
                       </span>
                     </td>

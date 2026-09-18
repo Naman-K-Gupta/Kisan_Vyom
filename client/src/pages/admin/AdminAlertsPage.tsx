@@ -77,7 +77,7 @@ export const AdminAlertsPage: React.FC = () => {
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-5 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-2"
+          className="px-5 py-2.5 rounded-none bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 active:scale-95 transition-all flex items-center gap-2"
         >
           <Plus className="w-4 h-4" /> Broadcast Urgent Alert
         </button>
@@ -86,14 +86,14 @@ export const AdminAlertsPage: React.FC = () => {
       {/* Alerts Grid */}
       <div className="space-y-4">
         {alerts.length === 0 ? (
-          <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center text-slate-400 text-xs">
+          <div className="bg-white rounded-none p-12 border border-slate-100 text-center text-slate-400 text-xs">
             No active broadcast alerts.
           </div>
         ) : (
           alerts.map((alert) => (
             <div
               key={alert.id}
-              className="bg-white rounded-2xl p-6 border border-slate-100 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              className="bg-white rounded-none p-6 border border-slate-100 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
               <div className="space-y-1.5 flex-1">
                 <div className="flex items-center gap-2">
@@ -123,7 +123,7 @@ export const AdminAlertsPage: React.FC = () => {
 
               <button
                 onClick={() => handleDelete(alert.id)}
-                className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors self-end sm:self-center"
+                className="p-2 rounded-none text-rose-600 hover:bg-rose-50 transition-colors self-end sm:self-center"
                 title="Remove Broadcast"
               >
                 <Trash2 className="w-4 h-4" />
@@ -150,7 +150,7 @@ export const AdminAlertsPage: React.FC = () => {
               placeholder="e.g. Yellow Rust Warning in North Haryana"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
 
@@ -164,7 +164,7 @@ export const AdminAlertsPage: React.FC = () => {
               placeholder="Provide symptoms, precautions, or procurement advice..."
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
             />
           </div>
 
@@ -176,7 +176,7 @@ export const AdminAlertsPage: React.FC = () => {
               <select
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm bg-white"
               >
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
@@ -192,7 +192,7 @@ export const AdminAlertsPage: React.FC = () => {
               <select
                 value={formData.cropId}
                 onChange={(e) => setFormData({ ...formData, cropId: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm bg-white"
               >
                 <option value="">All Crops</option>
                 {masterCrops.map((c) => (
@@ -214,7 +214,7 @@ export const AdminAlertsPage: React.FC = () => {
                 placeholder="State or District"
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
               />
             </div>
 
@@ -227,7 +227,7 @@ export const AdminAlertsPage: React.FC = () => {
                 required
                 value={formData.expiryTime}
                 onChange={(e) => setFormData({ ...formData, expiryTime: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm"
               />
             </div>
           </div>
@@ -236,13 +236,13 @@ export const AdminAlertsPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(false)}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2.5 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 active:scale-95 transition-all"
+              className="px-5 py-2.5 rounded-none bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 active:scale-95 transition-all"
             >
               Broadcast Alert
             </button>

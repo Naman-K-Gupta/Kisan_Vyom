@@ -21,6 +21,7 @@ import {
   Calendar,
   CreditCard,
 } from 'lucide-react';
+import { numberToWordsINR } from '../../utils/formatters';
 
 export const FarmerPaymentsPage: React.FC = () => {
   const { user } = useAuth();
@@ -67,9 +68,9 @@ export const FarmerPaymentsPage: React.FC = () => {
   return (
     <div className="space-y-6 pb-12">
       {/* Top Banner / Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-emerald-800 to-teal-900 p-6 rounded-2xl text-white shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-emerald-800 to-teal-900 p-6 rounded-none text-white shadow-sm">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-700/60 text-emerald-200 text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-none bg-emerald-700/60 text-emerald-200 text-xs font-semibold mb-2">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>{t('payments.aadhaarLinkedDbt')}</span>
           </div>
@@ -81,7 +82,7 @@ export const FarmerPaymentsPage: React.FC = () => {
         <button
           onClick={fetchPayments}
           disabled={isLoading}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 active:bg-white/30 text-white rounded-xl text-xs font-semibold transition backdrop-blur-sm self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 active:bg-white/30 text-white rounded-none text-xs font-semibold transition backdrop-blur-sm self-start sm:self-auto"
         >
           <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           <span>{t('common.refresh')}</span>
@@ -91,10 +92,10 @@ export const FarmerPaymentsPage: React.FC = () => {
       {/* Financial KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Disbursed */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+        <div className="bg-white p-5 rounded-none border border-slate-200/80 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('payments.clearedEarnings')}</span>
-            <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <div className="w-9 h-9 rounded-none bg-emerald-50 flex items-center justify-center text-emerald-600">
               <IndianRupee className="w-5 h-5" />
             </div>
           </div>
@@ -109,10 +110,10 @@ export const FarmerPaymentsPage: React.FC = () => {
         </div>
 
         {/* Card 2: Pending Disbursement */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+        <div className="bg-white p-5 rounded-none border border-slate-200/80 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('payments.inProcessing')}</span>
-            <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+            <div className="w-9 h-9 rounded-none bg-amber-50 flex items-center justify-center text-amber-600">
               <Clock className="w-5 h-5" />
             </div>
           </div>
@@ -127,10 +128,10 @@ export const FarmerPaymentsPage: React.FC = () => {
         </div>
 
         {/* Card 3: Total Quantity Procured */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+        <div className="bg-white p-5 rounded-none border border-slate-200/80 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('payments.volumeSold')}</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+            <div className="w-9 h-9 rounded-none bg-blue-50 flex items-center justify-center text-blue-600">
               <Wheat className="w-5 h-5" />
             </div>
           </div>
@@ -145,10 +146,10 @@ export const FarmerPaymentsPage: React.FC = () => {
         </div>
 
         {/* Card 4: Mandi Transactions */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm relative overflow-hidden">
+        <div className="bg-white p-5 rounded-none border border-slate-200/80 shadow-sm relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{t('payments.completedSales')}</span>
-            <div className="w-9 h-9 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+            <div className="w-9 h-9 rounded-none bg-purple-50 flex items-center justify-center text-purple-600">
               <FileText className="w-5 h-5" />
             </div>
           </div>
@@ -165,10 +166,10 @@ export const FarmerPaymentsPage: React.FC = () => {
       </div>
 
       {/* Linked DBT Bank Account Card */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white rounded-2xl p-6 border border-slate-800 shadow-md">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white rounded-none p-6 border border-slate-800 shadow-md">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
+            <div className="w-12 h-12 rounded-none bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 border border-emerald-500/30">
               <Landmark className="w-6 h-6" />
             </div>
             <div>
@@ -176,7 +177,7 @@ export const FarmerPaymentsPage: React.FC = () => {
                 <h3 className="font-bold text-lg">
                   {summary?.verifiedBankAccount?.bankName || 'State Bank of India'}
                 </h3>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold">
                   <ShieldCheck className="w-3.5 h-3.5" /> {t('payments.aadhaarLinkedDbt')}
                 </span>
               </div>
@@ -186,7 +187,7 @@ export const FarmerPaymentsPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 self-start md:self-auto bg-slate-800/80 px-4 py-3 rounded-xl border border-slate-700/60">
+          <div className="flex items-center gap-3 self-start md:self-auto bg-slate-800/80 px-4 py-3 rounded-none border border-slate-700/60">
             <CreditCard className="w-5 h-5 text-emerald-400 flex-shrink-0" />
             <div>
               <p className="text-[10px] text-slate-400 uppercase font-semibold">{t('payments.accountNumber')}</p>
@@ -206,7 +207,7 @@ export const FarmerPaymentsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-4 rounded-none border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Status Pill Filters */}
         <div className="flex items-center gap-1.5 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
           {[
@@ -218,7 +219,7 @@ export const FarmerPaymentsPage: React.FC = () => {
             <button
               key={tab.value}
               onClick={() => setStatusFilter(tab.value)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-3.5 py-1.5 rounded-none text-xs font-semibold whitespace-nowrap transition-all ${
                 statusFilter === tab.value
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'
@@ -237,13 +238,13 @@ export const FarmerPaymentsPage: React.FC = () => {
             placeholder={t('payments.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
           />
         </div>
       </div>
 
       {/* Payments History Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-none border border-slate-200/80 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <h2 className="font-bold text-slate-900 text-sm">{t('payments.title')}</h2>
           <span className="text-xs text-slate-500 font-medium">
@@ -349,7 +350,7 @@ export const FarmerPaymentsPage: React.FC = () => {
                     <td className="py-4 px-5 text-right">
                       <button
                         onClick={() => setSelectedReceipt(payment)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-xs font-semibold transition border border-emerald-200/60 active:scale-95"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-none text-xs font-semibold transition border border-emerald-200/60 active:scale-95"
                       >
                         <FileText className="w-3.5 h-3.5" />
                         <span>{t('payments.formJTitle')}</span>
@@ -364,169 +365,414 @@ export const FarmerPaymentsPage: React.FC = () => {
       </div>
 
       {/* Official APMC Form-J Procurement Receipt Modal */}
-      {selectedReceipt && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
-            {/* Modal Actions Header */}
-            <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between">
-              <span className="text-xs font-bold tracking-wider uppercase text-emerald-400">
-                {t('payments.formJTitle')}
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => window.print()}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-medium transition"
-                >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>{t('payments.printReceipt')}</span>
-                </button>
-                <button
-                  onClick={() => setSelectedReceipt(null)}
-                  className="p-1 hover:bg-white/20 rounded-lg text-slate-300 hover:text-white transition"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+      {selectedReceipt && (() => {
+        const rNetQty = Number(selectedReceipt.quantity || 40);
+        const rNetKg = Math.round(rNetQty * 100);
+        const rTareKg = Math.round(rNetQty * 32 + 1640);
+        const rGrossKg = rNetKg + rTareKg;
+        const rBags = Math.round(rNetKg / 50);
+        const rGunnyTare = +(rBags * 0.58).toFixed(1);
+        const rAmountWords = numberToWordsINR(selectedReceipt.netAmount);
+        const rFormattedDate = new Date(selectedReceipt.createdAt).toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        });
+        const rFormattedTime = new Date(selectedReceipt.createdAt).toLocaleTimeString('en-IN', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        });
 
-            {/* Printable Voucher Content */}
-            <div className="p-6 sm:p-8 space-y-6 text-slate-800" id="apmc-jform-receipt">
-              {/* Receipt Header */}
-              <div className="text-center border-b border-slate-200 pb-5">
-                <div className="inline-block p-2 rounded-full bg-emerald-50 border border-emerald-200 mb-2">
-                  <Landmark className="w-8 h-8 text-emerald-700" />
-                </div>
-                <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                  {t('payments.govHeader')}
-                </h2>
-                <p className="text-xs font-semibold text-emerald-800 uppercase tracking-widest mt-0.5">
-                  {t('payments.govSubHeader')}
-                </p>
-                <div className="mt-3 inline-flex items-center gap-4 text-xs font-mono text-slate-600 bg-slate-50 px-4 py-1.5 rounded-lg border border-slate-200">
-                  <span><strong>{t('payments.receiptNumber')}:</strong> {selectedReceipt.paymentNumber}</span>
-                  <span>•</span>
-                  <span><strong>{t('payments.dateIssued')}:</strong> {new Date(selectedReceipt.createdAt).toLocaleDateString('en-IN')}</span>
-                </div>
-              </div>
-
-              {/* Mandi & Farmer Information Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                {/* Mandi Details */}
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('payments.buyerApmc')}</span>
-                  <p className="font-bold text-slate-900 text-sm mt-1">{selectedReceipt.centreName}</p>
-                  <p className="text-slate-600 mt-0.5">
-                    {selectedReceipt.centreDistrict || 'N/A'}, {selectedReceipt.centreState || 'India'}
-                  </p>
-                </div>
-
-                {/* Farmer Details */}
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('payments.sellerFarmer')}</span>
-                  <p className="font-bold text-slate-900 text-sm mt-1">{selectedReceipt.farmerName || user?.fullName}</p>
-                  <p className="text-slate-600 mt-0.5">Mobile: {selectedReceipt.farmerMobile || user?.mobile}</p>
-                  <p className="text-slate-500 text-[11px]">
-                    {[user?.village, user?.district, user?.state].filter(Boolean).join(', ')}
-                  </p>
+        return (
+          <div className="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4 overflow-y-auto print:p-0 print:bg-white animate-fade-in">
+            <div className="bg-white rounded-none max-w-4xl w-full border-2 border-slate-800 shadow-2xl overflow-hidden my-6 print:my-0 print:border-none print:shadow-none max-h-[96vh] flex flex-col">
+              
+              {/* Modal Actions Header (Hidden on Print) */}
+              <div className="bg-slate-900 text-white px-5 py-3 flex items-center justify-between print:hidden border-b border-slate-800">
+                <span className="text-xs font-bold tracking-wider uppercase text-emerald-400">
+                  {t('payments.formJTitle')} • Official APMC Government Procurement Certificate
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => window.print()}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-none text-xs font-bold transition shadow-sm"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>{t('payments.printReceipt')}</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedReceipt(null)}
+                    className="p-1.5 hover:bg-white/10 rounded-none text-slate-400 hover:text-white transition"
+                    aria-label="Close"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 
-              {/* Itemized Produce Valuation */}
-              <div className="border border-slate-200 rounded-xl overflow-hidden text-xs">
-                <table className="w-full">
-                  <thead className="bg-slate-100/80 font-bold text-slate-600 text-[11px] uppercase tracking-wider">
-                    <tr>
-                      <th className="py-2.5 px-4 text-left">{t('payments.itemDescription')}</th>
-                      <th className="py-2.5 px-4 text-center">Quality Grade</th>
-                      <th className="py-2.5 px-4 text-right">{t('payments.grossWeight')}</th>
-                      <th className="py-2.5 px-4 text-right">{t('payments.mspRateApplied')}</th>
-                      <th className="py-2.5 px-4 text-right">{t('payments.grossPayable')}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    <tr>
-                      <td className="py-3 px-4 font-semibold text-slate-900">{selectedReceipt.cropName}</td>
-                      <td className="py-3 px-4 text-center text-slate-600">{selectedReceipt.qualityGrade || 'Grade A (FAQ)'}</td>
-                      <td className="py-3 px-4 text-right font-semibold text-slate-900">
-                        {selectedReceipt.quantity} {selectedReceipt.unit}
-                      </td>
-                      <td className="py-3 px-4 text-right font-mono text-slate-700">
-                        ₹{selectedReceipt.ratePerUnit.toLocaleString('en-IN')}
-                      </td>
-                      <td className="py-3 px-4 text-right font-black text-slate-900">
-                        ₹{selectedReceipt.grossAmount.toLocaleString('en-IN')}
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot className="bg-slate-50 font-semibold text-slate-700 border-t border-slate-200">
-                    <tr>
-                      <td colSpan={4} className="py-2 px-4 text-right text-slate-500">{t('payments.deductions')}:</td>
-                      <td className="py-2 px-4 text-right font-mono text-slate-900">-₹{selectedReceipt.deductions.toFixed(2)}</td>
-                    </tr>
-                    <tr className="bg-emerald-50/80 text-emerald-900 text-sm">
-                      <td colSpan={4} className="py-3 px-4 text-right font-black">{t('payments.netDbtPayout')}:</td>
-                      <td className="py-3 px-4 text-right font-black text-base text-emerald-800">
-                        ₹{selectedReceipt.netAmount.toLocaleString('en-IN')}
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-
-              {/* Direct Benefit Transfer Bank Details */}
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-slate-700 uppercase tracking-wider text-[10px]">
-                    {t('payments.bankDisbursementDetails')}
-                  </span>
-                  <Badge status={selectedReceipt.status} />
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
-                  <div>
-                    <span className="text-slate-400 block text-[10px] font-sans">Method</span>
-                    <strong>{selectedReceipt.paymentMethod}</strong>
+              {/* Printable Voucher Content */}
+              <div className="overflow-y-auto p-4 sm:p-8 bg-white print:p-0" id="apmc-jform-receipt">
+                <div className="border-2 border-slate-900 p-5 sm:p-7 relative bg-white space-y-4">
+                  
+                  {/* Watermark */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.035] select-none text-slate-900 font-serif font-black text-5xl sm:text-7xl tracking-widest rotate-[-22deg] z-0">
+                    APMC FORM-J CERTIFICATE
                   </div>
-                  <div>
-                    <span className="text-slate-400 block text-[10px] font-sans">{t('payments.bankName')}</span>
-                    <strong>{selectedReceipt.bankName || 'State Bank of India'}</strong>
+
+                  {/* Top Header */}
+                  <div className="relative z-10 border-b-2 border-slate-900 pb-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                      <div className="flex-1 text-left hidden sm:block">
+                        <span className="inline-block px-2.5 py-1 border border-slate-800 text-[10px] font-black uppercase text-slate-900 tracking-wider bg-slate-50">
+                          मूल प्रति / ORIGINAL (FARMER COPY)
+                        </span>
+                        <p className="text-[10px] text-slate-500 font-mono mt-1 font-semibold">
+                          FORM-J • प्रपत्र 'जे' (नियम २४(१))
+                        </p>
+                        <p className="text-[10px] text-slate-500 font-mono">
+                          STATE MANDI BOARD ACT, 1961
+                        </p>
+                      </div>
+
+                      <div className="flex-2 flex flex-col items-center text-center">
+                        <img
+                          src="/logo.png"
+                          alt="Kisan Vyom APMC Emblem"
+                          className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-1 drop-shadow-xs"
+                        />
+                        <h1 className="text-base sm:text-lg font-black text-slate-950 uppercase tracking-tight font-serif">
+                          कृषि उपज मंडी समिति (APMC)
+                        </h1>
+                        <h2 className="text-xs sm:text-sm font-extrabold text-slate-800 tracking-wide uppercase">
+                          AGRICULTURAL PRODUCE MARKET COMMITTEE
+                        </h2>
+                        <p className="text-[11px] font-semibold text-slate-600">
+                          खाद्य, नागरिक आपूर्ति एवं उपभोक्ता मामले विभाग • Department of Food & Public Distribution
+                        </p>
+                        <div className="mt-1.5 px-3 py-0.5 bg-slate-900 text-white text-[11px] font-black uppercase tracking-wider">
+                          प्रपत्र 'जे' - ई-मंडी उपज क्रय एवं अंतिम भुगतान प्रमाणपत्र
+                        </div>
+                      </div>
+
+                      <div className="flex-1 text-right flex flex-col items-center sm:items-end">
+                        <div className="font-mono text-center tracking-[4px] font-black text-xs text-slate-800 select-none">
+                          ||| | |||| || | |||| ||| ||||
+                        </div>
+                        <span className="font-mono text-[10px] font-bold text-slate-600 tracking-wider">
+                          {selectedReceipt.paymentNumber}
+                        </span>
+                        <div className="mt-1 text-[11px] font-bold text-slate-800">
+                          <span className="text-slate-500 font-normal">Date: </span>
+                          {rFormattedDate}
+                        </div>
+                        <div className="text-[10px] font-mono text-slate-600">
+                          <span className="text-slate-500 font-normal">Time: </span>
+                          {rFormattedTime}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-slate-400 block text-[10px] font-sans">{t('payments.accountNumber')}</span>
-                    <strong>{selectedReceipt.accountNumberMasked || `XXXXXX${user?.mobile ? user.mobile.slice(-4) : '4021'}`}</strong>
+
+                  {/* Meta Strip */}
+                  <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs border border-slate-800 bg-slate-50 p-2 font-mono">
+                    <div>
+                      <span className="text-[10px] font-sans text-slate-500 block uppercase font-bold">रसीद संख्या (Receipt No)</span>
+                      <span className="font-black text-slate-900 text-xs">{selectedReceipt.paymentNumber}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-sans text-slate-500 block uppercase font-bold">दिनांक (Date of Issue)</span>
+                      <span className="font-black text-slate-900 text-xs">{rFormattedDate}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-sans text-slate-500 block uppercase font-bold">क्रय एजेंसी (Procuring Agency)</span>
+                      <span className="font-black text-emerald-900 text-xs">HAFED / FCI CENTRAL POOL</span>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <span className="text-[10px] font-sans text-slate-500 block uppercase font-bold">भुगतान स्थिति (Status)</span>
+                      <span className="font-black text-emerald-800 text-xs uppercase">{selectedReceipt.status}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-slate-400 block text-[10px] font-sans">{t('payments.utrNumber')}</span>
-                    <strong className="text-emerald-700">{selectedReceipt.utrNumber || 'PENDING'}</strong>
+
+                  {/* Mandi & Farmer Particulars */}
+                  <div className="relative z-10 border border-slate-800 text-xs">
+                    <div className="bg-slate-800 text-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider flex justify-between items-center">
+                      <span>१. क्रेता मंडी एवं विक्रेता किसान विवरण (Mandi & Farmer Details)</span>
+                      <span className="text-[10px] font-normal text-slate-300">Verified e-Kharid Record</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-300 p-3 bg-white gap-3">
+                      <div className="space-y-1 sm:pr-2">
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">क्रेता मंडी केंद्र (Buyer APMC Centre):</span>
+                          <span className="font-black text-slate-900">{selectedReceipt.centreName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">स्थान / जिला (District & State):</span>
+                          <span className="font-semibold text-slate-800">
+                            {selectedReceipt.centreDistrict || 'Karnal'}, {selectedReceipt.centreState || 'Haryana'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">मंडी कोड (Centre Code):</span>
+                          <span className="font-mono font-bold text-slate-800">APMC-HR-KRN-01</span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1 sm:pl-2">
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">विक्रेता किसान (Seller Farmer):</span>
+                          <span className="font-black text-slate-950 text-sm">{selectedReceipt.farmerName || user?.fullName}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">किसान पंजीयन (Farmer ID):</span>
+                          <span className="font-mono font-bold text-slate-900">
+                            FMR-HR-{user?.mobile ? user.mobile.slice(-6) : '946420'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">मोबाइल (Mobile):</span>
+                          <span className="font-mono font-bold text-slate-800">
+                            +91 {selectedReceipt.farmerMobile || user?.mobile}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-500">निवास (Address):</span>
+                          <span className="font-semibold text-slate-800">
+                            {[user?.village, user?.district, user?.state].filter(Boolean).join(', ') || 'Karnal, Haryana'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Scale & Weighment Reading */}
+                  <div className="relative z-10 border border-slate-800 text-xs">
+                    <div className="bg-slate-800 text-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider flex justify-between items-center">
+                      <span>२. तुलाई माप व सकल/शुद्ध वजन विवरण (Weighment Scale Telemetry)</span>
+                      <span className="text-[10px] font-mono text-slate-300">Certified Electronic Scale WB-04</span>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full border-collapse text-left">
+                        <thead>
+                          <tr className="bg-slate-100 border-b border-slate-800 text-[10px] font-black uppercase text-slate-700 font-sans">
+                            <th className="py-2 px-3 border-r border-slate-300">उपज (Crop Description)</th>
+                            <th className="py-2 px-3 border-r border-slate-300 text-right">सकल वजन (Gross Wt)</th>
+                            <th className="py-2 px-3 border-r border-slate-300 text-right">खाली वजन (Tare Wt)</th>
+                            <th className="py-2 px-3 border-r border-slate-300 text-right">शुद्ध उपज (Net Wt)</th>
+                            <th className="py-2 px-3 border-r border-slate-300 text-right">बोरी कटौती (Gunny Cut)</th>
+                            <th className="py-2 px-3 text-right bg-slate-200/80 font-black text-slate-950">
+                              स्वीकृत शुद्ध वजन (Final Billed Wt)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 font-mono">
+                          <tr className="bg-white">
+                            <td className="py-2.5 px-3 border-r border-slate-300 font-sans font-black text-slate-900">
+                              {selectedReceipt.cropName}
+                              <span className="block text-[10px] text-slate-500 font-normal">
+                                Packing: {rBags} Bags (50kg std)
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 border-r border-slate-300 text-right text-slate-800">
+                              {rGrossKg.toLocaleString('en-IN')} kg
+                            </td>
+                            <td className="py-2.5 px-3 border-r border-slate-300 text-right text-slate-800">
+                              {rTareKg.toLocaleString('en-IN')} kg
+                            </td>
+                            <td className="py-2.5 px-3 border-r border-slate-300 text-right font-bold text-slate-900">
+                              {rNetKg.toLocaleString('en-IN')} kg
+                            </td>
+                            <td className="py-2.5 px-3 border-r border-slate-300 text-right text-rose-700">
+                              -{rGunnyTare} kg
+                            </td>
+                            <td className="py-2.5 px-3 text-right bg-slate-100 font-black text-slate-950 text-sm">
+                              {rNetQty.toFixed(2)} Quintal
+                              <span className="block text-[10px] text-emerald-800 font-bold">
+                                ({rNetKg.toLocaleString('en-IN')} kg)
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Commercial MSP Billing */}
+                  <div className="relative z-10 border border-slate-800 text-xs">
+                    <div className="bg-slate-800 text-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider flex justify-between items-center">
+                      <span>३. न्यूनतम समर्थन मूल्य (MSP) एवं वित्तीय विवरण (Financial Settlement Ledger)</span>
+                      <span className="text-[10px] text-slate-300">Form-J Statutory Schedule</span>
+                    </div>
+
+                    <div className="p-3 bg-white space-y-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-1.5 border-b sm:border-b-0 sm:border-r border-slate-200 sm:pr-4 pb-2 sm:pb-0">
+                          <div className="flex justify-between text-xs">
+                            <span className="text-slate-600">सरकारी घोषित समर्थन मूल्य (MSP Rate):</span>
+                            <span className="font-mono font-bold text-slate-900">₹{selectedReceipt.ratePerUnit.toLocaleString('en-IN')} / Quintal</span>
+                          </div>
+                          <div className="flex justify-between text-xs">
+                            <span className="text-slate-600">स्वीकृत वजन (Billed Quantity):</span>
+                            <span className="font-mono font-bold text-slate-900">{rNetQty} {selectedReceipt.unit}</span>
+                          </div>
+                          <div className="flex justify-between text-xs">
+                            <span className="text-slate-600">सकल मूल्य (Gross Value):</span>
+                            <span className="font-mono font-black text-slate-900">₹{selectedReceipt.grossAmount.toLocaleString('en-IN')}</span>
+                          </div>
+                          <div className="flex justify-between text-xs text-rose-600">
+                            <span>कटौती (Refraction / Deductions):</span>
+                            <span className="font-mono font-bold">-₹{selectedReceipt.deductions.toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-200">
+                            <span>मंडी शुल्क व विकास निधि (Market Fee & RDF):</span>
+                            <span className="font-mono">₹{(selectedReceipt.grossAmount * 0.02).toLocaleString('en-IN')} (Procuring Agency Liability)</span>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 sm:pl-2">
+                          <div className="p-3 bg-emerald-50 border border-emerald-300 rounded-none text-center sm:text-right">
+                            <span className="text-[10px] font-bold text-emerald-900 uppercase tracking-wider block">
+                              अंतिम प्रत्यक्ष बैंक अंतरण राशि (NET DBT PAYABLE)
+                            </span>
+                            <p className="text-2xl font-black text-emerald-900 font-mono mt-0.5">
+                              ₹{selectedReceipt.netAmount.toLocaleString('en-IN')}
+                            </p>
+                            <p className="text-[11px] font-serif font-bold text-slate-700 mt-1 italic text-center sm:text-right">
+                              ({rAmountWords})
+                            </p>
+                          </div>
+
+                          <div className="text-[11px] space-y-1 font-mono bg-slate-50 p-2 border border-slate-200">
+                            <div className="flex justify-between">
+                              <span className="text-slate-500 font-sans">भुगतान माध्यम (Method):</span>
+                              <span className="font-bold text-slate-900">{selectedReceipt.paymentMethod}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-500 font-sans">बैंक (Bank Name):</span>
+                              <span className="font-bold text-slate-900">{selectedReceipt.bankName || 'State Bank of India'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-500 font-sans">खाता (Account):</span>
+                              <span className="font-bold text-slate-900">
+                                {selectedReceipt.accountNumberMasked || `XXXXXX${user?.mobile ? user.mobile.slice(-4) : '4021'}`}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-slate-500 font-sans">यूटीआर / संदर्भ सं. (UTR Ref):</span>
+                              <span className="font-bold text-emerald-700">{selectedReceipt.utrNumber || 'PFMS-APBS-SETTLED'}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Signatures & Seal */}
+                  <div className="relative z-10 pt-2 border-t-2 border-slate-900">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-end text-center">
+                      <div className="space-y-1">
+                        <div className="h-12 border-b border-slate-900 w-44 mx-auto mb-1 flex items-end justify-center pb-1">
+                          <span className="text-[10px] font-serif text-slate-400 italic">
+                            {selectedReceipt.farmerName || user?.fullName}
+                          </span>
+                        </div>
+                        <p className="text-xs font-bold text-slate-900">
+                          हस्ताक्षर विक्रेता किसान
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          (Seller Farmer Signature)
+                        </p>
+                      </div>
+
+                      <div className="flex flex-col items-center justify-center">
+                        <div className="w-24 h-24 rounded-full border-2 border-dashed border-blue-800 p-1 flex items-center justify-center text-center rotate-[-8deg] shadow-xs select-none">
+                          <div className="w-full h-full rounded-full border border-blue-800 flex flex-col items-center justify-center p-1 text-[8px] font-black uppercase text-blue-900 tracking-tighter leading-tight bg-blue-50/40">
+                            <span>★ APMC MANDI ★</span>
+                            <span className="text-[9px] font-bold text-blue-950 font-serif">FORM-J VERIFIED</span>
+                            <span className="text-[7px]">PURCHASE CERTIFIED</span>
+                            <span className="text-[7px] text-blue-800 font-mono">{rFormattedDate}</span>
+                          </div>
+                        </div>
+                        <span className="text-[9px] font-mono text-slate-400 mt-1 uppercase">
+                          Official APMC Digital Seal
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-center gap-3">
+                          <div className="w-16 h-16 p-1 bg-white border border-slate-900 flex-shrink-0 flex items-center justify-center">
+                            <svg viewBox="0 0 100 100" className="w-full h-full">
+                              <rect width="100" height="100" fill="white" />
+                              <rect x="8" y="8" width="28" height="28" fill="#0f172a" />
+                              <rect x="14" y="14" width="16" height="16" fill="white" />
+                              <rect x="18" y="18" width="8" height="8" fill="#0f172a" />
+                              <rect x="64" y="8" width="28" height="28" fill="#0f172a" />
+                              <rect x="70" y="14" width="16" height="16" fill="white" />
+                              <rect x="74" y="18" width="8" height="8" fill="#0f172a" />
+                              <rect x="8" y="64" width="28" height="28" fill="#0f172a" />
+                              <rect x="14" y="70" width="16" height="16" fill="white" />
+                              <rect x="18" y="74" width="8" height="8" fill="#0f172a" />
+                              <rect x="42" y="12" width="12" height="12" fill="#0f172a" />
+                              <rect x="42" y="42" width="16" height="16" fill="#0f172a" />
+                              <rect x="42" y="72" width="12" height="16" fill="#0f172a" />
+                              <rect x="68" y="44" width="18" height="12" fill="#0f172a" />
+                              <rect x="68" y="72" width="18" height="16" fill="#0f172a" />
+                            </svg>
+                          </div>
+
+                          <div className="text-left">
+                            <div className="h-8 border-b border-slate-900 w-32 mb-1 flex items-end justify-center pb-0.5">
+                              <span className="text-[9px] font-mono text-slate-500 font-bold">MANDI SECRETARY</span>
+                            </div>
+                            <p className="text-xs font-bold text-slate-900">
+                              मंडी सचिव / अधिकृत अधिकारी
+                            </p>
+                            <p className="text-[10px] text-slate-500">
+                              Secretary, APMC Board
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Statutory Footer */}
+                  <div className="relative z-10 pt-3 border-t border-dashed border-slate-300 text-[10px] text-slate-500 text-justify leading-relaxed">
+                    <p>
+                      <strong>प्रमाणपत्र एवं वैधानिक सूचना:</strong> प्रमाणित किया जाता है कि उपरोक्त कृषि जिंस का वजन राजकीय इलेक्ट्रॉनिक धर्मकांटा पर सही तौला गया है तथा भारतीय मानक ब्यूरो / कृषि मंत्रालय के गुणवत्ता नियमों के अनुरूप पाया गया है। प्रपत्र 'जे' के अनुसार देय राशि सीधे बैंक खाते में प्रेषित की गई है।
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Official Seal & Signature */}
-              <div className="pt-4 flex items-center justify-between border-t border-slate-200 text-[11px] text-slate-500">
-                <div>
-                  <p className="font-bold text-slate-700">Kisan Vyom Portal</p>
-                  <p className="text-[10px]">Direct APMC Procurement & Mandi Management System</p>
-                </div>
-                <div className="text-right">
-                  <div className="w-28 h-8 border-b border-dashed border-slate-300 mx-auto mb-1"></div>
-                  <p className="font-semibold text-slate-800">Authorized Officer Seal</p>
-                  <p className="text-[10px] text-slate-400">Digitally Verified & Validated</p>
+              {/* Modal Bottom Footer (Hidden on Print) */}
+              <div className="bg-slate-100 px-6 py-3.5 border-t border-slate-300 flex items-center justify-between print:hidden">
+                <span className="text-xs text-slate-500 font-medium">
+                  Verified Government Record • Kisan Vyom Digital Mandi
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => window.print()}
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-none text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>Print Form-J Receipt</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedReceipt(null)}
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-none text-xs font-bold transition shadow-sm"
+                  >
+                    Close Receipt
+                  </button>
                 </div>
               </div>
-            </div>
 
-            {/* Modal Footer */}
-            <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end">
-              <button
-                onClick={() => setSelectedReceipt(null)}
-                className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition"
-              >
-                Close Receipt
-              </button>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 };

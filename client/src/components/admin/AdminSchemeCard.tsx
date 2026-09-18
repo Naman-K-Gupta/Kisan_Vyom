@@ -1,6 +1,6 @@
 import React from 'react';
 import { GovernmentSchemeDTO } from '@smart-farmer/shared';
-import { Sparkles, IndianRupee, Clock, ExternalLink, Edit, Trash2 } from 'lucide-react';
+import { Sparkles, IndianRupee, Clock, ExternalLink, Edit, Trash2, Landmark } from 'lucide-react';
 
 export interface AdminSchemeCardProps {
   scheme: GovernmentSchemeDTO;
@@ -20,20 +20,20 @@ export const AdminSchemeCard: React.FC<AdminSchemeCardProps> = ({
   const statusBadge = formatStatus(scheme.status);
 
   return (
-    <div className="p-5 rounded-2xl border border-slate-100 hover:border-slate-200 bg-white shadow-xs hover:shadow-sm transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="p-5 rounded-none border border-slate-100 hover:border-slate-200 bg-white shadow-xs hover:shadow-sm transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
       {/* Left Info */}
       <div className="space-y-1.5 flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
+          <span className="px-2 py-0.5 rounded-none text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
             {formatCategoryName(scheme.category)}
           </span>
           <span
-            className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${statusBadge.style}`}
+            className={`px-2 py-0.5 rounded-none text-[10px] font-black uppercase border ${statusBadge.style}`}
           >
             {statusBadge.label}
           </span>
           {scheme.isFeatured && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+            <span className="px-2 py-0.5 rounded-none text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
               <Sparkles className="w-2.5 h-2.5" /> Featured
             </span>
           )}
@@ -44,12 +44,12 @@ export const AdminSchemeCard: React.FC<AdminSchemeCardProps> = ({
         </h4>
 
         <p className="text-xs text-slate-500 flex items-center gap-1.5 truncate">
-          <span>🏛️</span>
+          <Landmark className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
           <span className="truncate">{scheme.ministry}</span>
         </p>
 
         <div className="flex items-center gap-4 flex-wrap text-xs text-slate-600 pt-1">
-          <span className="font-extrabold text-emerald-700 flex items-center gap-1 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-100">
+          <span className="font-extrabold text-emerald-700 flex items-center gap-1 bg-emerald-50 px-2.5 py-0.5 rounded-none border border-emerald-100">
             <IndianRupee className="w-3.5 h-3.5" />
             {scheme.benefitAmount}
           </span>
@@ -81,7 +81,7 @@ export const AdminSchemeCard: React.FC<AdminSchemeCardProps> = ({
           href={scheme.applicationUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
+          className="p-2 rounded-none border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
           title="Open Application Portal"
         >
           <ExternalLink className="w-4 h-4" />
@@ -90,7 +90,7 @@ export const AdminSchemeCard: React.FC<AdminSchemeCardProps> = ({
         <button
           type="button"
           onClick={() => onEdit(scheme)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs font-bold transition active:scale-95"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-none bg-slate-100 hover:bg-slate-200/80 text-slate-800 text-xs font-bold transition active:scale-95"
         >
           <Edit className="w-3.5 h-3.5 text-slate-600" />
           <span>Edit & Amend</span>
@@ -99,7 +99,7 @@ export const AdminSchemeCard: React.FC<AdminSchemeCardProps> = ({
         <button
           type="button"
           onClick={() => onDelete(scheme.id, scheme.title)}
-          className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 transition active:scale-95 border border-rose-100"
+          className="p-2 rounded-none bg-rose-50 hover:bg-rose-100 text-rose-700 transition active:scale-95 border border-rose-100"
           title="Delete / Archive Scheme"
         >
           <Trash2 className="w-4 h-4" />

@@ -58,7 +58,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 transition-all active:scale-95 shadow-sm"
+        className="flex items-center gap-2 px-3.5 py-1.5 rounded-none text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 transition-all active:scale-95 shadow-sm"
         title="22 Recognized Indian Languages / भाषा चुनें"
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -75,14 +75,14 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-white shadow-2xl border border-slate-200/90 py-2 z-50 animate-fade-in divide-y divide-slate-100 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-72 rounded-none bg-white shadow-2xl border border-slate-200/90 py-2 z-50 animate-fade-in divide-y divide-slate-100 overflow-hidden">
           {/* Header */}
           <div className="px-3.5 pb-2">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-800">
                 Indian Languages / भाषाएं
               </span>
-              <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-[10px] font-bold text-emerald-700">
+              <span className="px-1.5 py-0.5 rounded-none bg-emerald-50 text-[10px] font-bold text-emerald-700">
                 22 Official + EN
               </span>
             </div>
@@ -96,7 +96,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search language / खोजें..."
-                className="w-full pl-8 pr-7 py-1.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-slate-400 bg-slate-50/70"
+                className="w-full pl-8 pr-7 py-1.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-slate-400 bg-slate-50/70"
               />
               {searchQuery && (
                 <button
@@ -131,7 +131,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span
-                        className={`w-7 h-5 rounded text-[10px] font-bold flex items-center justify-center flex-shrink-0 ${
+                        className={`w-7 h-5 rounded-none text-[10px] font-bold flex items-center justify-center flex-shrink-0 ${
                           isSelected
                             ? 'bg-emerald-200/70 text-emerald-900'
                             : 'bg-slate-100 text-slate-600'

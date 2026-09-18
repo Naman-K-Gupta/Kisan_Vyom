@@ -97,7 +97,7 @@ export const Badge: React.FC<BadgeProps> = ({ status, className = '' }) => {
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getColors()} ${className}`}
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-semibold border ${getColors()} ${className}`}
     >
       {getTranslatedText(status)}
     </span>

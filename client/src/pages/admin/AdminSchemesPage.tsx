@@ -267,7 +267,7 @@ export const AdminSchemesPage: React.FC = () => {
         <button
           type="button"
           onClick={openCreateModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-extrabold shadow-md active:scale-95 transition-all self-start sm:self-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-none bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-extrabold shadow-md active:scale-95 transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>{t('schemes.addNewPolicy', 'Publish New Policy')}</span>
@@ -275,18 +275,18 @@ export const AdminSchemesPage: React.FC = () => {
       </div>
 
       {/* Main Console Box */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-card space-y-6">
+      <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card space-y-6">
         {/* Live Pulsing Sync Indicator Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-100">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-xs font-bold text-slate-700">Central & State Policy Feed</span>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold shadow-xs">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold shadow-xs">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-none bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-none h-2 w-2 bg-emerald-600"></span>
               </span>
               <span>
-                🟢 Live Ministry Sync • {lastSchemeUpdate ? `Updated ${lastSchemeUpdate}` : 'Verified Today'}
+                Live Ministry Sync • {lastSchemeUpdate ? `Updated ${lastSchemeUpdate}` : 'Verified Today'}
               </span>
             </div>
           </div>
@@ -298,7 +298,7 @@ export const AdminSchemesPage: React.FC = () => {
 
         {/* Quick Metrics Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+          <div className="p-4 rounded-none bg-slate-50 border border-slate-100">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
               Total Policies
             </span>
@@ -306,7 +306,7 @@ export const AdminSchemesPage: React.FC = () => {
             <span className="text-[10px] text-slate-500 mt-0.5 block">Configured statewide</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100">
+          <div className="p-4 rounded-none bg-emerald-50/70 border border-emerald-100">
             <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
               Application Open
             </span>
@@ -314,7 +314,7 @@ export const AdminSchemesPage: React.FC = () => {
             <span className="text-[10px] text-emerald-700 mt-0.5 block">Accepting farmer applications</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-100">
+          <div className="p-4 rounded-none bg-rose-50/70 border border-rose-100">
             <span className="text-[10px] font-bold text-rose-800 uppercase tracking-wider block">
               Closing Soon
             </span>
@@ -322,7 +322,7 @@ export const AdminSchemesPage: React.FC = () => {
             <span className="text-[10px] text-rose-700 mt-0.5 block">Urgent action needed</span>
           </div>
 
-          <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100">
+          <div className="p-4 rounded-none bg-purple-50/70 border border-purple-100">
             <span className="text-[10px] font-bold text-purple-800 uppercase tracking-wider block">
               New Amendments
             </span>
@@ -341,7 +341,7 @@ export const AdminSchemesPage: React.FC = () => {
               value={schemeSearch}
               onChange={(e) => setSchemeSearch(e.target.value)}
               placeholder="Search by scheme title, ministry, or benefit..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+              className="w-full pl-10 pr-4 py-2.5 rounded-none border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
             />
             {schemeSearch && (
               <button
@@ -360,7 +360,7 @@ export const AdminSchemesPage: React.FC = () => {
             <select
               value={schemeCategoryFilter}
               onChange={(e) => setSchemeCategoryFilter(e.target.value)}
-              className="px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 bg-white focus:ring-2 focus:ring-emerald-500"
+              className="px-3 py-2 rounded-none border border-slate-200 text-xs font-bold text-slate-700 bg-white focus:ring-2 focus:ring-emerald-500"
             >
               {schemeCategories.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -375,7 +375,7 @@ export const AdminSchemesPage: React.FC = () => {
         {isSchemesLoading ? (
           <div className="py-12 text-center text-xs text-slate-400">Loading government schemes...</div>
         ) : filteredSchemes.length === 0 ? (
-          <div className="py-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          <div className="py-12 text-center bg-slate-50 rounded-none border border-dashed border-slate-200">
             <Layers className="w-10 h-10 text-slate-300 mx-auto mb-2" />
             <p className="text-sm font-bold text-slate-700">No matching policies found</p>
             <p className="text-xs text-slate-400 mt-1">Adjust search or clear filter to view active schemes.</p>

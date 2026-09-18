@@ -13,5 +13,6 @@ router.get('/managers', AdminController.getAllManagers);
 router.post('/managers/assign', AdminController.assignManager);
 router.get('/procurement-records', AdminController.getDailyProcurementRecords);
 router.get('/audit-logs', AdminController.getAuditLogs);
+router.post('/create-privileged-user', AdminController.createPrivilegedUser);
 
 export default router;

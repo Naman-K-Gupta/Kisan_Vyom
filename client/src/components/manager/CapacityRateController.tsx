@@ -35,15 +35,15 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
   const headroom = Math.max(0, totalCapacity - capacityUsage);
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card">
+    <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
       <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
           <Sliders className="w-4 h-4 text-purple-600" />
           Live Centre Capacity & Rate Controller
         </h3>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+          <span className="w-2 h-2 rounded-none bg-emerald-500 animate-ping" />
+          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-none">
             Live Synced
           </span>
         </div>
@@ -51,9 +51,9 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
 
       {/* Real-Time Lot Inflow Notification */}
       {lastCapacityUpdate && (
-        <div className="mt-4 p-3 rounded-2xl bg-emerald-50/90 border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between animate-fade-in shadow-sm">
+        <div className="mt-4 p-3 rounded-none bg-emerald-50/90 border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between animate-fade-in shadow-sm">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-xs shrink-0">
+            <div className="w-7 h-7 rounded-none bg-emerald-600 text-white flex items-center justify-center font-black text-xs shrink-0">
               +{lastCapacityUpdate.quantity}
             </div>
             <div>
@@ -66,14 +66,14 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
               </span>
             </div>
           </div>
-          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-none">
             Real-Time
           </span>
         </div>
       )}
 
       {/* Live Silo Utilization Gauge */}
-      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 mt-4">
+      <div className="p-4 rounded-none bg-slate-50 border border-slate-100 space-y-2 mt-4">
         <div className="flex items-center justify-between text-xs font-bold">
           <span className="text-slate-700 flex items-center gap-1.5">
             <Scale className="w-3.5 h-3.5 text-slate-500" />
@@ -91,9 +91,9 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
             {percentage}% Capacity
           </span>
         </div>
-        <div className="w-full h-3 bg-slate-200/80 rounded-full overflow-hidden p-0.5">
+        <div className="w-full h-3 bg-slate-200/80 rounded-none overflow-hidden p-0.5">
           <div
-            className={`h-full rounded-full transition-all duration-700 ease-out ${
+            className={`h-full rounded-none transition-all duration-700 ease-out ${
               ratio > 0.9
                 ? 'bg-gradient-to-r from-amber-500 to-rose-600'
                 : ratio > 0.75
@@ -142,7 +142,7 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
               min="100"
               value={totalCapacity}
               onChange={(e) => onTotalCapacityChange(parseFloat(e.target.value) || 100)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold"
+              className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-semibold"
             />
           </div>
 
@@ -155,7 +155,7 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
               min="1"
               value={processingRate}
               onChange={(e) => onProcessingRateChange(parseFloat(e.target.value) || 1)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold"
+              className="w-full px-3 py-2 rounded-none border border-slate-200 text-xs font-semibold"
             />
           </div>
         </div>
@@ -163,7 +163,7 @@ export const CapacityRateController: React.FC<CapacityRateControllerProps> = ({
         <button
           type="submit"
           disabled={isUpdatingCapacity}
-          className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-98"
+          className="w-full py-2.5 rounded-none bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-98"
         >
           {isUpdatingCapacity ? (
             <>

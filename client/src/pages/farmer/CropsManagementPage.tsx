@@ -144,7 +144,7 @@ export const CropsManagementPage: React.FC = () => {
             });
             setIsAddModalOpen(true);
           }}
-          className="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2"
+          className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all flex items-center gap-2"
         >
           <Plus className="w-4 h-4" /> {t('crops.addNewCrop')}
         </button>
@@ -164,13 +164,13 @@ export const CropsManagementPage: React.FC = () => {
           {farmerCrops.map((c) => (
             <div
               key={c.id}
-              className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
+              className="bg-white rounded-none p-6 border border-slate-100 shadow-card hover:shadow-soft transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg">
-                      🌾
+                    <div className="w-10 h-10 rounded-none bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg">
+                      <Wheat className="w-5 h-5 text-emerald-700" />
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-slate-900">{c.crop?.name}</h3>
@@ -220,14 +220,14 @@ export const CropsManagementPage: React.FC = () => {
               <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
                 <button
                   onClick={() => openEditModal(c)}
-                  className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
+                  className="p-2 rounded-none text-slate-600 hover:bg-slate-100 transition-colors"
                   title={t('crops.editCrop')}
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(c.id)}
-                  className="p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors"
+                  className="p-2 rounded-none text-rose-600 hover:bg-rose-50 transition-colors"
                   title={t('crops.deleteCrop')}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -253,7 +253,7 @@ export const CropsManagementPage: React.FC = () => {
               value={formData.cropId}
               onChange={(e) => setFormData({ ...formData, cropId: e.target.value })}
               required
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
             >
               {masterCrops.map((mc) => (
                 <option key={mc.id} value={mc.id}>
@@ -274,7 +274,7 @@ export const CropsManagementPage: React.FC = () => {
                 placeholder="e.g. Sharbati HD-2967"
                 value={formData.variety}
                 onChange={(e) => setFormData({ ...formData, variety: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -291,7 +291,7 @@ export const CropsManagementPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, landArea: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -306,7 +306,7 @@ export const CropsManagementPage: React.FC = () => {
                 required
                 value={formData.sowingDate}
                 onChange={(e) => setFormData({ ...formData, sowingDate: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -321,7 +321,7 @@ export const CropsManagementPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, expectedHarvestDate: e.target.value })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -340,7 +340,7 @@ export const CropsManagementPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, expectedProduction: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -351,7 +351,7 @@ export const CropsManagementPage: React.FC = () => {
               <select
                 value={formData.unit}
                 onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
               >
                 <option value="Quintal">Quintal</option>
                 <option value="Kg">Kg</option>
@@ -364,13 +364,13 @@ export const CropsManagementPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsAddModalOpen(false)}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2.5 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
               {t('crops.cancel')}
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
+              className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
             >
               {t('crops.saveCropRecord')}
             </button>
@@ -395,7 +395,7 @@ export const CropsManagementPage: React.FC = () => {
                 required
                 value={formData.variety}
                 onChange={(e) => setFormData({ ...formData, variety: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -412,7 +412,7 @@ export const CropsManagementPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, landArea: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
           </div>
@@ -431,7 +431,7 @@ export const CropsManagementPage: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, expectedProduction: parseFloat(e.target.value) || 0 })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -442,7 +442,7 @@ export const CropsManagementPage: React.FC = () => {
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-none border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
               >
                 <option value="PLANNED">PLANNED</option>
                 <option value="SOWN">SOWN</option>
@@ -457,13 +457,13 @@ export const CropsManagementPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setEditingCrop(null)}
-              className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              className="px-4 py-2.5 rounded-none border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
             >
               {t('crops.cancel')}
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
+              className="px-5 py-2.5 rounded-none bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
             >
               {t('crops.updateCropBtn')}
             </button>

@@ -8,12 +8,11 @@ interface FarmerWeatherCardProps {
 }
 
 /**
- * Humanized Weather & Micro-climate Telemetry card.
- * Displays local weather, temperature, humidity, wind speed, and agricultural advisories.
+ * Local weather and micro-climate conditions card for agricultural planning.
  */
 export const FarmerWeatherCard: React.FC<FarmerWeatherCardProps> = ({ weather, t }) => {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-card">
+    <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
           {t('weather.weatherTitle', 'Live Weather Advisory')}
@@ -43,7 +42,7 @@ export const FarmerWeatherCard: React.FC<FarmerWeatherCardProps> = ({ weather, t
         </div>
       ) : (
         <div className="mt-4 text-xs text-slate-400 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+          <span className="w-2 h-2 rounded-none bg-amber-400 animate-ping" />
           {t('weather.loadingWeather', 'Syncing meteorological telemetry...')}
         </div>
       )}

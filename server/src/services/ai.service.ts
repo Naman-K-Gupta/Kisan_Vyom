@@ -302,17 +302,17 @@ Provide concise, actionable answers with dosages, timings, and MSP rates.`;
       q === 'help' ||
       q.includes('madad')
     ) {
-      return `🌾 **Namaste! I am Kisan Sahayak (किसान सहायक)**, your dedicated AI agricultural advisor and APMC procurement assistant.
+      return ` **Namaste! I am Kisan Sahayak (किसान सहायक)**, your dedicated AI agricultural advisor and APMC procurement assistant.
 
 Here is what I can help you with right now:
-- 💰 **MSP & Market Prices**: Real-time Minimum Support Price rates for Wheat, Paddy, Mustard, Cotton & more.
-- 🏢 **Mandi Status & Wait Times**: Live queue status and available capacity at your local procurement centres.
-- 🌾 **Crop Health & Disease Doctor**: Instant remedy protocols for Yellow Rust, Paddy Blast, Leaf Spots, Bollworms & Aphids.
-- 💧 **Irrigation & Weather**: Critical watering stages (e.g. CRI stage) and rain advisories.
-- 💳 **DBT Payments & Form-J**: Check your direct-to-bank settlement status and procurement receipts.
-- 🏛️ **Govt. Schemes**: Details on PM-KISAN (₹6,000/yr), PM Fasal Bima Yojana (PMFBY), and machinery subsidies.
+-  **MSP & Market Prices**: Real-time Minimum Support Price rates for Wheat, Paddy, Mustard, Cotton & more.
+-  **Mandi Status & Wait Times**: Live queue status and available capacity at your local procurement centres.
+-  **Crop Health & Disease Doctor**: Instant remedy protocols for Yellow Rust, Paddy Blast, Leaf Spots, Bollworms & Aphids.
+-  **Irrigation & Weather**: Critical watering stages (e.g. CRI stage) and rain advisories.
+-  **DBT Payments & Form-J**: Check your direct-to-bank settlement status and procurement receipts.
+- ️ **Govt. Schemes**: Details on PM-KISAN (₹6,000/yr), PM Fasal Bima Yojana (PMFBY), and machinery subsidies.
 
-👉 *Feel free to type your question, or click any of the suggestion chips below!*`;
+ *Feel free to type your question, or click any of the suggestion chips below!*`;
     }
 
     // 2. Yellow Rust in Wheat (Puccinia striiformis)
@@ -323,21 +323,21 @@ Here is what I can help you with right now:
       q.includes('puccinia') ||
       q.includes('yellow powder')
     ) {
-      return `🌾 **Advisory: Yellow Rust / Peela Rataua in Wheat (Puccinia striiformis)**
+      return ` **Advisory: Yellow Rust / Peela Rataua in Wheat (Puccinia striiformis)**
 
 Yellow Rust is an airborne fungal disease favored by cool temperatures (10°C - 18°C) and high morning humidity/fog.
 
-🔍 **Symptoms to Confirm in Field**:
+ **Symptoms to Confirm in Field**:
 - Linear, bright yellow/orange powdery pustules arranged in parallel stripes along leaf veins.
 - When rubbed between your fingers, yellow fungal powder (urediniospores) leaves an orange mark.
 - Leads to shriveled grains and severe yield loss if untreated.
 
-🧪 **Immediate Chemical Control (ICAR Recommended)**:
+ **Immediate Chemical Control (ICAR Recommended)**:
 1. **Propiconazole 25% EC (e.g., Tilt / Bumper)** @ **200 ml in 200 Litres of water per acre**.
 2. *Alternative*: **Tebuconazole 25.9% EC (Folicur)** @ **200 ml per acre** in 200 Litres of water.
 3. *Application Tip*: Use a knapsack sprayer fitted with a flat-fan or hollow-cone nozzle. Spray on a clear, sunny morning after dew has dried. Repeat after 12-15 days if cloudy, humid weather persists.
 
-🌱 **Cultural & Preventive Measures**:
+ **Cultural & Preventive Measures**:
 - Avoid excessive urea/nitrogen fertilizer, which makes leaf tissues softer and more vulnerable to spore infection.
 - Plant rust-resistant varieties next season (e.g. DBW-187, DBW-303, PBW-725, HD-3226).
 - *Notice*: Consult your local Krishi Vigyan Kendra (KVK) for specific field-level pesticide tank mixtures.`;
@@ -352,7 +352,7 @@ Yellow Rust is an airborne fungal disease favored by cool temperatures (10°C - 
       q.includes('chlorosis') ||
       q.includes('yellowing')
     ) {
-      return `🌿 **Diagnostic Guide: Why are your crop leaves turning yellow?**
+      return ` **Diagnostic Guide: Why are your crop leaves turning yellow?**
 
 Leaf yellowing (chlorosis) usually stems from one of 4 specific root causes:
 
@@ -382,7 +382,7 @@ Leaf yellowing (chlorosis) usually stems from one of 4 specific root causes:
       (q.includes('paddy') && (q.includes('disease') || q.includes('bimari') || q.includes('rot'))) ||
       (q.includes('dhaan') && q.includes('bimari'))
     ) {
-      return `🌾 **Advisory: Paddy / Rice Disease Management Protocols**
+      return ` **Advisory: Paddy / Rice Disease Management Protocols**
 
 1. **Rice Blast (Pyricularia oryzae)**:
    - *Symptoms*: Spindle-shaped/diamond lesions with brown margins and grey-ash centres on leaves and neck.
@@ -396,7 +396,7 @@ Leaf yellowing (chlorosis) usually stems from one of 4 specific root causes:
    - *Symptoms*: Irregular greenish-grey water-soaked oval spots on leaf sheaths near the waterline.
    - *Treatment*: Spray **Validamycin 3% L** @ 400 ml/acre or **Azoxystrobin 18.2% + Difenoconazole 11.4% SC** @ 200 ml/acre.
 
-💡 *Field Tip: Drain field water for 2-3 days (Alternate Wetting and Drying) to drastically reduce fungal and bacterial spore multiplication.*`;
+ *Field Tip: Drain field water for 2-3 days (Alternate Wetting and Drying) to drastically reduce fungal and bacterial spore multiplication.*`;
     }
 
     // 5. Cotton Pests (Pink Bollworm & Whitefly)
@@ -407,7 +407,7 @@ Leaf yellowing (chlorosis) usually stems from one of 4 specific root causes:
       q.includes('chitti makhi') ||
       (q.includes('cotton') && (q.includes('pest') || q.includes('keeda') || q.includes('insect')))
     ) {
-      return `🌱 **Advisory: Cotton Pest Management (Pink Bollworm & Whitefly)**
+      return ` **Advisory: Cotton Pest Management (Pink Bollworm & Whitefly)**
 
 1. **Pink Bollworm (Pectinophora gossypiella)**:
    - *Early Detection*: Install **5 Pheromone Traps (PheroSensor) per acre** at canopy height. If catch exceeds 8 moths/trap/night for 3 consecutive days, threshold is crossed.
@@ -425,13 +425,13 @@ Leaf yellowing (chlorosis) usually stems from one of 4 specific root causes:
       q.includes('chepa') ||
       (q.includes('mustard') && (q.includes('pest') || q.includes('insect') || q.includes('keeda')))
     ) {
-      return `🌼 **Advisory: Mustard Aphid (Lipaphis erysimi / Mahu / Chepa) Control**
+      return ` **Advisory: Mustard Aphid (Lipaphis erysimi / Mahu / Chepa) Control**
 
 Aphids suck cell sap from tender floral buds, siliquae (pods), and leaves, causing stunted pods and reduced oil yield.
 
-🧪 **Recommended Control Measures**:
+ **Recommended Control Measures**:
 - **Chemical Spray**: Apply **Dimethoate 30% EC (Rogor)** @ **250 - 350 ml per acre** or **Thiamethoxam 25% WG** @ **80 grams per acre** mixed in 150-200 Litres of water.
-- ⚠️ **Crucial Honeybee Protection**: Always spray **late in the afternoon (after 3:30 PM)** when bees and pollinators have completed active foraging.
+- ️ **Crucial Honeybee Protection**: Always spray **late in the afternoon (after 3:30 PM)** when bees and pollinators have completed active foraging.
 - **Organic Remedy**: Spray 5% Neem Seed Kernel Extract (NSKE) or Neem Oil 1500 ppm @ 1L/acre at initial nymph emergence.`;
     }
 
@@ -457,10 +457,10 @@ Aphids suck cell sap from tender floral buds, siliquae (pods), and leaves, causi
         mspList = `- **Wheat (Kanak)**: **₹2,425** / Quintal (Rabi 2025-26)\n- **Paddy (Grade A)**: **₹2,320** / Quintal\n- **Mustard / Rapeseed**: **₹5,950** / Quintal\n- **Cotton (Medium Staple)**: **₹7,121** / Quintal\n- **Gram (Chana)**: **₹5,650** / Quintal\n`;
       }
 
-      return `💰 **Official Government Minimum Support Price (MSP) Rates**:
+      return ` **Official Government Minimum Support Price (MSP) Rates**:
 
 ${mspList}
-📋 **Key Procurement Guidelines for Farmers**:
+ **Key Procurement Guidelines for Farmers**:
 1. **Moisture Verification**: Wheat must be below **12% moisture**, and Paddy below **17% moisture** to qualify for 100% full MSP payment without dockage.
 2. **Direct Bank Settlement**: Payments are processed via Direct Benefit Transfer (DBT) straight into your bank account within **24 to 48 hours** of weighbridge acceptance.
 3. **Avoid Middleman Cuts**: Book your slot online in the portal to deliver directly to the government APMC centre and receive your official Form-J receipt.`;
@@ -489,10 +489,10 @@ ${mspList}
         centreText = `- **Ludhiana APMC Grain Market**: Status: \`OPEN\` | Intake: 4,200 Qtl free\n- **Khanna Asia Grain Hub**: Status: \`OPEN\` | Intake: 8,500 Qtl free\n- **Karnal APMC Complex**: Status: \`OPEN\` | Intake: 5,100 Qtl free\n`;
       }
 
-      return `🏢 **Active Procurement Centres & Live Mandi Capacity**:
+      return ` **Active Procurement Centres & Live Mandi Capacity**:
 
 ${centreText}
-💡 **Procurement Advice**:
+ **Procurement Advice**:
 - We recommend booking your gate pass slot between **8:00 AM and 11:00 AM** to experience the shortest vehicle weighbridge lines.
 - Ensure your trolley grain moisture is tested before dispatch to prevent turnbacks.
 - You can reserve your entry token right now under the **"Procurement Centres"** tab in your dashboard!`;
@@ -510,7 +510,7 @@ ${centreText}
     ) {
       if (ctx.activeToken) {
         const t = ctx.activeToken;
-        return `🎫 **Your Active Procurement Slot Details**:
+        return ` **Your Active Procurement Slot Details**:
 
 - **Token Number**: \`${t.tokenNumber}\`
 - **Procurement Centre**: **${t.centre?.name || 'Assigned APMC Centre'}**
@@ -518,10 +518,10 @@ ${centreText}
 - **Status**: \`${t.status}\`
 - **Queue Position**: #${t.position || 1} (Est. Wait: ${t.estimatedWaitMinutes || 15} mins)
 
-👉 *You can view your QR Gate Pass and live truck position anytime under the **Live Queue Tracker** tab.*`;
+ *You can view your QR Gate Pass and live truck position anytime under the **Live Queue Tracker** tab.*`;
       }
 
-      return `🎫 **Procurement Slot Booking Assistance**:
+      return ` **Procurement Slot Booking Assistance**:
 
 You currently do not have an active queue token in the system.
 
@@ -549,10 +549,10 @@ You currently do not have an active queue token in the system.
         const totalCleared = ctx.payments
           .filter((p: any) => p.status === 'PAID' || p.status === 'COMPLETED')
           .reduce((sum: number, p: any) => sum + (p.netAmount || p.grossAmount || 0), 0);
-        paymentSummary = `\n💰 **Your Account Status**: Total Cleared DBT Payout: **₹${totalCleared.toLocaleString('en-IN')}** across ${ctx.payments.length} procurement settlements.\n`;
+        paymentSummary = `\n **Your Account Status**: Total Cleared DBT Payout: **₹${totalCleared.toLocaleString('en-IN')}** across ${ctx.payments.length} procurement settlements.\n`;
       }
 
-      return `💳 **Government Direct Benefit Transfer (DBT) & Payment Guide**:
+      return `**Government Direct Benefit Transfer (DBT) & Payment Guide**:
 ${paymentSummary}
 - **Payment Timeline**: Once your crop is weighed and Fair Average Quality (FAQ) parameters are approved at the mandi, DBT payout is initiated within **24 to 48 hours**.
 - **Aadhaar Seeding**: Money is credited directly via PFMS into your Aadhaar-linked primary bank account.
@@ -570,11 +570,11 @@ ${paymentSummary}
       q.includes('khad') ||
       q.includes('dosage')
     ) {
-      return `🌱 **Recommended Fertilizer & Nutrient Management (Wheat & Rabi Crops)**
+      return `**Recommended Fertilizer & Nutrient Management (Wheat & Rabi Crops)**
 
 Recommended General Dose for High-Yield Wheat: **120 kg N : 60 kg P2O5 : 40 kg K2O per hectare** (Approx. per acre: 55 kg DAP + 25 kg MOP + 110 kg Urea).
 
-📅 **Application Schedule by Stage**:
+**Application Schedule by Stage**:
 1. **Basal Dose (At Sowing)**:
    - Apply 100% of DAP (approx. 55 kg/acre) + 100% of MOP (25 kg/acre) + 1/3rd of Urea (approx. 35 kg/acre) placed 5 cm below the seed.
 2. **First Top Dressing (21-25 Days - CRI Stage)**:
@@ -582,7 +582,7 @@ Recommended General Dose for High-Yield Wheat: **120 kg N : 60 kg P2O5 : 40 kg K
 3. **Second Top Dressing (40-45 Days - Tillering Stage)**:
    - Apply remaining 1/3rd of Urea before the second irrigation.
 
-⚠️ **Important Agronomic Rule**:
+**Important Agronomic Rule**:
 - **Zinc Deficiency**: Apply Zinc Sulphate 33% @ 5 kg/acre.
 - **Never mix Zinc Sulphate directly with DAP** in the same tank/bucket, as they chemically react to form insoluble Zinc Phosphate which plants cannot absorb.`;
     }
@@ -596,16 +596,16 @@ Recommended General Dose for High-Yield Wheat: **120 kg N : 60 kg P2O5 : 40 kg K
       q.includes('sinchai') ||
       q.includes('should i irrigate')
     ) {
-      return `💧 **Smart Irrigation Advisory**:
+      return `**Smart Irrigation Advisory**:
 
-🌾 **Critical Growth Stages for Wheat Irrigation**:
+**Critical Growth Stages for Wheat Irrigation**:
 1. **Crown Root Initiation (CRI)** (20 - 25 Days After Sowing): **Most Critical!** Missing this irrigation causes major tiller abortion and up to 30% yield loss.
 2. **Tillering Stage** (40 - 45 DAS).
 3. **Late Jointing Stage** (60 - 65 DAS).
 4. **Flowering Stage** (80 - 85 DAS).
 5. **Milking / Grain Filling** (100 - 105 DAS).
 
-🌦️ **Today's Weather Recommendation**:
+**Today's Weather Recommendation**:
 - Always check the **Weather Widget** on your dashboard before starting tube wells or canal gates.
 - If probability of rainfall exceeds **40%** in the next 24-48 hours, **delay irrigation** to conserve water and prevent crop lodging (plants falling flat due to wet soil under high winds).
 - Avoid irrigating during afternoons to minimize evaporative losses; prefer morning or dusk hours.`;
@@ -625,7 +625,7 @@ Recommended General Dose for High-Yield Wheat: **120 kg N : 60 kg P2O5 : 40 kg K
       q.includes('scheme') ||
       q.includes('yojana')
     ) {
-      return `🏛️ **Major Central & State Agricultural Welfare Schemes**:
+      return `**Major Central & State Agricultural Welfare Schemes**:
 
 1. **PM-KISAN (Pradhan Mantri Kisan Samman Nidhi)**:
    - ₹6,000 per year provided in 3 equal installments of ₹2,000 via DBT.
@@ -652,7 +652,7 @@ Recommended General Dose for High-Yield Wheat: **120 kg N : 60 kg P2O5 : 40 kg K
       q.includes('standards') ||
       q.includes('deduction')
     ) {
-      return `⚖️ **APMC Fair Average Quality (FAQ) Moisture & Purity Norms**:
+      return `**Fair Average Quality (FAQ) Moisture & Purity Norms**:
 
 To ensure 100% of your produce is accepted at full MSP without deductions:
 
@@ -660,14 +660,14 @@ To ensure 100% of your produce is accepted at full MSP without deductions:
 - **Paddy (Dhaan)**: Maximum permissible moisture is **17%**.
 - **Mustard / Rapeseed**: Maximum permissible moisture is **8%**.
 
-🌾 **Pre-Mandi Harvest Preparation Checklist**:
+**Pre-Mandi Harvest Preparation Checklist**:
 1. Sun-dry your harvested grains on clean tarpaulins for 1 to 2 days before hauling to the mandi.
 2. Winnow and screen grain to remove chaff, dust, weed seeds, and broken kernels (foreign matter must not exceed 0.75%).
 3. Use clean gunny bags or covered trolleys to prevent dew and transit contamination.`;
     }
 
     // 15. Intelligent Fallback for specific agricultural queries
-    return `🌾 **Kisan Sahayak Advisory**:
+    return `**Kisan Sahayak Advisory**:
 
 Regarding your query: *"${message}"*
 

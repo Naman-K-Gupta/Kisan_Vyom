@@ -9,7 +9,8 @@ export const registerSchema = z.object({
   email: z.string().email('Invalid email address').optional().or(z.literal('')),
   mobile: z.string().regex(/^[0-9]{10}$/, 'Mobile number must be a 10-digit number'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
-  role: z.enum(['FARMER', 'PROCUREMENT_CENTRE_MANAGER', 'ADMIN']).default('FARMER'),
+  // Only FARMER can self-register. Admin & Manager accounts must be created by an existing Admin.
+  role: z.enum(['FARMER']).default('FARMER'),
   state: z.string().min(2, 'State is required'),
   district: z.string().min(2, 'District is required'),
   village: z.string().min(2, 'Village/Locality is required'),
