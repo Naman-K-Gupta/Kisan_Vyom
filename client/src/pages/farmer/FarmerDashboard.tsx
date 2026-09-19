@@ -7,7 +7,6 @@ import { api } from '../../api';
 import {
   WeatherDataDTO,
   QueueTokenDTO,
-  FarmerCropDTO,
   GovernmentCropPriceDTO,
   AlertDTO,
   PaymentSummaryDTO,
@@ -19,9 +18,9 @@ import { FarmerWeatherCard } from '../../components/farmer/FarmerWeatherCard';
 import { ActiveTokenCard } from '../../components/farmer/ActiveTokenCard';
 import { FarmerBankDetailsModal, BankFormData } from '../../components/farmer/FarmerBankDetailsModal';
 import { formatCurrency } from '../../utils/formatters';
+import { compressProfileImage } from '../../utils/imageCompressor';
 import {
   Clock,
-  Wheat,
   TrendingUp,
   AlertTriangle,
   ArrowRight,
@@ -69,11 +68,15 @@ export const FarmerDashboard: React.FC = () => {
   const { t } = useLanguage();
 
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [photoLoadError, setPhotoLoadError] = useState(false);
   const [previewPhotoUrl, setPreviewPhotoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPhotoLoadError(false);
+  }, [user?.farmerProfile?.profilePictureUrl]);
 
   const [weather, setWeather] = useState<WeatherDataDTO | null>(null);
   const [activeToken, setActiveToken] = useState<QueueTokenDTO | null>(null);
-  const [crops, setCrops] = useState<FarmerCropDTO[]>([]);
   const [topPrices, setTopPrices] = useState<GovernmentCropPriceDTO[]>([]);
   const [alerts, setAlerts] = useState<AlertDTO[]>([]);
   const [paymentSummary, setPaymentSummary] = useState<PaymentSummaryDTO | null>(null);
@@ -124,13 +127,7 @@ export const FarmerDashboard: React.FC = () => {
         setActiveToken(tokenRes.data.token);
       }
 
-      // 3. Crops
-      const cropsRes = await api.crops.getFarmerCrops();
-      if (cropsRes.data.success) {
-        setCrops(cropsRes.data.crops);
-      }
-
-      // 4. MSP Prices
+      // 3. MSP Prices
       const pricesRes = await api.prices.getGovernmentPrices();
       if (pricesRes.data.success) {
         setTopPrices(pricesRes.data.prices.slice(0, 4));
@@ -263,12 +260,15 @@ export const FarmerDashboard: React.FC = () => {
     }
 
     setIsUploadingPhoto(true);
-    const formData = new FormData();
-    formData.append('photo', file);
-
     try {
+      const compressed = await compressProfileImage(file, 400, 400, 0.85);
+      const formData = new FormData();
+      formData.append('photo', compressed);
+      formData.append('picture', compressed);
+
       const res = await api.farmer.uploadProfilePicture(formData);
       if (res.data.success) {
+        setPhotoLoadError(false);
         showToast(t('common.success'), 'Profile photo updated successfully', 'success');
         refreshUser();
       }
@@ -323,11 +323,12 @@ export const FarmerDashboard: React.FC = () => {
           <div className="flex items-center gap-4">
             {/* Farmer Avatar with Camera Upload */}
             <div className="relative group flex-shrink-0">
-              {user?.farmerProfile?.profilePictureUrl ? (
+              {user?.farmerProfile?.profilePictureUrl && !photoLoadError ? (
                 <img
                   src={user.farmerProfile.profilePictureUrl}
                   alt={user.fullName}
                   onClick={() => setPreviewPhotoUrl(user.farmerProfile?.profilePictureUrl || null)}
+                  onError={() => setPhotoLoadError(true)}
                   className="w-16 h-16 sm:w-20 sm:h-20 rounded-none object-cover border-2 border-white/30 shadow-lg cursor-pointer hover:opacity-90 transition"
                 />
               ) : (
@@ -572,102 +573,58 @@ export const FarmerDashboard: React.FC = () => {
       {/* Active Token Card */}
       <ActiveTokenCard activeToken={activeToken} t={t} />
 
-      {/* Two Column Grid: Crops Portfolio & Top MSP Rates */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Crops Portfolio */}
-        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">{t('dashboard.cropsPortfolio')}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">{t('dashboard.activeCropsRegistered')}</p>
-            </div>
-            <Link
-              to="/farmer/crops"
-              className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
-            >
-              {t('dashboard.manage')} <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+      {/* Official Government Minimum Support Price (MSP) Floor Benchmarks */}
+      <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+          <div>
+            <h3 className="text-base font-bold text-slate-900">
+              {t('dashboard.topMspRates', 'Top Minimum Support Price (MSP) Rates')}
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {t('dashboard.officialGovtFloorPrice', 'Official Government Floor Price & Procurement Benchmarks')}
+            </p>
           </div>
-
-          <div className="mt-4 divide-y divide-slate-50">
-            {crops.length === 0 ? (
-              <p className="py-6 text-xs text-slate-400 text-center">
-                {t('dashboard.noCropsYet')}
-              </p>
-            ) : (
-              crops.slice(0, 3).map((crop) => (
-                <div key={crop.id} className="py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-none bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                      <Wheat className="w-5 h-5 text-emerald-700" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900">{crop.crop?.name || crop.variety}</h4>
-                      <p className="text-[10px] text-slate-400">
-                        {crop.landArea} {t('common.acres')} • {crop.variety || crop.status}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-slate-800">
-                      ~{crop.expectedProduction} {crop.unit || t('common.quintal')}
-                    </span>
-                    <p className="text-[10px] text-emerald-600 font-semibold">{crop.status}</p>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
+          <Link
+            to="/farmer/prices"
+            className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 self-start sm:self-auto"
+          >
+            {t('dashboard.allPrices', 'All Prices')} <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
-        {/* Top MSP Rates */}
-        <div className="bg-white rounded-none p-6 border border-slate-100 shadow-card">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">
-                {t('dashboard.topMspRates', 'Top Minimum Support Price (MSP) Rates')}
-              </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                {t('dashboard.officialGovtFloorPrice', 'Official Government Floor Price & Procurement Benchmarks')}
-              </p>
-            </div>
-            <Link
-              to="/farmer/prices"
-              className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
-            >
-              {t('dashboard.allPrices', 'All Prices')} <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <div className="mt-4 divide-y divide-slate-50">
-            {topPrices.length === 0 ? (
-              <p className="py-6 text-xs text-slate-400 text-center">
-                {t('dashboard.noMspAvailable', 'No government price records available currently.')}
-              </p>
-            ) : (
-              topPrices.map((price) => (
-                <div key={price.id} className="py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-none bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-xs">
-                      MSP
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900">{price.cropName}</h4>
-                      <p className="text-[10px] text-slate-400">
-                        {t('dashboard.season', 'Season')}: {price.season}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-black text-slate-900">
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {topPrices.length === 0 ? (
+            <p className="col-span-full py-6 text-xs text-slate-400 text-center">
+              {t('dashboard.noMspAvailable', 'No government price records available currently.')}
+            </p>
+          ) : (
+            topPrices.map((price) => (
+              <div
+                key={price.id}
+                className="p-4 bg-slate-50 border border-slate-200/70 rounded-none flex flex-col justify-between hover:border-emerald-300 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="px-2 py-0.5 rounded-none bg-emerald-100 text-emerald-800 font-bold text-[10px] tracking-wider">
+                    GOVT MSP
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-medium">
+                    {price.season}
+                  </span>
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">{price.cropName}</h4>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-base font-black text-emerald-800">
                       {formatCurrency(price.price)}
                     </span>
-                    <span className="text-[10px] text-slate-400 block">/ {t('common.quintal')}</span>
+                    <span className="text-[11px] text-slate-500 font-medium">
+                      / {t('common.quintal')}
+                    </span>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

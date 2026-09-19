@@ -1,7 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { Request } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { v2 as cloudinary } from 'cloudinary';
 import { ENV } from '../utils/env';
 import { logger } from '../utils/logger';
@@ -25,7 +25,7 @@ if (isCloudinaryConfigured) {
   });
   logger.info('Cloudinary initialized for cloud image storage');
 } else {
-  logger.info('Using local disk storage for image uploads (/uploads)');
+  logger.info('Using database base64 storage for image uploads with disk fallback');
 }
 
 // Disk Storage configuration
@@ -58,6 +58,23 @@ export const upload = multer({
   fileFilter,
 });
 
+/**
+ * Flexible photo upload middleware that accepts either 'picture' or 'photo' field names.
+ */
+export const uploadProfilePhotoMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  upload.fields([
+    { name: 'picture', maxCount: 1 },
+    { name: 'photo', maxCount: 1 },
+  ])(req, res, (err) => {
+    if (err) return next(err);
+    if (req.files) {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      req.file = files.picture?.[0] || files.photo?.[0];
+    }
+    next();
+  });
+};
+
 export async function processUploadedFile(file: Express.Multer.File): Promise<string> {
   if (isCloudinaryConfigured) {
     try {
@@ -69,10 +86,30 @@ export async function processUploadedFile(file: Express.Multer.File): Promise<st
       fs.unlink(file.path, () => {});
       return uploadResult.secure_url;
     } catch (err: any) {
-      logger.error('Cloudinary upload failed, falling back to local URL:', err.message);
+      logger.error('Cloudinary upload failed, falling back to database base64:', err.message);
     }
   }
 
-  // Local storage public URL
+  // Persistent Database Storage:
+  // Convert image to a persistent Base64 Data URL directly stored in Prisma / Database.
+  // This guarantees the image survives container restarts, dyno idling, and server redeployments.
+  try {
+    const fileBuffer = file.buffer || (file.path && fs.existsSync(file.path) ? fs.readFileSync(file.path) : null);
+    if (fileBuffer) {
+      const mime = file.mimetype || 'image/jpeg';
+      const base64Data = fileBuffer.toString('base64');
+      const dataUrl = `data:${mime};base64,${base64Data}`;
+
+      // Clean up temporary disk file if one was created
+      if (file.path && fs.existsSync(file.path)) {
+        fs.unlink(file.path, () => {});
+      }
+      return dataUrl;
+    }
+  } catch (convErr: any) {
+    logger.error('Failed to convert uploaded file to Base64 Data URL:', convErr.message);
+  }
+
+  // Fallback to local storage public URL if conversion failed
   return `/uploads/${file.filename}`;
 }

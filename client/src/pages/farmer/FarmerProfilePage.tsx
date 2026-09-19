@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { api } from '../../api';
+import { compressProfileImage } from '../../utils/imageCompressor';
 import { User, Camera, Trash2, Lock, Save, BellRing, CheckCircle, AlertCircle, ExternalLink, Send, RefreshCw } from 'lucide-react';
 
 export const FarmerProfilePage: React.FC = () => {
@@ -35,7 +36,12 @@ export const FarmerProfilePage: React.FC = () => {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [photoLoadError, setPhotoLoadError] = useState(false);
   const [isSendingTelegram, setIsSendingTelegram] = useState(false);
+
+  useEffect(() => {
+    setPhotoLoadError(false);
+  }, [user?.farmerProfile?.profilePictureUrl]);
   const [telegramInfo, setTelegramInfo] = useState<{
     isLinked: boolean;
     botUsername: string;
@@ -160,26 +166,31 @@ export const FarmerProfilePage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-      setStatusMessage({ type: 'error', text: 'Only JPG, PNG, and WebP images are allowed.' });
+    if (!file.type.startsWith('image/')) {
+      setStatusMessage({ type: 'error', text: 'Only image files (JPG, PNG, WebP) are allowed.' });
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setStatusMessage({ type: 'error', text: 'Image file size must be under 5MB.' });
+    if (file.size > 10 * 1024 * 1024) {
+      setStatusMessage({ type: 'error', text: 'Image file size must be under 10MB.' });
       return;
     }
-
-    const uploadFormData = new FormData();
-    uploadFormData.append('picture', file);
 
     setIsUploadingPhoto(true);
     setStatusMessage(null);
 
     try {
+      // Compress avatar to 400x400 JPEG (~40-60KB) for lightweight database persistence
+      const compressedFile = await compressProfileImage(file, 400, 400, 0.85);
+
+      const uploadFormData = new FormData();
+      uploadFormData.append('picture', compressedFile);
+      uploadFormData.append('photo', compressedFile);
+
       await api.farmer.uploadProfilePicture(uploadFormData);
+      setPhotoLoadError(false);
       await refreshUser();
-      setStatusMessage({ type: 'success', text: 'Profile picture uploaded.' });
+      setStatusMessage({ type: 'success', text: 'Profile picture uploaded successfully.' });
       showToast('Photo Uploaded', 'Your profile picture has been updated.', 'success');
     } catch (err: any) {
       setStatusMessage({
@@ -232,10 +243,11 @@ export const FarmerProfilePage: React.FC = () => {
       {/* Profile Photo Section */}
       <div className="bg-white rounded-none p-6 sm:p-8 border border-slate-100 shadow-card flex flex-col sm:flex-row items-center gap-6">
         <div className="relative group">
-          {user?.farmerProfile?.profilePictureUrl ? (
+          {user?.farmerProfile?.profilePictureUrl && !photoLoadError ? (
             <img
               src={user.farmerProfile.profilePictureUrl}
               alt={user.fullName}
+              onError={() => setPhotoLoadError(true)}
               className="w-24 h-24 rounded-none object-cover border-2 border-emerald-500 shadow-md"
             />
           ) : (

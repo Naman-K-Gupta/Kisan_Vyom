@@ -4,7 +4,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import {
   LayoutDashboard,
-  Wheat,
   Building2,
   Clock,
   BadgePercent,
@@ -30,7 +29,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   const farmerNavItems = [
     { label: t('nav.dashboard'), path: '/farmer/dashboard', icon: LayoutDashboard },
-    { label: t('nav.crops'), path: '/farmer/crops', icon: Wheat },
     { label: t('nav.centres'), path: '/farmer/centres', icon: Building2 },
     { label: t('nav.queue'), path: '/farmer/queue', icon: Clock },
     { label: t('nav.prices'), path: '/farmer/prices', icon: BadgePercent },

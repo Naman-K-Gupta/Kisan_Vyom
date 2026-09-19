@@ -64,8 +64,8 @@ export const Logo: React.FC<LogoProps> = ({
   };
 
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
-      <div className="relative group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+    <div className={`flex items-center gap-3 select-none cursor-default ${className}`}>
+      <div className="relative flex-shrink-0">
         <LogoIcon className={`${iconSizes[size]} flex-shrink-0 drop-shadow-sm`} />
       </div>
 

@@ -29,9 +29,13 @@ ENV NODE_ENV=production
 COPY package*.json ./
 COPY server/package*.json ./server/
 COPY shared/package*.json ./shared/
+COPY client/package*.json ./client/
 
 # Install only production dependencies
 RUN npm ci --omit=dev
+
+# Generate Prisma Client in production environment
+RUN npx --workspace=server prisma generate
 
 # Copy compiled assets from builder
 COPY --from=builder /app/shared/dist ./shared/dist

@@ -56,6 +56,9 @@ export const ActiveInspectionBay: React.FC<ActiveInspectionBayProps> = ({
                       <img
                         src={t.farmer.profilePictureUrl}
                         alt={t.farmer?.fullName || 'Farmer'}
+                        onError={(e) => {
+                          (e.currentTarget as HTMLElement).style.display = 'none';
+                        }}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -121,6 +124,9 @@ export const ActiveInspectionBay: React.FC<ActiveInspectionBayProps> = ({
                       <img
                         src={t.farmer.profilePictureUrl}
                         alt={t.farmer?.fullName || 'Farmer'}
+                        onError={(e) => {
+                          (e.currentTarget as HTMLElement).style.display = 'none';
+                        }}
                         className="w-full h-full object-cover"
                       />
                     ) : (

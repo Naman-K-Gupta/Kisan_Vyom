@@ -11,7 +11,6 @@ import { RegisterPage } from './pages/auth/RegisterPage';
 // Farmer Pages
 import { FarmerDashboard } from './pages/farmer/FarmerDashboard';
 import { FarmerProfilePage } from './pages/farmer/FarmerProfilePage';
-import { CropsManagementPage } from './pages/farmer/CropsManagementPage';
 import { ProcurementCentresPage } from './pages/farmer/ProcurementCentresPage';
 import { LiveQueueTrackerPage } from './pages/farmer/LiveQueueTrackerPage';
 import { PricesPage } from './pages/farmer/PricesPage';
@@ -81,7 +80,7 @@ export const App: React.FC = () => {
       >
         <Route path="dashboard" element={<FarmerDashboard />} />
         <Route path="profile" element={<FarmerProfilePage />} />
-        <Route path="crops" element={<CropsManagementPage />} />
+        <Route path="crops" element={<Navigate to="/farmer/dashboard" replace />} />
         <Route path="centres" element={<ProcurementCentresPage />} />
         <Route path="queue" element={<LiveQueueTrackerPage />} />
         <Route path="prices" element={<PricesPage />} />

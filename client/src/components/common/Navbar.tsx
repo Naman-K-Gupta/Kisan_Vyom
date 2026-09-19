@@ -68,9 +68,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
             </button>
           )}
 
-          <Link to="/" className="flex items-center group">
+          <div className="flex items-center select-none">
             <Logo size="md" />
-          </Link>
+          </div>
         </div>
 
         {/* Right: Actions, Weather, Notifications, Profile */}

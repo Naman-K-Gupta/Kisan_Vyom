@@ -46,6 +46,9 @@ export const FarmerIdentityModal: React.FC<FarmerIdentityModalProps> = ({
                   <img
                     src={selectedFarmerModal.farmer.profilePictureUrl}
                     alt={selectedFarmerModal.farmer.fullName}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
                     className="w-full h-full object-cover"
                   />
                 ) : (

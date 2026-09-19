@@ -107,6 +107,9 @@ export const AdminFarmersPage: React.FC = () => {
                           <img
                             src={farmer.farmerProfile.profilePictureUrl}
                             alt=""
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = 'none';
+                            }}
                             className="w-8 h-8 rounded-none object-cover border border-slate-200"
                           />
                         ) : (

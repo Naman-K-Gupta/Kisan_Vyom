@@ -55,9 +55,9 @@ export const LoginPage: React.FC = () => {
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Link to="/" className="inline-flex items-center justify-center group">
+        <div className="inline-flex items-center justify-center select-none">
           <Logo size="lg" showText={false} />
-        </Link>
+        </div>
         <h2 className="mt-4 text-2xl font-extrabold text-slate-900 tracking-tight">
           {t('auth.signInTitle')}
         </h2>
